@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>No notifications, sleeping bell</title>
+<path d="M40 136h120M24 136h6M170 136h6"/>
+<path d="M90 104a10 10 0 0 0 20 0z" fill="#6c63ff" style="fill:var(--accent, #6c63ff)"/>
+<path d="M100 34c-17 0-30 13-30 30v18l-9 14a2 2 0 0 0 1.7 3h74.6a2 2 0 0 0 1.7-3L130 82V64c0-17-13-30-30-30z"/>
+<path d="M100 34v-6"/>
+<path d="M82 64a18 18 0 0 1 8-13" opacity=".5"/>
+<path d="M140 30h10l-10 12h10M156 14h7l-7 8h7"/>
+<circle cx="40" cy="56" r="3"/><path d="M46 96v8M42 100h8"/><circle cx="164" cy="104" r="2"/>
+</svg>

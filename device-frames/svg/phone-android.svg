@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 820" fill="currentColor" data-screen="10 10 360 800" data-screen-radius="34"><title>Android-style phone</title>
+<path fill-rule="evenodd" d="M44 0H336A44 44 0 0 1 380 44V776A44 44 0 0 1 336 820H44A44 44 0 0 1 0 776V44A44 44 0 0 1 44 0ZM44 10H336A34 34 0 0 1 370 44V776A34 34 0 0 1 336 810H44A34 34 0 0 1 10 776V44A34 34 0 0 1 44 10Z"/>
+<path fill="none" stroke="#fff" stroke-opacity=".14" stroke-width="2" d="M44 3H336A41 41 0 0 1 377 44V776A41 41 0 0 1 336 817H44A41 41 0 0 1 3 776V44A41 41 0 0 1 44 3Z"/>
+<circle cx="190" cy="32" r="9"/>
+<rect x="379" y="170" width="5" height="90" rx="2"/><rect x="379" y="290" width="5" height="50" rx="2"/>
+</svg>

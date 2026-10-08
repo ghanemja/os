@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>404, page not found</title>
+<path d="M40 136h120M24 136h6M170 136h6"/>
+<path d="M50 112V54L22 94h40"/>
+<path d="M162 112V54l-28 40h40"/>
+<g transform="translate(100 82) rotate(-18)">
+<path d="M-36 0a36 10 0 0 1 72 0"/>
+<circle r="22" fill="#6c63ff" style="fill:var(--accent, #6c63ff)"/>
+<circle cx="-8" cy="-7" r="4.5"/><circle cx="9" cy="7" r="2.5"/>
+<path d="M-36 0a36 10 0 0 0 72 0"/>
+</g>
+<path d="M100 26v8M96 30h8"/><circle cx="30" cy="40" r="2"/><circle cx="178" cy="44" r="3"/>
+</svg>

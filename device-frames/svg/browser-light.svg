@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1282 854" fill="currentColor" data-screen="1 53 1280 800" data-screen-radius="0 0 11 11"><title>Browser window, light</title>
+<path fill="#f4f4f5" d="M13 1H1269A12 12 0 0 1 1281 13V53H1V13A12 12 0 0 1 13 1Z"/>
+<path fill="none" stroke="currentColor" stroke-opacity=".2" stroke-width="2" d="M1 53H1281M13 1H1269A12 12 0 0 1 1281 13V841A12 12 0 0 1 1269 853H13A12 12 0 0 1 1 841V13A12 12 0 0 1 13 1Z"/>
+<circle cx="24" cy="27" r="6" fill="#ff5f57"/><circle cx="44" cy="27" r="6" fill="#febc2e"/><circle cx="64" cy="27" r="6" fill="#28c840"/>
+<g fill="none" stroke="currentColor" stroke-opacity=".45" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M110 21l-6 6 6 6M134 21l6 6-6 6"/><path d="M175 27a7 7 0 1 1-2-5"/><path d="M174 18v5h-5"/><path d="M1254 21v0M1254 27v0M1254 33v0" stroke-width="3"/></g>
+<path fill="#ffffff" d="M248 13H1032A8 8 0 0 1 1040 21V33A8 8 0 0 1 1032 41H248A8 8 0 0 1 240 33V21A8 8 0 0 1 248 13Z"/>
+<g fill="currentColor" fill-opacity=".45"><rect x="258" y="22" width="8" height="10" rx="2"/><rect x="276" y="24" width="200" height="6" rx="3"/></g>
+</svg>

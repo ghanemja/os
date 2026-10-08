@@ -1,0 +1,35 @@
+{
+  "name": "empty-states",
+  "version": "1.0.0",
+  "description": "Line-art empty-state illustrations (no results, inbox zero, offline, 404...) using currentColor and one --accent color.",
+  "type": "module",
+  "license": "CC0-1.0 AND MIT",
+  "author": "ghanemja",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ghanemja/empty-states"
+  },
+  "keywords": [
+    "svg",
+    "empty-state",
+    "illustrations",
+    "line-art",
+    "ui",
+    "cc0"
+  ],
+  "files": [
+    "svg/",
+    "manifest.json",
+    "index.html",
+    "LICENSE",
+    "LICENSE-CODE",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "node scripts/build-manifest.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

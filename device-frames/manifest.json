@@ -1,0 +1,183 @@
+{
+  "name": "device-frames",
+  "count": 9,
+  "assets": [
+    {
+      "name": "browser-dark",
+      "file": "svg/browser-dark.svg",
+      "title": "Browser window, dark",
+      "viewBox": [
+        0,
+        0,
+        1282,
+        854
+      ],
+      "screen": {
+        "x": 1,
+        "y": 53,
+        "width": 1280,
+        "height": 800
+      },
+      "screenRadius": [
+        0,
+        0,
+        11,
+        11
+      ]
+    },
+    {
+      "name": "browser-light",
+      "file": "svg/browser-light.svg",
+      "title": "Browser window, light",
+      "viewBox": [
+        0,
+        0,
+        1282,
+        854
+      ],
+      "screen": {
+        "x": 1,
+        "y": 53,
+        "width": 1280,
+        "height": 800
+      },
+      "screenRadius": [
+        0,
+        0,
+        11,
+        11
+      ]
+    },
+    {
+      "name": "browser-tabs",
+      "file": "svg/browser-tabs.svg",
+      "title": "Browser window with tabs",
+      "viewBox": [
+        0,
+        0,
+        1282,
+        889
+      ],
+      "screen": {
+        "x": 1,
+        "y": 88,
+        "width": 1280,
+        "height": 800
+      },
+      "screenRadius": [
+        0,
+        0,
+        11,
+        11
+      ]
+    },
+    {
+      "name": "laptop",
+      "file": "svg/laptop.svg",
+      "title": "Laptop",
+      "viewBox": [
+        0,
+        0,
+        1560,
+        884
+      ],
+      "screen": {
+        "x": 140,
+        "y": 28,
+        "width": 1280,
+        "height": 800
+      },
+      "screenRadius": 6
+    },
+    {
+      "name": "monitor",
+      "file": "svg/monitor.svg",
+      "title": "Desktop monitor",
+      "viewBox": [
+        0,
+        0,
+        1968,
+        1340
+      ],
+      "screen": {
+        "x": 24,
+        "y": 24,
+        "width": 1920,
+        "height": 1080
+      },
+      "screenRadius": 4
+    },
+    {
+      "name": "phone-android",
+      "file": "svg/phone-android.svg",
+      "title": "Android-style phone",
+      "viewBox": [
+        0,
+        0,
+        384,
+        820
+      ],
+      "screen": {
+        "x": 10,
+        "y": 10,
+        "width": 360,
+        "height": 800
+      },
+      "screenRadius": 34
+    },
+    {
+      "name": "phone-iphone",
+      "file": "svg/phone-iphone.svg",
+      "title": "iPhone-style phone",
+      "viewBox": [
+        0,
+        0,
+        422,
+        868
+      ],
+      "screen": {
+        "x": 16,
+        "y": 12,
+        "width": 390,
+        "height": 844
+      },
+      "screenRadius": 54
+    },
+    {
+      "name": "smartwatch",
+      "file": "svg/smartwatch.svg",
+      "title": "Smartwatch",
+      "viewBox": [
+        0,
+        0,
+        252,
+        410
+      ],
+      "screen": {
+        "x": 24,
+        "y": 84,
+        "width": 198,
+        "height": 242
+      },
+      "screenRadius": 44
+    },
+    {
+      "name": "tablet",
+      "file": "svg/tablet.svg",
+      "title": "Tablet",
+      "viewBox": [
+        0,
+        0,
+        871,
+        1231
+      ],
+      "screen": {
+        "x": 24,
+        "y": 27,
+        "width": 820,
+        "height": 1180
+      },
+      "screenRadius": 22
+    }
+  ]
+}

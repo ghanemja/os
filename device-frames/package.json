@@ -1,0 +1,44 @@
+{
+  "name": "device-frames",
+  "version": "1.0.0",
+  "description": "SVG device mockups (phones, tablet, laptop, monitor, browser windows, smartwatch) with transparent screens and documented screen coordinates.",
+  "type": "module",
+  "license": "CC0-1.0 AND MIT",
+  "author": "ghanemja",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ghanemja/device-frames"
+  },
+  "keywords": [
+    "svg",
+    "mockup",
+    "device-frame",
+    "screenshot",
+    "iphone",
+    "android",
+    "browser",
+    "cc0"
+  ],
+  "main": "frame.js",
+  "exports": {
+    ".": "./frame.js",
+    "./manifest.json": "./manifest.json",
+    "./svg/*": "./svg/*"
+  },
+  "files": [
+    "frame.js",
+    "svg/",
+    "manifest.json",
+    "index.html",
+    "LICENSE",
+    "LICENSE-CODE",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "node scripts/build-manifest.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

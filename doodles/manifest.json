@@ -1,0 +1,710 @@
+{
+  "name": "doodles",
+  "count": 64,
+  "assets": [
+    {
+      "name": "arrow-bounce",
+      "file": "svg/arrow-bounce.svg",
+      "title": "Bouncing arrow",
+      "viewBox": [
+        0,
+        0,
+        138,
+        37
+      ]
+    },
+    {
+      "name": "arrow-circle-back",
+      "file": "svg/arrow-circle-back.svg",
+      "title": "Circular arrow",
+      "viewBox": [
+        0,
+        0,
+        86,
+        77
+      ]
+    },
+    {
+      "name": "arrow-curved",
+      "file": "svg/arrow-curved.svg",
+      "title": "Curved arrow",
+      "viewBox": [
+        0,
+        0,
+        118,
+        48
+      ]
+    },
+    {
+      "name": "arrow-double",
+      "file": "svg/arrow-double.svg",
+      "title": "Double-headed arrow",
+      "viewBox": [
+        0,
+        0,
+        129,
+        26
+      ]
+    },
+    {
+      "name": "arrow-down-curve",
+      "file": "svg/arrow-down-curve.svg",
+      "title": "Arrow curving down",
+      "viewBox": [
+        0,
+        0,
+        82,
+        78
+      ]
+    },
+    {
+      "name": "arrow-hook",
+      "file": "svg/arrow-hook.svg",
+      "title": "Hook arrow turning back",
+      "viewBox": [
+        0,
+        0,
+        110,
+        76
+      ]
+    },
+    {
+      "name": "arrow-loop",
+      "file": "svg/arrow-loop.svg",
+      "title": "Looping arrow",
+      "viewBox": [
+        0,
+        0,
+        140,
+        55
+      ]
+    },
+    {
+      "name": "arrow-s-curve",
+      "file": "svg/arrow-s-curve.svg",
+      "title": "S-curve arrow",
+      "viewBox": [
+        0,
+        0,
+        130,
+        50
+      ]
+    },
+    {
+      "name": "arrow-spiral",
+      "file": "svg/arrow-spiral.svg",
+      "title": "Spiral arrow",
+      "viewBox": [
+        0,
+        0,
+        114,
+        67
+      ]
+    },
+    {
+      "name": "arrow-straight",
+      "file": "svg/arrow-straight.svg",
+      "title": "Straight arrow",
+      "viewBox": [
+        0,
+        0,
+        119,
+        20
+      ]
+    },
+    {
+      "name": "arrow-swoosh",
+      "file": "svg/arrow-swoosh.svg",
+      "title": "Swoosh arrow",
+      "viewBox": [
+        0,
+        0,
+        130,
+        60
+      ]
+    },
+    {
+      "name": "arrow-up-right",
+      "file": "svg/arrow-up-right.svg",
+      "title": "Arrow pointing up and right",
+      "viewBox": [
+        0,
+        0,
+        89,
+        78
+      ]
+    },
+    {
+      "name": "arrow-wavy",
+      "file": "svg/arrow-wavy.svg",
+      "title": "Wavy arrow",
+      "viewBox": [
+        0,
+        0,
+        130,
+        25
+      ]
+    },
+    {
+      "name": "arrow-zigzag",
+      "file": "svg/arrow-zigzag.svg",
+      "title": "Zigzag arrow",
+      "viewBox": [
+        0,
+        0,
+        122,
+        28
+      ]
+    },
+    {
+      "name": "bracket-corners",
+      "file": "svg/bracket-corners.svg",
+      "title": "Corner frame marks",
+      "viewBox": [
+        0,
+        0,
+        149,
+        89
+      ]
+    },
+    {
+      "name": "bracket-curly-left",
+      "file": "svg/bracket-curly-left.svg",
+      "title": "Left curly bracket",
+      "viewBox": [
+        0,
+        0,
+        31,
+        129
+      ]
+    },
+    {
+      "name": "bracket-curly-right",
+      "file": "svg/bracket-curly-right.svg",
+      "title": "Right curly bracket",
+      "viewBox": [
+        0,
+        0,
+        32,
+        129
+      ]
+    },
+    {
+      "name": "bracket-square-left",
+      "file": "svg/bracket-square-left.svg",
+      "title": "Left square bracket",
+      "viewBox": [
+        0,
+        0,
+        25,
+        128
+      ]
+    },
+    {
+      "name": "bracket-square-right",
+      "file": "svg/bracket-square-right.svg",
+      "title": "Right square bracket",
+      "viewBox": [
+        0,
+        0,
+        25,
+        128
+      ]
+    },
+    {
+      "name": "check-box",
+      "file": "svg/check-box.svg",
+      "title": "Checked box",
+      "viewBox": [
+        0,
+        0,
+        70,
+        70
+      ]
+    },
+    {
+      "name": "check-circle",
+      "file": "svg/check-circle.svg",
+      "title": "Checkmark in circle",
+      "viewBox": [
+        0,
+        0,
+        90,
+        88
+      ]
+    },
+    {
+      "name": "check",
+      "file": "svg/check.svg",
+      "title": "Checkmark",
+      "viewBox": [
+        0,
+        0,
+        70,
+        62
+      ]
+    },
+    {
+      "name": "circle-double",
+      "file": "svg/circle-double.svg",
+      "title": "Double loop circle",
+      "viewBox": [
+        0,
+        0,
+        159,
+        83
+      ]
+    },
+    {
+      "name": "circle-messy",
+      "file": "svg/circle-messy.svg",
+      "title": "Messy multi-loop circle",
+      "viewBox": [
+        0,
+        0,
+        152,
+        83
+      ]
+    },
+    {
+      "name": "circle-oval-tilted",
+      "file": "svg/circle-oval-tilted.svg",
+      "title": "Tilted oval",
+      "viewBox": [
+        0,
+        0,
+        156,
+        70
+      ]
+    },
+    {
+      "name": "circle-round",
+      "file": "svg/circle-round.svg",
+      "title": "Hand-drawn round circle",
+      "viewBox": [
+        0,
+        0,
+        99,
+        95
+      ]
+    },
+    {
+      "name": "circle-scribble",
+      "file": "svg/circle-scribble.svg",
+      "title": "Scribbled circle",
+      "viewBox": [
+        0,
+        0,
+        152,
+        81
+      ]
+    },
+    {
+      "name": "cloud",
+      "file": "svg/cloud.svg",
+      "title": "Cloud",
+      "viewBox": [
+        0,
+        0,
+        111,
+        62
+      ]
+    },
+    {
+      "name": "cross-circle",
+      "file": "svg/cross-circle.svg",
+      "title": "Cross in circle",
+      "viewBox": [
+        0,
+        0,
+        93,
+        86
+      ]
+    },
+    {
+      "name": "cross-scribble",
+      "file": "svg/cross-scribble.svg",
+      "title": "Scribbled-out mark",
+      "viewBox": [
+        0,
+        0,
+        68,
+        63
+      ]
+    },
+    {
+      "name": "cross",
+      "file": "svg/cross.svg",
+      "title": "Cross mark",
+      "viewBox": [
+        0,
+        0,
+        54,
+        58
+      ]
+    },
+    {
+      "name": "dots-trail",
+      "file": "svg/dots-trail.svg",
+      "title": "Dotted trail",
+      "viewBox": [
+        0,
+        0,
+        120,
+        36
+      ]
+    },
+    {
+      "name": "exclamation",
+      "file": "svg/exclamation.svg",
+      "title": "Exclamation mark",
+      "viewBox": [
+        0,
+        0,
+        13,
+        78
+      ]
+    },
+    {
+      "name": "heart-double",
+      "file": "svg/heart-double.svg",
+      "title": "Double-stroked heart",
+      "viewBox": [
+        0,
+        0,
+        93,
+        85
+      ]
+    },
+    {
+      "name": "heart-pair",
+      "file": "svg/heart-pair.svg",
+      "title": "Two hearts",
+      "viewBox": [
+        0,
+        0,
+        97,
+        73
+      ]
+    },
+    {
+      "name": "heart",
+      "file": "svg/heart.svg",
+      "title": "Heart",
+      "viewBox": [
+        0,
+        0,
+        92,
+        85
+      ]
+    },
+    {
+      "name": "highlight-box",
+      "file": "svg/highlight-box.svg",
+      "title": "Sketchy box",
+      "viewBox": [
+        0,
+        0,
+        159,
+        60
+      ]
+    },
+    {
+      "name": "highlight-cross-out",
+      "file": "svg/highlight-cross-out.svg",
+      "title": "Scribble cross-out",
+      "viewBox": [
+        0,
+        0,
+        149,
+        30
+      ]
+    },
+    {
+      "name": "highlight-scribble",
+      "file": "svg/highlight-scribble.svg",
+      "title": "Highlighter scribble fill",
+      "viewBox": [
+        0,
+        0,
+        159,
+        38
+      ]
+    },
+    {
+      "name": "highlight-strike",
+      "file": "svg/highlight-strike.svg",
+      "title": "Strike-through",
+      "viewBox": [
+        0,
+        0,
+        160,
+        16
+      ]
+    },
+    {
+      "name": "lightbulb",
+      "file": "svg/lightbulb.svg",
+      "title": "Lightbulb idea",
+      "viewBox": [
+        0,
+        0,
+        88,
+        85
+      ]
+    },
+    {
+      "name": "look-here-both-sides",
+      "file": "svg/look-here-both-sides.svg",
+      "title": "Attention lines on both sides",
+      "viewBox": [
+        0,
+        0,
+        154,
+        48
+      ]
+    },
+    {
+      "name": "look-here-lines",
+      "file": "svg/look-here-lines.svg",
+      "title": "Attention lines",
+      "viewBox": [
+        0,
+        0,
+        52,
+        42
+      ]
+    },
+    {
+      "name": "pointer-hand-arrow",
+      "file": "svg/pointer-hand-arrow.svg",
+      "title": "Look here arrow with flourish",
+      "viewBox": [
+        0,
+        0,
+        121,
+        63
+      ]
+    },
+    {
+      "name": "question-mark",
+      "file": "svg/question-mark.svg",
+      "title": "Question mark",
+      "viewBox": [
+        0,
+        0,
+        44,
+        83
+      ]
+    },
+    {
+      "name": "sparkle-burst",
+      "file": "svg/sparkle-burst.svg",
+      "title": "Burst of lines",
+      "viewBox": [
+        0,
+        0,
+        83,
+        87
+      ]
+    },
+    {
+      "name": "sparkle-plus",
+      "file": "svg/sparkle-plus.svg",
+      "title": "Plus sparkles",
+      "viewBox": [
+        0,
+        0,
+        69,
+        58
+      ]
+    },
+    {
+      "name": "sparkle-trio",
+      "file": "svg/sparkle-trio.svg",
+      "title": "Sparkle trio",
+      "viewBox": [
+        0,
+        0,
+        84,
+        81
+      ]
+    },
+    {
+      "name": "sparkle",
+      "file": "svg/sparkle.svg",
+      "title": "Four-point sparkle",
+      "viewBox": [
+        0,
+        0,
+        81,
+        81
+      ]
+    },
+    {
+      "name": "speech-bubble",
+      "file": "svg/speech-bubble.svg",
+      "title": "Speech bubble",
+      "viewBox": [
+        0,
+        0,
+        130,
+        93
+      ]
+    },
+    {
+      "name": "squiggle-loops",
+      "file": "svg/squiggle-loops.svg",
+      "title": "Curly loop squiggle",
+      "viewBox": [
+        0,
+        0,
+        129,
+        34
+      ]
+    },
+    {
+      "name": "squiggle-scribble",
+      "file": "svg/squiggle-scribble.svg",
+      "title": "Scribble blob",
+      "viewBox": [
+        0,
+        0,
+        116,
+        61
+      ]
+    },
+    {
+      "name": "squiggle-spring",
+      "file": "svg/squiggle-spring.svg",
+      "title": "Spring coil",
+      "viewBox": [
+        0,
+        0,
+        43,
+        120
+      ]
+    },
+    {
+      "name": "squiggle-wave",
+      "file": "svg/squiggle-wave.svg",
+      "title": "Wave squiggle",
+      "viewBox": [
+        0,
+        0,
+        130,
+        34
+      ]
+    },
+    {
+      "name": "star-double",
+      "file": "svg/star-double.svg",
+      "title": "Double-stroked star",
+      "viewBox": [
+        0,
+        0,
+        87,
+        84
+      ]
+    },
+    {
+      "name": "star-trio",
+      "file": "svg/star-trio.svg",
+      "title": "Three little stars",
+      "viewBox": [
+        0,
+        0,
+        87,
+        76
+      ]
+    },
+    {
+      "name": "star",
+      "file": "svg/star.svg",
+      "title": "Five-point star",
+      "viewBox": [
+        0,
+        0,
+        84,
+        82
+      ]
+    },
+    {
+      "name": "underline-double",
+      "file": "svg/underline-double.svg",
+      "title": "Double underline",
+      "viewBox": [
+        0,
+        0,
+        160,
+        22
+      ]
+    },
+    {
+      "name": "underline-loop",
+      "file": "svg/underline-loop.svg",
+      "title": "Looped underline",
+      "viewBox": [
+        0,
+        0,
+        160,
+        28
+      ]
+    },
+    {
+      "name": "underline-scribble",
+      "file": "svg/underline-scribble.svg",
+      "title": "Back-and-forth scribble underline",
+      "viewBox": [
+        0,
+        0,
+        160,
+        23
+      ]
+    },
+    {
+      "name": "underline-simple",
+      "file": "svg/underline-simple.svg",
+      "title": "Simple underline",
+      "viewBox": [
+        0,
+        0,
+        159,
+        15
+      ]
+    },
+    {
+      "name": "underline-swoosh",
+      "file": "svg/underline-swoosh.svg",
+      "title": "Swoosh underline",
+      "viewBox": [
+        0,
+        0,
+        159,
+        20
+      ]
+    },
+    {
+      "name": "underline-wavy",
+      "file": "svg/underline-wavy.svg",
+      "title": "Wavy underline",
+      "viewBox": [
+        0,
+        0,
+        160,
+        18
+      ]
+    },
+    {
+      "name": "underline-zigzag",
+      "file": "svg/underline-zigzag.svg",
+      "title": "Zigzag underline",
+      "viewBox": [
+        0,
+        0,
+        160,
+        17
+      ]
+    }
+  ]
+}

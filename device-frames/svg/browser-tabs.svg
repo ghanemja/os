@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1282 889" fill="currentColor" data-screen="1 88 1280 800" data-screen-radius="0 0 11 11"><title>Browser window with tabs</title>
+<path fill-rule="evenodd" d="M12 0H1270A12 12 0 0 1 1282 12V877A12 12 0 0 1 1270 889H12A12 12 0 0 1 0 877V12A12 12 0 0 1 12 0ZM1 88H1281V877A11 11 0 0 1 1270 888H12A11 11 0 0 1 1 877V88Z"/>
+<g fill="#fff" fill-opacity=".14"><rect x="1" y="40" width="1280" height="48"/><path d="M76 40a8 8 0 0 0 8-8V16a8 8 0 0 1 8-8h224a8 8 0 0 1 8 8v16a8 8 0 0 0 8 8z"/></g>
+<g fill="#fff" fill-opacity=".3"><circle cx="22" cy="24" r="6"/><circle cx="42" cy="24" r="6"/><circle cx="62" cy="24" r="6"/></g>
+<g fill="#fff" fill-opacity=".55"><circle cx="106" cy="24" r="6"/><rect x="120" y="21" width="120" height="6" rx="3"/></g>
+<g fill="#fff" fill-opacity=".3"><circle cx="354" cy="24" r="6"/><rect x="368" y="21" width="110" height="6" rx="3"/><circle cx="602" cy="24" r="6"/><rect x="616" y="21" width="96" height="6" rx="3"/></g>
+<g fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M300 20l8 8M308 20l-8 8" stroke-opacity=".55"/><path d="M580 16v16M828 16v16" stroke-opacity=".2"/><path d="M852 24h12M858 18v12" stroke-opacity=".45"/><path d="M30 58l-6 6 6 6M54 58l6 6-6 6M95 64a7 7 0 1 1-2-5M94 55v5h-5" stroke-opacity=".6"/></g>
+<path fill="#fff" fill-opacity=".12" d="M138 50H1210A14 14 0 0 1 1224 64V64A14 14 0 0 1 1210 78H138A14 14 0 0 1 124 64V64A14 14 0 0 1 138 50Z"/>
+<g fill="#fff" fill-opacity=".45"><rect x="142" y="59" width="8" height="10" rx="2"/><rect x="160" y="61" width="220" height="6" rx="3"/><circle cx="1254" cy="64" r="10" fill-opacity=".3"/></g>
+</svg>

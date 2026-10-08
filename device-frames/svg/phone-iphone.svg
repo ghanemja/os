@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 422 868" fill="currentColor" data-screen="16 12 390 844" data-screen-radius="54"><title>iPhone-style phone</title>
+<path fill-rule="evenodd" d="M70 0H352A66 66 0 0 1 418 66V802A66 66 0 0 1 352 868H70A66 66 0 0 1 4 802V66A66 66 0 0 1 70 0ZM70 12H352A54 54 0 0 1 406 66V802A54 54 0 0 1 352 856H70A54 54 0 0 1 16 802V66A54 54 0 0 1 70 12Z"/>
+<path fill="none" stroke="#fff" stroke-opacity=".14" stroke-width="2" d="M70 3H352A63 63 0 0 1 415 66V802A63 63 0 0 1 352 865H70A63 63 0 0 1 7 802V66A63 63 0 0 1 70 3Z"/>
+<rect x="149" y="23" width="124" height="36" rx="18"/>
+<rect x="0" y="170" width="5" height="32" rx="2"/><rect x="0" y="232" width="5" height="60" rx="2"/><rect x="0" y="306" width="5" height="60" rx="2"/><rect x="417" y="262" width="5" height="98" rx="2"/>
+</svg>

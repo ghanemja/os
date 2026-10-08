@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 252 410" fill="currentColor" data-screen="24 84 198 242" data-screen-radius="44"><title>Smartwatch</title>
+<path opacity=".8" d="M60 0H186A22 22 0 0 1 208 22V82H38V22A22 22 0 0 1 60 0Z"/>
+<path opacity=".8" fill-rule="evenodd" d="M38 328H208V388A22 22 0 0 1 186 410H60A22 22 0 0 1 38 388V328ZM119 360a4 4 0 1 0 8 0a4 4 0 1 0 -8 0ZM119 378a4 4 0 1 0 8 0a4 4 0 1 0 -8 0ZM119 396a4 4 0 1 0 8 0a4 4 0 1 0 -8 0Z"/>
+<path fill-rule="evenodd" d="M68 70H178A58 58 0 0 1 236 128V282A58 58 0 0 1 178 340H68A58 58 0 0 1 10 282V128A58 58 0 0 1 68 70ZM68 84H178A44 44 0 0 1 222 128V282A44 44 0 0 1 178 326H68A44 44 0 0 1 24 282V128A44 44 0 0 1 68 84Z"/>
+<path fill="none" stroke="#fff" stroke-opacity=".14" stroke-width="2" d="M68 73H178A55 55 0 0 1 233 128V282A55 55 0 0 1 178 337H68A55 55 0 0 1 13 282V128A55 55 0 0 1 68 73Z"/>
+<rect x="232" y="140" width="16" height="46" rx="5"/><rect x="232" y="222" width="9" height="58" rx="3"/>
+</svg>

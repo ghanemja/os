@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>No data yet</title>
+<path d="M40 136h120M24 136h6M170 136h6"/>
+<path d="M46 28v92a4 4 0 0 0 4 4h110"/>
+<path d="M62 124V98h16v26M88 124V78h16v46M114 124V90h16v34M140 124V66h16v58" stroke-dasharray="4 5" opacity=".5"/>
+<path d="M62 112l26-14 26 8 28-22" opacity=".25"/>
+<circle cx="150" cy="38" r="14" fill="#6c63ff" style="fill:var(--accent, #6c63ff)"/>
+<path d="M144 38h12"/>
+<path d="M30 42v8M26 46h8"/><circle cx="104" cy="40" r="3"/><circle cx="176" cy="76" r="2"/>
+</svg>

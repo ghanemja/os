@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Coming soon, rocket launch</title>
+<path d="M40 136h120M24 136h6M170 136h6"/>
+<path d="M100 18c15 11 22 29 22 50v34H78V68c0-21 7-39 22-50z"/>
+<circle cx="100" cy="60" r="9" fill="#6c63ff" style="fill:var(--accent, #6c63ff)"/>
+<path d="M78 82l-14 14v14l14-8M122 82l14 14v14l-14-8"/>
+<path d="M90 102v6h20v-6"/>
+<path d="M94 114c0 6 4 9 6 15 2-6 6-9 6-15" opacity=".6"/>
+<path d="M54 136a8 8 0 0 1 14-6 8 8 0 0 1 14 2M118 132a8 8 0 0 1 14-2 8 8 0 0 1 14 6"/>
+<path d="M42 35v10M37 40h10"/><path d="M158 48v8M154 52h8"/><circle cx="150" cy="24" r="3"/><circle cx="52" cy="84" r="2"/>
+</svg>

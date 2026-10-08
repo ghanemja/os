@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 871 1231" fill="currentColor" data-screen="24 27 820 1180" data-screen-radius="22"><title>Tablet</title>
+<path fill-rule="evenodd" d="M56 3H812A56 56 0 0 1 868 59V1175A56 56 0 0 1 812 1231H56A56 56 0 0 1 0 1175V59A56 56 0 0 1 56 3ZM46 27H822A22 22 0 0 1 844 49V1185A22 22 0 0 1 822 1207H46A22 22 0 0 1 24 1185V49A22 22 0 0 1 46 27ZM430 15a4 4 0 1 0 8 0a4 4 0 1 0 -8 0Z"/>
+<path fill="none" stroke="#fff" stroke-opacity=".14" stroke-width="2" d="M56 6H812A53 53 0 0 1 865 59V1175A53 53 0 0 1 812 1228H56A53 53 0 0 1 3 1175V59A53 53 0 0 1 56 6Z"/>
+<rect x="690" y="0" width="70" height="5" rx="2"/><rect x="866" y="120" width="5" height="60" rx="2"/><rect x="866" y="196" width="5" height="60" rx="2"/>
+</svg>

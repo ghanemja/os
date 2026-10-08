@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Success</title>
+<path d="M40 136h120M24 136h6M170 136h6"/>
+<circle cx="100" cy="76" r="34" fill="#6c63ff" style="fill:var(--accent, #6c63ff)"/>
+<path d="M84 77l11 11 22-24"/>
+<path d="M44 46l6 4M150 40l-4 6M158 98l6 2M38 98l6-3"/>
+<path d="M58 28l6 9-10 1z"/>
+<path d="M150 66v8M146 70h8"/><path d="M54 70v8M50 74h8"/><circle cx="140" cy="26" r="3"/><circle cx="64" cy="118" r="2"/><circle cx="134" cy="120" r="2"/>
+<rect x="161" y="114" width="6" height="6" rx="1" transform="rotate(20 164 117)"/>
+<rect x="29" y="120" width="6" height="6" rx="1" transform="rotate(-25 32 123)"/>
+</svg>

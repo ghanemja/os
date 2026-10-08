@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Inbox zero</title>
+<path d="M40 136h120M24 136h6M170 136h6"/>
+<path d="M48 96l14-34a4 4 0 0 1 3.7-2.5h68.6a4 4 0 0 1 3.7 2.5L152 96v26a4 4 0 0 1-4 4H52a4 4 0 0 1-4-4z"/>
+<path d="M48 96h26a4 4 0 0 1 4 3.6 10 10 0 0 0 10 8.4h24a10 10 0 0 0 10-8.4 4 4 0 0 1 4-3.6h26"/>
+<circle cx="148" cy="50" r="15" fill="#6c63ff" style="fill:var(--accent, #6c63ff)"/>
+<path d="M141 50.5l5 5 9-10"/>
+<path d="M76 76h48M84 86h32" opacity=".5"/>
+<path d="M46 35v10M41 40h10"/><circle cx="34" cy="80" r="2"/><circle cx="176" cy="90" r="3"/>
+</svg>

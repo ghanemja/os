@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Offline, unplugged cable</title>
+<path d="M40 136h120M24 136h6M170 136h6"/>
+<path d="M24 120h8c14 0 18-6 18-20s4-20 16-20"/>
+<rect x="66" y="66" width="26" height="28" rx="5" fill="#6c63ff" style="fill:var(--accent, #6c63ff)"/>
+<path d="M92 73h10M92 87h10"/>
+<path d="M176 120h-8c-14 0-18-6-18-20s-4-20-16-20"/>
+<rect x="114" y="64" width="20" height="32" rx="5"/>
+<path d="M114 73h4M114 87h4"/>
+<path d="M104 56l2-8M110 58l6-6M98 58l-3-7M104 104l2 8M110 102l6 6M98 102l-3 7"/>
+<path d="M40 35v10M35 40h10"/><circle cx="164" cy="38" r="3"/><circle cx="170" cy="62" r="2"/>
+</svg>

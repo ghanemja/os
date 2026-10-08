@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>No files</title>
+<path d="M40 136h120M24 136h6M170 136h6"/>
+<path d="M58 40h40" opacity=".5" stroke-dasharray="2 6"/>
+<path d="M70 26h44l22 22v74a4 4 0 0 1-4 4H70a4 4 0 0 1-4-4V30a4 4 0 0 1 4-4z"/>
+<path d="M114 26v18a4 4 0 0 0 4 4h18"/>
+<path d="M80 66h36M80 78h44M80 90h28" opacity=".4"/>
+<circle cx="138" cy="116" r="15" fill="#6c63ff" style="fill:var(--accent, #6c63ff)"/>
+<path d="M138 109v14M131 116h14"/>
+<path d="M42 45v10M37 50h10"/><circle cx="164" cy="44" r="3"/><circle cx="40" cy="96" r="2"/>
+</svg>

@@ -1,0 +1,37 @@
+{
+  "name": "doodles",
+  "version": "1.0.0",
+  "description": "Hand-drawn UI scribbles as SVG: arrows, circles, underlines, stars, sparkles, hearts, brackets and 'look here' marks.",
+  "type": "module",
+  "license": "CC0-1.0 AND MIT",
+  "author": "ghanemja",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ghanemja/doodles"
+  },
+  "keywords": [
+    "svg",
+    "doodles",
+    "hand-drawn",
+    "scribbles",
+    "arrows",
+    "illustrations",
+    "cc0"
+  ],
+  "files": [
+    "svg/",
+    "manifest.json",
+    "index.html",
+    "LICENSE",
+    "LICENSE-CODE",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "node scripts/build-manifest.js",
+    "test": "node --test",
+    "draw": "node scripts/draw-doodles.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -1,0 +1,160 @@
+{
+  "name": "empty-states",
+  "count": 14,
+  "assets": [
+    {
+      "name": "404",
+      "file": "svg/404.svg",
+      "title": "404, page not found",
+      "viewBox": [
+        0,
+        0,
+        200,
+        160
+      ]
+    },
+    {
+      "name": "coming-soon",
+      "file": "svg/coming-soon.svg",
+      "title": "Coming soon, rocket launch",
+      "viewBox": [
+        0,
+        0,
+        200,
+        160
+      ]
+    },
+    {
+      "name": "empty-cart",
+      "file": "svg/empty-cart.svg",
+      "title": "Empty shopping cart",
+      "viewBox": [
+        0,
+        0,
+        200,
+        160
+      ]
+    },
+    {
+      "name": "empty-folder",
+      "file": "svg/empty-folder.svg",
+      "title": "Empty folder",
+      "viewBox": [
+        0,
+        0,
+        200,
+        160
+      ]
+    },
+    {
+      "name": "error",
+      "file": "svg/error.svg",
+      "title": "Something went wrong",
+      "viewBox": [
+        0,
+        0,
+        200,
+        160
+      ]
+    },
+    {
+      "name": "inbox-zero",
+      "file": "svg/inbox-zero.svg",
+      "title": "Inbox zero",
+      "viewBox": [
+        0,
+        0,
+        200,
+        160
+      ]
+    },
+    {
+      "name": "no-data",
+      "file": "svg/no-data.svg",
+      "title": "No data yet",
+      "viewBox": [
+        0,
+        0,
+        200,
+        160
+      ]
+    },
+    {
+      "name": "no-files",
+      "file": "svg/no-files.svg",
+      "title": "No files",
+      "viewBox": [
+        0,
+        0,
+        200,
+        160
+      ]
+    },
+    {
+      "name": "no-messages",
+      "file": "svg/no-messages.svg",
+      "title": "No messages",
+      "viewBox": [
+        0,
+        0,
+        200,
+        160
+      ]
+    },
+    {
+      "name": "no-notifications",
+      "file": "svg/no-notifications.svg",
+      "title": "No notifications, sleeping bell",
+      "viewBox": [
+        0,
+        0,
+        200,
+        160
+      ]
+    },
+    {
+      "name": "no-results",
+      "file": "svg/no-results.svg",
+      "title": "No results",
+      "viewBox": [
+        0,
+        0,
+        200,
+        160
+      ]
+    },
+    {
+      "name": "no-users",
+      "file": "svg/no-users.svg",
+      "title": "No users or team members",
+      "viewBox": [
+        0,
+        0,
+        200,
+        160
+      ]
+    },
+    {
+      "name": "offline",
+      "file": "svg/offline.svg",
+      "title": "Offline, unplugged cable",
+      "viewBox": [
+        0,
+        0,
+        200,
+        160
+      ]
+    },
+    {
+      "name": "success",
+      "file": "svg/success.svg",
+      "title": "Success",
+      "viewBox": [
+        0,
+        0,
+        200,
+        160
+      ]
+    }
+  ]
+}

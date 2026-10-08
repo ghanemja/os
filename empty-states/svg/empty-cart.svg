@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Empty shopping cart</title>
+<path d="M40 136h120M24 136h6M170 136h6"/>
+<path d="M28 44h12a4 4 0 0 1 3.9 3.1L56 104h82"/>
+<path d="M47 60h105a2 2 0 0 1 1.9 2.6l-8.5 27.2a4 4 0 0 1-3.8 2.8H54"/>
+<path d="M80 60l2 32M106 60v32M132 60l-3 32" opacity=".5"/>
+<circle cx="68" cy="120" r="8"/><circle cx="128" cy="120" r="8"/>
+<circle cx="160" cy="42" r="14" fill="#6c63ff" style="fill:var(--accent, #6c63ff)"/>
+<ellipse cx="160" cy="42" rx="4" ry="6"/>
+<path d="M40 22v8M36 26h8"/><circle cx="108" cy="36" r="2"/><circle cx="176" cy="96" r="3"/>
+</svg>

@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Device Frames</title>
+<style>
+  :root {
+    --bg: #f7f7f8; --card: #ffffff; --line: #e4e4e7; --text: #18181b; --muted: #71717a;
+    --ink: #18181b; --accent: #6c63ff;
+    color-scheme: light dark;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #111114; --card: #1c1c21; --line: #2e2e35; --text: #f4f4f5; --muted: #a1a1aa; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  header { max-width: 1200px; margin: 0 auto; padding: 32px 16px 8px; }
+  h1 { margin: 0 0 4px; font-size: 28px; letter-spacing: -0.02em; }
+  header p { margin: 0 0 20px; color: var(--muted); max-width: 60ch; }
+  .controls { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; }
+  .controls label { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--muted); }
+  input[type=search] { font: inherit; padding: 8px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--text); min-width: 200px; }
+  input[type=color] { width: 32px; height: 32px; padding: 0; border: 1px solid var(--line); border-radius: 8px; background: none; cursor: pointer; }
+  main { max-width: 1200px; margin: 0 auto; padding: 16px 16px 64px; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+  .card { appearance: none; font: inherit; color: var(--ink); background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px 12px 10px; cursor: pointer; display: flex; flex-direction: column; gap: 10px; align-items: stretch; text-align: center; transition: border-color .15s, transform .15s; }
+  .card:hover, .card:focus-visible { border-color: var(--accent); transform: translateY(-1px); outline: none; }
+  .card .art { height: 200px; display: flex; align-items: center; justify-content: center; }
+  .card .art svg { max-width: 100%; max-height: 100%; width: 100%; height: 100%; }
+  .card .name { font-size: 12px; color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; overflow-wrap: anywhere; }
+  .card .meta { font-size: 11px; color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  body.dark-preview .card { background: #1c1c21; border-color: #2e2e35; }
+  body.dark-preview .card .name, body.dark-preview .card .meta { color: #a1a1aa; }
+  #toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 20px); opacity: 0; background: var(--text); color: var(--bg); padding: 8px 16px; border-radius: 999px; font-size: 14px; transition: .2s; pointer-events: none; }
+  #toast.show { opacity: 1; transform: translate(-50%, 0); }
+  footer { text-align: center; color: var(--muted); font-size: 13px; padding: 0 16px 40px; }
+  footer a { color: inherit; }
+  .card .art { background: repeating-conic-gradient(rgba(127,127,127,.12) 0 25%, transparent 0 50%) 0 0 / 16px 16px; border-radius: 8px; padding: 8px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Device Frames</h1>
+  <p>SVG mockups of phones, tablets, laptops, monitors, browser windows and a watch. Screens are transparent and their coordinates are documented, so screenshots drop straight in. Click any asset to copy its SVG markup.</p>
+  <div class="controls">
+    <input type="search" id="q" placeholder="Filter…" aria-label="Filter assets">
+    <label>Color <input type="color" id="ink" value="#18181b"></label>
+    <label>Screenshot <input type="file" id="shot" accept="image/*"></label>
+    <label><input type="checkbox" id="dark"> Dark cards</label>
+    <span id="count" style="color:var(--muted);font-size:14px"></span>
+  </div>
+</header>
+<main id="grid"></main>
+<footer>Assets CC0 1.0 · code MIT · <a href="https://github.com/ghanemja/device-frames">github.com/ghanemja/device-frames</a></footer>
+<div id="toast" role="status" aria-live="polite"></div>
+<script type="application/json" id="assets">[{"name":"browser-dark","file":"svg/browser-dark.svg","title":"Browser window, dark","viewBox":[0,0,1282,854],"screen":{"x":1,"y":53,"width":1280,"height":800},"screenRadius":[0,0,11,11],"svg":"\u003csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1282 854\" fill=\"currentColor\" data-screen=\"1 53 1280 800\" data-screen-radius=\"0 0 11 11\">\u003ctitle>Browser window, dark\u003c/title>\n\u003cpath fill=\"#26262b\" d=\"M13 1H1269A12 12 0 0 1 1281 13V53H1V13A12 12 0 0 1 13 1Z\"/>\n\u003cpath fill=\"none\" stroke=\"currentColor\" stroke-opacity=\".35\" stroke-width=\"2\" d=\"M1 53H1281M13 1H1269A12 12 0 0 1 1281 13V841A12 12 0 0 1 1269 853H13A12 12 0 0 1 1 841V13A12 12 0 0 1 13 1Z\"/>\n\u003ccircle cx=\"24\" cy=\"27\" r=\"6\" fill=\"#ff5f57\"/>\u003ccircle cx=\"44\" cy=\"27\" r=\"6\" fill=\"#febc2e\"/>\u003ccircle cx=\"64\" cy=\"27\" r=\"6\" fill=\"#28c840\"/>\n\u003cg fill=\"none\" stroke=\"#ffffff\" stroke-opacity=\".55\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\u003cpath d=\"M110 21l-6 6 6 6M134 21l6 6-6 6\"/>\u003cpath d=\"M175 27a7 7 0 1 1-2-5\"/>\u003cpath d=\"M174 18v5h-5\"/>\u003cpath d=\"M1254 21v0M1254 27v0M1254 33v0\" stroke-width=\"3\"/>\u003c/g>\n\u003cpath fill=\"#36363d\" d=\"M248 13H1032A8 8 0 0 1 1040 21V33A8 8 0 0 1 1032 41H248A8 8 0 0 1 240 33V21A8 8 0 0 1 248 13Z\"/>\n\u003cg fill=\"#ffffff\" fill-opacity=\".55\">\u003crect x=\"258\" y=\"22\" width=\"8\" height=\"10\" rx=\"2\"/>\u003crect x=\"276\" y=\"24\" width=\"200\" height=\"6\" rx=\"3\"/>\u003c/g>\n\u003c/svg>"},{"name":"browser-light","file":"svg/browser-light.svg","title":"Browser window, light","viewBox":[0,0,1282,854],"screen":{"x":1,"y":53,"width":1280,"height":800},"screenRadius":[0,0,11,11],"svg":"\u003csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1282 854\" fill=\"currentColor\" data-screen=\"1 53 1280 800\" data-screen-radius=\"0 0 11 11\">\u003ctitle>Browser window, light\u003c/title>\n\u003cpath fill=\"#f4f4f5\" d=\"M13 1H1269A12 12 0 0 1 1281 13V53H1V13A12 12 0 0 1 13 1Z\"/>\n\u003cpath fill=\"none\" stroke=\"currentColor\" stroke-opacity=\".2\" stroke-width=\"2\" d=\"M1 53H1281M13 1H1269A12 12 0 0 1 1281 13V841A12 12 0 0 1 1269 853H13A12 12 0 0 1 1 841V13A12 12 0 0 1 13 1Z\"/>\n\u003ccircle cx=\"24\" cy=\"27\" r=\"6\" fill=\"#ff5f57\"/>\u003ccircle cx=\"44\" cy=\"27\" r=\"6\" fill=\"#febc2e\"/>\u003ccircle cx=\"64\" cy=\"27\" r=\"6\" fill=\"#28c840\"/>\n\u003cg fill=\"none\" stroke=\"currentColor\" stroke-opacity=\".45\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\u003cpath d=\"M110 21l-6 6 6 6M134 21l6 6-6 6\"/>\u003cpath d=\"M175 27a7 7 0 1 1-2-5\"/>\u003cpath d=\"M174 18v5h-5\"/>\u003cpath d=\"M1254 21v0M1254 27v0M1254 33v0\" stroke-width=\"3\"/>\u003c/g>\n\u003cpath fill=\"#ffffff\" d=\"M248 13H1032A8 8 0 0 1 1040 21V33A8 8 0 0 1 1032 41H248A8 8 0 0 1 240 33V21A8 8 0 0 1 248 13Z\"/>\n\u003cg fill=\"currentColor\" fill-opacity=\".45\">\u003crect x=\"258\" y=\"22\" width=\"8\" height=\"10\" rx=\"2\"/>\u003crect x=\"276\" y=\"24\" width=\"200\" height=\"6\" rx=\"3\"/>\u003c/g>\n\u003c/svg>"},{"name":"browser-tabs","file":"svg/browser-tabs.svg","title":"Browser window with tabs","viewBox":[0,0,1282,889],"screen":{"x":1,"y":88,"width":1280,"height":800},"screenRadius":[0,0,11,11],"svg":"\u003csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1282 889\" fill=\"currentColor\" data-screen=\"1 88 1280 800\" data-screen-radius=\"0 0 11 11\">\u003ctitle>Browser window with tabs\u003c/title>\n\u003cpath fill-rule=\"evenodd\" d=\"M12 0H1270A12 12 0 0 1 1282 12V877A12 12 0 0 1 1270 889H12A12 12 0 0 1 0 877V12A12 12 0 0 1 12 0ZM1 88H1281V877A11 11 0 0 1 1270 888H12A11 11 0 0 1 1 877V88Z\"/>\n\u003cg fill=\"#fff\" fill-opacity=\".14\">\u003crect x=\"1\" y=\"40\" width=\"1280\" height=\"48\"/>\u003cpath d=\"M76 40a8 8 0 0 0 8-8V16a8 8 0 0 1 8-8h224a8 8 0 0 1 8 8v16a8 8 0 0 0 8 8z\"/>\u003c/g>\n\u003cg fill=\"#fff\" fill-opacity=\".3\">\u003ccircle cx=\"22\" cy=\"24\" r=\"6\"/>\u003ccircle cx=\"42\" cy=\"24\" r=\"6\"/>\u003ccircle cx=\"62\" cy=\"24\" r=\"6\"/>\u003c/g>\n\u003cg fill=\"#fff\" fill-opacity=\".55\">\u003ccircle cx=\"106\" cy=\"24\" r=\"6\"/>\u003crect x=\"120\" y=\"21\" width=\"120\" height=\"6\" rx=\"3\"/>\u003c/g>\n\u003cg fill=\"#fff\" fill-opacity=\".3\">\u003ccircle cx=\"354\" cy=\"24\" r=\"6\"/>\u003crect x=\"368\" y=\"21\" width=\"110\" height=\"6\" rx=\"3\"/>\u003ccircle cx=\"602\" cy=\"24\" r=\"6\"/>\u003crect x=\"616\" y=\"21\" width=\"96\" height=\"6\" rx=\"3\"/>\u003c/g>\n\u003cg fill=\"none\" stroke=\"#fff\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\">\u003cpath d=\"M300 20l8 8M308 20l-8 8\" stroke-opacity=\".55\"/>\u003cpath d=\"M580 16v16M828 16v16\" stroke-opacity=\".2\"/>\u003cpath d=\"M852 24h12M858 18v12\" stroke-opacity=\".45\"/>\u003cpath d=\"M30 58l-6 6 6 6M54 58l6 6-6 6M95 64a7 7 0 1 1-2-5M94 55v5h-5\" stroke-opacity=\".6\"/>\u003c/g>\n\u003cpath fill=\"#fff\" fill-opacity=\".12\" d=\"M138 50H1210A14 14 0 0 1 1224 64V64A14 14 0 0 1 1210 78H138A14 14 0 0 1 124 64V64A14 14 0 0 1 138 50Z\"/>\n\u003cg fill=\"#fff\" fill-opacity=\".45\">\u003crect x=\"142\" y=\"59\" width=\"8\" height=\"10\" rx=\"2\"/>\u003crect x=\"160\" y=\"61\" width=\"220\" height=\"6\" rx=\"3\"/>\u003ccircle cx=\"1254\" cy=\"64\" r=\"10\" fill-opacity=\".3\"/>\u003c/g>\n\u003c/svg>"},{"name":"laptop","file":"svg/laptop.svg","title":"Laptop","viewBox":[0,0,1560,884],"screen":{"x":140,"y":28,"width":1280,"height":800},"screenRadius":6,"svg":"\u003csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1560 884\" fill=\"currentColor\" data-screen=\"140 28 1280 800\" data-screen-radius=\"6\">\u003ctitle>Laptop\u003c/title>\n\u003cpath fill-rule=\"evenodd\" d=\"M148 0H1412A28 28 0 0 1 1440 28V856H120V28A28 28 0 0 1 148 0ZM146 28H1414A6 6 0 0 1 1420 34V822A6 6 0 0 1 1414 828H146A6 6 0 0 1 140 822V34A6 6 0 0 1 146 28ZM776 14a4 4 0 1 0 8 0a4 4 0 1 0 -8 0Z\"/>\n\u003cpath fill-rule=\"evenodd\" d=\"M0 858H1560V866C1560 875 1520 884 1480 884H80C40 884 0 875 0 866ZM700 858H860V859A6 6 0 0 1 854 865H706A6 6 0 0 1 700 859V858Z\"/>\n\u003c/svg>"},{"name":"monitor","file":"svg/monitor.svg","title":"Desktop monitor","viewBox":[0,0,1968,1340],"screen":{"x":24,"y":24,"width":1920,"height":1080},"screenRadius":4,"svg":"\u003csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1968 1340\" fill=\"currentColor\" data-screen=\"24 24 1920 1080\" data-screen-radius=\"4\">\u003ctitle>Desktop monitor\u003c/title>\n\u003cpath fill-rule=\"evenodd\" d=\"M24 0H1944A24 24 0 0 1 1968 24V1140A24 24 0 0 1 1944 1164H24A24 24 0 0 1 0 1140V24A24 24 0 0 1 24 0ZM28 24H1940A4 4 0 0 1 1944 28V1100A4 4 0 0 1 1940 1104H28A4 4 0 0 1 24 1100V28A4 4 0 0 1 28 24Z\"/>\n\u003cpath fill=\"none\" stroke=\"#fff\" stroke-opacity=\".14\" stroke-width=\"2\" d=\"M24 3H1944A21 21 0 0 1 1965 24V1140A21 21 0 0 1 1944 1161H24A21 21 0 0 1 3 1140V24A21 21 0 0 1 24 3Z\"/>\n\u003cpath d=\"M904 1164H1064L1088 1318H880Z\" opacity=\".85\"/>\n\u003cpath d=\"M736 1316H1232A12 12 0 0 1 1244 1328V1328A12 12 0 0 1 1232 1340H736A12 12 0 0 1 724 1328V1328A12 12 0 0 1 736 1316Z\"/>\n\u003c/svg>"},{"name":"phone-android","file":"svg/phone-android.svg","title":"Android-style phone","viewBox":[0,0,384,820],"screen":{"x":10,"y":10,"width":360,"height":800},"screenRadius":34,"svg":"\u003csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 384 820\" fill=\"currentColor\" data-screen=\"10 10 360 800\" data-screen-radius=\"34\">\u003ctitle>Android-style phone\u003c/title>\n\u003cpath fill-rule=\"evenodd\" d=\"M44 0H336A44 44 0 0 1 380 44V776A44 44 0 0 1 336 820H44A44 44 0 0 1 0 776V44A44 44 0 0 1 44 0ZM44 10H336A34 34 0 0 1 370 44V776A34 34 0 0 1 336 810H44A34 34 0 0 1 10 776V44A34 34 0 0 1 44 10Z\"/>\n\u003cpath fill=\"none\" stroke=\"#fff\" stroke-opacity=\".14\" stroke-width=\"2\" d=\"M44 3H336A41 41 0 0 1 377 44V776A41 41 0 0 1 336 817H44A41 41 0 0 1 3 776V44A41 41 0 0 1 44 3Z\"/>\n\u003ccircle cx=\"190\" cy=\"32\" r=\"9\"/>\n\u003crect x=\"379\" y=\"170\" width=\"5\" height=\"90\" rx=\"2\"/>\u003crect x=\"379\" y=\"290\" width=\"5\" height=\"50\" rx=\"2\"/>\n\u003c/svg>"},{"name":"phone-iphone","file":"svg/phone-iphone.svg","title":"iPhone-style phone","viewBox":[0,0,422,868],"screen":{"x":16,"y":12,"width":390,"height":844},"screenRadius":54,"svg":"\u003csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 422 868\" fill=\"currentColor\" data-screen=\"16 12 390 844\" data-screen-radius=\"54\">\u003ctitle>iPhone-style phone\u003c/title>\n\u003cpath fill-rule=\"evenodd\" d=\"M70 0H352A66 66 0 0 1 418 66V802A66 66 0 0 1 352 868H70A66 66 0 0 1 4 802V66A66 66 0 0 1 70 0ZM70 12H352A54 54 0 0 1 406 66V802A54 54 0 0 1 352 856H70A54 54 0 0 1 16 802V66A54 54 0 0 1 70 12Z\"/>\n\u003cpath fill=\"none\" stroke=\"#fff\" stroke-opacity=\".14\" stroke-width=\"2\" d=\"M70 3H352A63 63 0 0 1 415 66V802A63 63 0 0 1 352 865H70A63 63 0 0 1 7 802V66A63 63 0 0 1 70 3Z\"/>\n\u003crect x=\"149\" y=\"23\" width=\"124\" height=\"36\" rx=\"18\"/>\n\u003crect x=\"0\" y=\"170\" width=\"5\" height=\"32\" rx=\"2\"/>\u003crect x=\"0\" y=\"232\" width=\"5\" height=\"60\" rx=\"2\"/>\u003crect x=\"0\" y=\"306\" width=\"5\" height=\"60\" rx=\"2\"/>\u003crect x=\"417\" y=\"262\" width=\"5\" height=\"98\" rx=\"2\"/>\n\u003c/svg>"},{"name":"smartwatch","file":"svg/smartwatch.svg","title":"Smartwatch","viewBox":[0,0,252,410],"screen":{"x":24,"y":84,"width":198,"height":242},"screenRadius":44,"svg":"\u003csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 252 410\" fill=\"currentColor\" data-screen=\"24 84 198 242\" data-screen-radius=\"44\">\u003ctitle>Smartwatch\u003c/title>\n\u003cpath opacity=\".8\" d=\"M60 0H186A22 22 0 0 1 208 22V82H38V22A22 22 0 0 1 60 0Z\"/>\n\u003cpath opacity=\".8\" fill-rule=\"evenodd\" d=\"M38 328H208V388A22 22 0 0 1 186 410H60A22 22 0 0 1 38 388V328ZM119 360a4 4 0 1 0 8 0a4 4 0 1 0 -8 0ZM119 378a4 4 0 1 0 8 0a4 4 0 1 0 -8 0ZM119 396a4 4 0 1 0 8 0a4 4 0 1 0 -8 0Z\"/>\n\u003cpath fill-rule=\"evenodd\" d=\"M68 70H178A58 58 0 0 1 236 128V282A58 58 0 0 1 178 340H68A58 58 0 0 1 10 282V128A58 58 0 0 1 68 70ZM68 84H178A44 44 0 0 1 222 128V282A44 44 0 0 1 178 326H68A44 44 0 0 1 24 282V128A44 44 0 0 1 68 84Z\"/>\n\u003cpath fill=\"none\" stroke=\"#fff\" stroke-opacity=\".14\" stroke-width=\"2\" d=\"M68 73H178A55 55 0 0 1 233 128V282A55 55 0 0 1 178 337H68A55 55 0 0 1 13 282V128A55 55 0 0 1 68 73Z\"/>\n\u003crect x=\"232\" y=\"140\" width=\"16\" height=\"46\" rx=\"5\"/>\u003crect x=\"232\" y=\"222\" width=\"9\" height=\"58\" rx=\"3\"/>\n\u003c/svg>"},{"name":"tablet","file":"svg/tablet.svg","title":"Tablet","viewBox":[0,0,871,1231],"screen":{"x":24,"y":27,"width":820,"height":1180},"screenRadius":22,"svg":"\u003csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 871 1231\" fill=\"currentColor\" data-screen=\"24 27 820 1180\" data-screen-radius=\"22\">\u003ctitle>Tablet\u003c/title>\n\u003cpath fill-rule=\"evenodd\" d=\"M56 3H812A56 56 0 0 1 868 59V1175A56 56 0 0 1 812 1231H56A56 56 0 0 1 0 1175V59A56 56 0 0 1 56 3ZM46 27H822A22 22 0 0 1 844 49V1185A22 22 0 0 1 822 1207H46A22 22 0 0 1 24 1185V49A22 22 0 0 1 46 27ZM430 15a4 4 0 1 0 8 0a4 4 0 1 0 -8 0Z\"/>\n\u003cpath fill=\"none\" stroke=\"#fff\" stroke-opacity=\".14\" stroke-width=\"2\" d=\"M56 6H812A53 53 0 0 1 865 59V1175A53 53 0 0 1 812 1228H56A53 53 0 0 1 3 1175V59A53 53 0 0 1 56 6Z\"/>\n\u003crect x=\"690\" y=\"0\" width=\"70\" height=\"5\" rx=\"2\"/>\u003crect x=\"866\" y=\"120\" width=\"5\" height=\"60\" rx=\"2\"/>\u003crect x=\"866\" y=\"196\" width=\"5\" height=\"60\" rx=\"2\"/>\n\u003c/svg>"}]</script>
+<script>
+  const assets = JSON.parse(document.getElementById('assets').textContent);
+  const grid = document.getElementById('grid');
+  const $ = (id) => document.getElementById(id);
+  let toastTimer;
+  function toast(msg) {
+    const t = $('toast'); t.textContent = msg; t.classList.add('show');
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 1400);
+  }
+  async function copy(text) {
+    try { await navigator.clipboard.writeText(text); }
+    catch { const ta = document.createElement('textarea'); ta.value = text; document.body.append(ta); ta.select(); document.execCommand('copy'); ta.remove(); }
+  }
+  function meta(a) { return `screen ${a.screen.x} ${a.screen.y} ${a.screen.width}×${a.screen.height}`; }
+  function render() {
+    const q = $('q').value.trim().toLowerCase();
+    const shown = assets.filter((a) => !q || (a.name + ' ' + a.title).toLowerCase().includes(q));
+    grid.replaceChildren(...shown.map((a) => {
+      const b = document.createElement('button');
+      b.className = 'card'; b.type = 'button'; b.title = `${a.title}, click to copy`;
+      b.innerHTML = `<div class="art">${preview(a)}</div><div class="name">${a.name}</div>` + (meta(a) ? `<div class="meta">${meta(a)}</div>` : '');
+      b.onclick = () => copy(a.svg).then(() => toast(`Copied ${a.name}.svg`));
+      return b;
+    }));
+    $('count').textContent = `${shown.length} of ${assets.length}`;
+  }
+  let preview = (a) => a.svg;
+  $('q').oninput = render;
+  $('ink').oninput = (e) => document.documentElement.style.setProperty('--ink', e.target.value);
+  $('dark').onchange = (e) => {
+    document.body.classList.toggle('dark-preview', e.target.checked);
+    $('ink').value = e.target.checked ? '#f4f4f5' : '#18181b';
+    $('ink').dispatchEvent(new Event('input'));
+  };
+  let shot = null;
+  const rounded = ({ x, y, width: w, height: h }, r) => {
+    const [tl, tr, br, bl] = Array.isArray(r) ? r : [r, r, r, r];
+    const A = (q, ex, ey) => (q ? `A${q} ${q} 0 0 1 ${ex} ${ey}` : '');
+    return `M${x + tl} ${y}H${x + w - tr}${A(tr, x + w, y + tr)}V${y + h - br}${A(br, x + w - br, y + h)}H${x + bl}${A(bl, x, y + h - bl)}V${y + tl}${A(tl, x + tl, y)}Z`;
+  };
+  preview = (a) => {
+    if (!shot) return a.svg;
+    const s = a.screen, id = 'clip-' + a.name;
+    const inner = `<defs><clipPath id="${id}"><path d="${rounded(s, a.screenRadius)}"/></clipPath></defs>` +
+      `<image href="${shot}" x="${s.x}" y="${s.y}" width="${s.width}" height="${s.height}" preserveAspectRatio="xMidYMid slice" clip-path="url(#${id})"/>`;
+    return a.svg.replace('</title>', '</title>' + inner);
+  };
+  $('shot').onchange = (e) => { const f = e.target.files[0]; if (shot) URL.revokeObjectURL(shot); shot = f ? URL.createObjectURL(f) : null; render(); };
+  if (matchMedia('(prefers-color-scheme: dark)').matches) { $('dark').checked = true; $('dark').onchange({ target: $('dark') }); }
+  render();
+</script>
+</body>
+</html>

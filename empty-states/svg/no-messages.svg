@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>No messages</title>
+<path d="M40 136h120M24 136h6M170 136h6"/>
+<path d="M54 36h68a14 14 0 0 1 14 14v32a14 14 0 0 1-14 14H76l-16 16v-16h-6a14 14 0 0 1-14-14V50a14 14 0 0 1 14-14z"/>
+<circle cx="72" cy="66" r="3" fill="currentColor" stroke="none"/><circle cx="88" cy="66" r="3" fill="currentColor" stroke="none"/><circle cx="104" cy="66" r="3" fill="currentColor" stroke="none"/>
+<path d="M120 84h34a10 10 0 0 1 10 10v14a10 10 0 0 1-10 10h-2v12l-12-12h-20a10 10 0 0 1-10-10V94a10 10 0 0 1 10-10z" fill="#6c63ff" style="fill:var(--accent, #6c63ff)"/>
+<path d="M124 101h26" opacity=".6"/>
+<path d="M160 35v10M155 40h10"/><circle cx="30" cy="52" r="3"/><circle cx="34" cy="110" r="2"/>
+</svg>
