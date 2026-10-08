@@ -1,0 +1,268 @@
+{
+  "name": "niche-icons",
+  "viewBox": "0 0 24 24",
+  "strokeWidth": 2,
+  "count": 52,
+  "icons": [
+    {
+      "name": "barn",
+      "category": "farming",
+      "file": "icons/farming/barn.svg"
+    },
+    {
+      "name": "chicken",
+      "category": "farming",
+      "file": "icons/farming/chicken.svg"
+    },
+    {
+      "name": "cow",
+      "category": "farming",
+      "file": "icons/farming/cow.svg"
+    },
+    {
+      "name": "egg",
+      "category": "farming",
+      "file": "icons/farming/egg.svg"
+    },
+    {
+      "name": "fence",
+      "category": "farming",
+      "file": "icons/farming/fence.svg"
+    },
+    {
+      "name": "hay-bale",
+      "category": "farming",
+      "file": "icons/farming/hay-bale.svg"
+    },
+    {
+      "name": "scarecrow",
+      "category": "farming",
+      "file": "icons/farming/scarecrow.svg"
+    },
+    {
+      "name": "seedling",
+      "category": "farming",
+      "file": "icons/farming/seedling.svg"
+    },
+    {
+      "name": "shovel",
+      "category": "farming",
+      "file": "icons/farming/shovel.svg"
+    },
+    {
+      "name": "silo",
+      "category": "farming",
+      "file": "icons/farming/silo.svg"
+    },
+    {
+      "name": "tractor",
+      "category": "farming",
+      "file": "icons/farming/tractor.svg"
+    },
+    {
+      "name": "watering-can",
+      "category": "farming",
+      "file": "icons/farming/watering-can.svg"
+    },
+    {
+      "name": "wheat",
+      "category": "farming",
+      "file": "icons/farming/wheat.svg"
+    },
+    {
+      "name": "atom",
+      "category": "lab",
+      "file": "icons/lab/atom.svg"
+    },
+    {
+      "name": "beaker",
+      "category": "lab",
+      "file": "icons/lab/beaker.svg"
+    },
+    {
+      "name": "bunsen-burner",
+      "category": "lab",
+      "file": "icons/lab/bunsen-burner.svg"
+    },
+    {
+      "name": "dna",
+      "category": "lab",
+      "file": "icons/lab/dna.svg"
+    },
+    {
+      "name": "flask-round",
+      "category": "lab",
+      "file": "icons/lab/flask-round.svg"
+    },
+    {
+      "name": "flask",
+      "category": "lab",
+      "file": "icons/lab/flask.svg"
+    },
+    {
+      "name": "goggles",
+      "category": "lab",
+      "file": "icons/lab/goggles.svg"
+    },
+    {
+      "name": "magnet",
+      "category": "lab",
+      "file": "icons/lab/magnet.svg"
+    },
+    {
+      "name": "microscope",
+      "category": "lab",
+      "file": "icons/lab/microscope.svg"
+    },
+    {
+      "name": "petri-dish",
+      "category": "lab",
+      "file": "icons/lab/petri-dish.svg"
+    },
+    {
+      "name": "pipette",
+      "category": "lab",
+      "file": "icons/lab/pipette.svg"
+    },
+    {
+      "name": "test-tube",
+      "category": "lab",
+      "file": "icons/lab/test-tube.svg"
+    },
+    {
+      "name": "thermometer",
+      "category": "lab",
+      "file": "icons/lab/thermometer.svg"
+    },
+    {
+      "name": "amp",
+      "category": "music",
+      "file": "icons/music/amp.svg"
+    },
+    {
+      "name": "cable",
+      "category": "music",
+      "file": "icons/music/cable.svg"
+    },
+    {
+      "name": "cassette",
+      "category": "music",
+      "file": "icons/music/cassette.svg"
+    },
+    {
+      "name": "drum",
+      "category": "music",
+      "file": "icons/music/drum.svg"
+    },
+    {
+      "name": "guitar",
+      "category": "music",
+      "file": "icons/music/guitar.svg"
+    },
+    {
+      "name": "headphones",
+      "category": "music",
+      "file": "icons/music/headphones.svg"
+    },
+    {
+      "name": "metronome",
+      "category": "music",
+      "file": "icons/music/metronome.svg"
+    },
+    {
+      "name": "microphone",
+      "category": "music",
+      "file": "icons/music/microphone.svg"
+    },
+    {
+      "name": "mixer",
+      "category": "music",
+      "file": "icons/music/mixer.svg"
+    },
+    {
+      "name": "piano-keys",
+      "category": "music",
+      "file": "icons/music/piano-keys.svg"
+    },
+    {
+      "name": "tuning-fork",
+      "category": "music",
+      "file": "icons/music/tuning-fork.svg"
+    },
+    {
+      "name": "vinyl",
+      "category": "music",
+      "file": "icons/music/vinyl.svg"
+    },
+    {
+      "name": "violin",
+      "category": "music",
+      "file": "icons/music/violin.svg"
+    },
+    {
+      "name": "drill",
+      "category": "trades",
+      "file": "icons/trades/drill.svg"
+    },
+    {
+      "name": "hammer",
+      "category": "trades",
+      "file": "icons/trades/hammer.svg"
+    },
+    {
+      "name": "hard-hat",
+      "category": "trades",
+      "file": "icons/trades/hard-hat.svg"
+    },
+    {
+      "name": "ladder",
+      "category": "trades",
+      "file": "icons/trades/ladder.svg"
+    },
+    {
+      "name": "level",
+      "category": "trades",
+      "file": "icons/trades/level.svg"
+    },
+    {
+      "name": "paint-roller",
+      "category": "trades",
+      "file": "icons/trades/paint-roller.svg"
+    },
+    {
+      "name": "pliers",
+      "category": "trades",
+      "file": "icons/trades/pliers.svg"
+    },
+    {
+      "name": "saw",
+      "category": "trades",
+      "file": "icons/trades/saw.svg"
+    },
+    {
+      "name": "screwdriver",
+      "category": "trades",
+      "file": "icons/trades/screwdriver.svg"
+    },
+    {
+      "name": "tape-measure",
+      "category": "trades",
+      "file": "icons/trades/tape-measure.svg"
+    },
+    {
+      "name": "toolbox",
+      "category": "trades",
+      "file": "icons/trades/toolbox.svg"
+    },
+    {
+      "name": "trowel",
+      "category": "trades",
+      "file": "icons/trades/trowel.svg"
+    },
+    {
+      "name": "wrench",
+      "category": "trades",
+      "file": "icons/trades/wrench.svg"
+    }
+  ]
+}

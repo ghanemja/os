@@ -1,0 +1,24 @@
+{
+  "name": "niche-icons",
+  "version": "1.0.0",
+  "description": "Line icons for fields the big sets skip: farming, lab science, trades and music gear. Lucide/Feather compatible.",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./icons/*": "./icons/*",
+    "./manifest.json": "./manifest.json"
+  },
+  "files": ["index.js", "icons", "manifest.json", "index.html", "LICENSE", "LICENSE-CODE"],
+  "scripts": {
+    "build": "node build.js",
+    "test": "node --test"
+  },
+  "keywords": ["icons", "svg", "line-icons", "farming", "lab", "science", "tools", "music", "lucide", "feather"],
+  "license": "(CC0-1.0 AND MIT)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ghanemja/niche-icons"
+  },
+  "engines": { "node": ">=18" }
+}

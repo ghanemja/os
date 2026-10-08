@@ -1,0 +1,154 @@
+{
+  "name": "svg-patterns",
+  "count": 18,
+  "cssDefaults": {
+    "color": "#64748b",
+    "opacity": 0.35
+  },
+  "patterns": [
+    {
+      "name": "dots",
+      "className": "pattern-dots",
+      "defaultSize": {
+        "width": 20,
+        "height": 20
+      }
+    },
+    {
+      "name": "polka",
+      "className": "pattern-polka",
+      "defaultSize": {
+        "width": 24,
+        "height": 24
+      }
+    },
+    {
+      "name": "grid",
+      "className": "pattern-grid",
+      "defaultSize": {
+        "width": 24,
+        "height": 24
+      }
+    },
+    {
+      "name": "graph-paper",
+      "className": "pattern-graph-paper",
+      "defaultSize": {
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "name": "diagonal-stripes",
+      "className": "pattern-diagonal-stripes",
+      "defaultSize": {
+        "width": 12,
+        "height": 12
+      }
+    },
+    {
+      "name": "cross-hatch",
+      "className": "pattern-cross-hatch",
+      "defaultSize": {
+        "width": 12,
+        "height": 12
+      }
+    },
+    {
+      "name": "checkerboard",
+      "className": "pattern-checkerboard",
+      "defaultSize": {
+        "width": 24,
+        "height": 24
+      }
+    },
+    {
+      "name": "triangles",
+      "className": "pattern-triangles",
+      "defaultSize": {
+        "width": 24,
+        "height": 21.6
+      }
+    },
+    {
+      "name": "hexagons",
+      "className": "pattern-hexagons",
+      "defaultSize": {
+        "width": 28,
+        "height": 48.5
+      }
+    },
+    {
+      "name": "isometric",
+      "className": "pattern-isometric",
+      "defaultSize": {
+        "width": 20,
+        "height": 34.64
+      }
+    },
+    {
+      "name": "waves",
+      "className": "pattern-waves",
+      "defaultSize": {
+        "width": 40,
+        "height": 20
+      }
+    },
+    {
+      "name": "zigzag",
+      "className": "pattern-zigzag",
+      "defaultSize": {
+        "width": 24,
+        "height": 12
+      }
+    },
+    {
+      "name": "circles",
+      "className": "pattern-circles",
+      "defaultSize": {
+        "width": 32,
+        "height": 32
+      }
+    },
+    {
+      "name": "plus",
+      "className": "pattern-plus",
+      "defaultSize": {
+        "width": 24,
+        "height": 24
+      }
+    },
+    {
+      "name": "diamonds",
+      "className": "pattern-diamonds",
+      "defaultSize": {
+        "width": 20,
+        "height": 20
+      }
+    },
+    {
+      "name": "bricks",
+      "className": "pattern-bricks",
+      "defaultSize": {
+        "width": 48,
+        "height": 24
+      }
+    },
+    {
+      "name": "topography",
+      "className": "pattern-topography",
+      "defaultSize": {
+        "width": 240,
+        "height": 240
+      }
+    },
+    {
+      "name": "noise",
+      "className": "pattern-noise",
+      "defaultSize": {
+        "width": 60,
+        "height": 60
+      }
+    }
+  ]
+}

@@ -1,0 +1,260 @@
+{
+  "name": "mini-avatars",
+  "viewBox": "0 0 64 64",
+  "strokeWidth": 2,
+  "counts": {
+    "face": 6,
+    "eyes": 11,
+    "nose": 4,
+    "mouth": 11,
+    "hair": 14,
+    "accessory": 6
+  },
+  "parts": [
+    {
+      "category": "face",
+      "name": "round",
+      "file": "svg/parts/face/round.svg"
+    },
+    {
+      "category": "face",
+      "name": "oval",
+      "file": "svg/parts/face/oval.svg"
+    },
+    {
+      "category": "face",
+      "name": "square",
+      "file": "svg/parts/face/square.svg"
+    },
+    {
+      "category": "face",
+      "name": "heart",
+      "file": "svg/parts/face/heart.svg"
+    },
+    {
+      "category": "face",
+      "name": "long",
+      "file": "svg/parts/face/long.svg"
+    },
+    {
+      "category": "face",
+      "name": "wide",
+      "file": "svg/parts/face/wide.svg"
+    },
+    {
+      "category": "eyes",
+      "name": "dots",
+      "file": "svg/parts/eyes/dots.svg"
+    },
+    {
+      "category": "eyes",
+      "name": "round",
+      "file": "svg/parts/eyes/round.svg"
+    },
+    {
+      "category": "eyes",
+      "name": "happy",
+      "file": "svg/parts/eyes/happy.svg"
+    },
+    {
+      "category": "eyes",
+      "name": "closed",
+      "file": "svg/parts/eyes/closed.svg"
+    },
+    {
+      "category": "eyes",
+      "name": "wink",
+      "file": "svg/parts/eyes/wink.svg"
+    },
+    {
+      "category": "eyes",
+      "name": "lashes",
+      "file": "svg/parts/eyes/lashes.svg"
+    },
+    {
+      "category": "eyes",
+      "name": "ovals",
+      "file": "svg/parts/eyes/ovals.svg"
+    },
+    {
+      "category": "eyes",
+      "name": "lidded",
+      "file": "svg/parts/eyes/lidded.svg"
+    },
+    {
+      "category": "eyes",
+      "name": "glance",
+      "file": "svg/parts/eyes/glance.svg"
+    },
+    {
+      "category": "eyes",
+      "name": "brows",
+      "file": "svg/parts/eyes/brows.svg"
+    },
+    {
+      "category": "eyes",
+      "name": "stern",
+      "file": "svg/parts/eyes/stern.svg"
+    },
+    {
+      "category": "nose",
+      "name": "line",
+      "file": "svg/parts/nose/line.svg"
+    },
+    {
+      "category": "nose",
+      "name": "button",
+      "file": "svg/parts/nose/button.svg"
+    },
+    {
+      "category": "nose",
+      "name": "hook",
+      "file": "svg/parts/nose/hook.svg"
+    },
+    {
+      "category": "mouth",
+      "name": "smile",
+      "file": "svg/parts/mouth/smile.svg"
+    },
+    {
+      "category": "mouth",
+      "name": "grin",
+      "file": "svg/parts/mouth/grin.svg"
+    },
+    {
+      "category": "mouth",
+      "name": "flat",
+      "file": "svg/parts/mouth/flat.svg"
+    },
+    {
+      "category": "mouth",
+      "name": "smirk",
+      "file": "svg/parts/mouth/smirk.svg"
+    },
+    {
+      "category": "mouth",
+      "name": "oh",
+      "file": "svg/parts/mouth/oh.svg"
+    },
+    {
+      "category": "mouth",
+      "name": "tongue",
+      "file": "svg/parts/mouth/tongue.svg"
+    },
+    {
+      "category": "mouth",
+      "name": "small",
+      "file": "svg/parts/mouth/small.svg"
+    },
+    {
+      "category": "mouth",
+      "name": "frown",
+      "file": "svg/parts/mouth/frown.svg"
+    },
+    {
+      "category": "mouth",
+      "name": "wavy",
+      "file": "svg/parts/mouth/wavy.svg"
+    },
+    {
+      "category": "mouth",
+      "name": "teeth",
+      "file": "svg/parts/mouth/teeth.svg"
+    },
+    {
+      "category": "mouth",
+      "name": "cat",
+      "file": "svg/parts/mouth/cat.svg"
+    },
+    {
+      "category": "hair",
+      "name": "short",
+      "file": "svg/parts/hair/short.svg"
+    },
+    {
+      "category": "hair",
+      "name": "buzz",
+      "file": "svg/parts/hair/buzz.svg"
+    },
+    {
+      "category": "hair",
+      "name": "side-part",
+      "file": "svg/parts/hair/side-part.svg"
+    },
+    {
+      "category": "hair",
+      "name": "bangs",
+      "file": "svg/parts/hair/bangs.svg"
+    },
+    {
+      "category": "hair",
+      "name": "quiff",
+      "file": "svg/parts/hair/quiff.svg"
+    },
+    {
+      "category": "hair",
+      "name": "spiky",
+      "file": "svg/parts/hair/spiky.svg"
+    },
+    {
+      "category": "hair",
+      "name": "curly",
+      "file": "svg/parts/hair/curly.svg"
+    },
+    {
+      "category": "hair",
+      "name": "afro",
+      "file": "svg/parts/hair/afro.svg"
+    },
+    {
+      "category": "hair",
+      "name": "long",
+      "file": "svg/parts/hair/long.svg"
+    },
+    {
+      "category": "hair",
+      "name": "wavy",
+      "file": "svg/parts/hair/wavy.svg"
+    },
+    {
+      "category": "hair",
+      "name": "bob",
+      "file": "svg/parts/hair/bob.svg"
+    },
+    {
+      "category": "hair",
+      "name": "bun",
+      "file": "svg/parts/hair/bun.svg"
+    },
+    {
+      "category": "hair",
+      "name": "ponytail",
+      "file": "svg/parts/hair/ponytail.svg"
+    },
+    {
+      "category": "accessory",
+      "name": "glasses",
+      "file": "svg/parts/accessory/glasses.svg"
+    },
+    {
+      "category": "accessory",
+      "name": "square-glasses",
+      "file": "svg/parts/accessory/square-glasses.svg"
+    },
+    {
+      "category": "accessory",
+      "name": "sunglasses",
+      "file": "svg/parts/accessory/sunglasses.svg"
+    },
+    {
+      "category": "accessory",
+      "name": "earrings",
+      "file": "svg/parts/accessory/earrings.svg"
+    },
+    {
+      "category": "accessory",
+      "name": "hat",
+      "file": "svg/parts/accessory/hat.svg"
+    }
+  ]
+}

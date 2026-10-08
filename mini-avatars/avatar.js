@@ -1,0 +1,271 @@
+// mini-avatars — line-drawn avatars, deterministic from any seed string.
+// Part artwork: CC0 1.0. Code: MIT © 2026 ghanemja.
+//
+// Everything is drawn on a 64×64 grid with round 2px strokes. Each part is a
+// layer; a layer may have an "occluder" (a filled silhouette) that hides the
+// lines of the layers beneath it, so line art can overlap without showing
+// through, even on a transparent background.
+
+const SOLID = `fill="currentColor" stroke="none"`;
+const pair = (draw) => draw(25, 30, -1) + draw(39, 30, 1);
+
+/** Face outlines. All share the same cranium so every hair style fits. */
+export const faces = {
+  round: 'M17 28a15 15 0 0 1 30 0v3a15 15 0 0 1-30 0z',
+  oval: 'M17 28a15 15 0 0 1 30 0c0 9-6 19-15 19s-15-10-15-19z',
+  square: 'M17 28a15 15 0 0 1 30 0v8c0 6-4 10-10 10H27c-6 0-10-4-10-10z',
+  heart: 'M17 28a15 15 0 0 1 30 0c0 7-2 11-6 15-3 3-6 5-9 5s-6-2-9-5c-4-4-6-8-6-15z',
+  long: 'M17 28a15 15 0 0 1 30 0v6c0 8-6 15-15 15s-15-7-15-15z',
+  wide: 'M17 28a15 15 0 0 1 30 0c0 4 2 7 2 10 0 6-7 9-17 9s-17-3-17-9c0-3 2-6 2-10z',
+};
+
+/** Eyes, centered on (25,30) and (39,30). */
+export const eyes = {
+  dots: pair((x, y) => `<circle cx="${x}" cy="${y}" r="1.75" ${SOLID}/>`),
+  round: pair((x, y) => `<circle cx="${x}" cy="${y}" r="2.75"/><circle cx="${x}" cy="${y}" r="1" ${SOLID}/>`),
+  happy: pair((x, y) => `<path d="M${x - 2.5} ${y + 1}a2.5 2.5 0 0 1 5 0"/>`),
+  closed: pair((x, y) => `<path d="M${x - 2.5} ${y - .5}a2.5 2.5 0 0 0 5 0"/>`),
+  wink: `<circle cx="25" cy="30" r="1.75" ${SOLID}/><path d="M36.5 31l2.5-1.5 2.5 1.5"/>`,
+  lashes: pair((x, y, s) => `<circle cx="${x}" cy="${y}" r="1.75" ${SOLID}/><path d="M${x + s * 1.5} ${y - 2}l${s * 1.5}-1.5"/>`),
+  ovals: pair((x, y) => `<ellipse cx="${x}" cy="${y}" rx="1.4" ry="2.4" ${SOLID}/>`),
+  lidded: pair((x, y) => `<path d="M${x - 2.75} ${y - .5}h5.5"/><path d="M${x - 1.5} ${y}a1.5 1.5 0 0 0 3 0" ${SOLID}/>`),
+  glance: pair((x, y) => `<circle cx="${x}" cy="${y}" r="2.75"/><circle cx="${x + 1.25}" cy="${y}" r="1" ${SOLID}/>`),
+  brows: pair((x, y) => `<circle cx="${x}" cy="${y + .5}" r="1.6" ${SOLID}/><path d="M${x - 2.5} ${y - 3.5}q2.5-1.5 5 0"/>`),
+  stern: pair((x, y, s) => `<circle cx="${x}" cy="${y + .5}" r="1.6" ${SOLID}/><path d="M${x - 2.5 * s} ${y - 4}l${5 * s} 1.25"/>`),
+};
+
+/** Noses, around (32,35). */
+export const noses = {
+  none: '',
+  line: '<path d="M32.5 32v4.5h-2"/>',
+  button: '<path d="M30.5 35.5a1.5 1.5 0 0 0 3 0"/>',
+  hook: '<path d="M32 31.5c1 2 2 3.5 1.5 5H31"/>',
+};
+
+/** Mouths, around (32,41). */
+export const mouths = {
+  smile: '<path d="M28 40a5 5 0 0 0 8 0"/>',
+  grin: '<path d="M27.5 39h9a4.5 4.5 0 0 1-9 0z"/>',
+  flat: '<path d="M29 41h6"/>',
+  smirk: '<path d="M28.5 41c2 1 5 .8 7.5-1.5"/>',
+  oh: '<ellipse cx="32" cy="41.5" rx="2" ry="2.5"/>',
+  tongue: '<path d="M27.5 39h9a4.5 4.5 0 0 1-9 0z"/><path d="M30 42.6a2 2 0 0 1 4 0"/>',
+  small: '<path d="M30 40.5a2.5 2.5 0 0 0 4 0"/>',
+  frown: '<path d="M28.5 42.5a5 5 0 0 1 7 0"/>',
+  wavy: '<path d="M27 41.5q1.25-1.5 2.5 0t2.5 0 2.5 0 2.5 0"/>',
+  teeth: '<rect x="27" y="38.5" width="10" height="5" rx="2.5"/><path d="M27.5 41h9"/>',
+  cat: '<path d="M28 40.5q2 2 4 0 2 2 4 0"/>',
+};
+
+// Hair: `back` sits behind the face (long hair), `front` on top of it.
+// Each is a closed outline that also hides what is under it; `lines` adds
+// strands; `solid` fills the front shape.
+const CAP = 'M16.5 32C14.5 18 21.5 10.5 32 10.5S49.5 18 47.5 32c-1-5-3-8.5-5.5-10-6 1.5-14 1.5-20 0-2.5 1.5-4.5 5-5.5 10z';
+export const hair = {
+  none: {},
+  short: { front: CAP },
+  buzz: { front: 'M17.5 27C17.5 18 24 12 32 12s14.5 6 14.5 15c-2-3-4-5-6-5.5-5 1-12 1-17 0-2 .5-4 2.5-6 5.5z', solid: true },
+  'side-part': {
+    front: 'M16.5 32C14 17 22 10 33 10.5c9 .5 16 7.5 14.5 21.5-1-5.5-3.5-9.5-6.5-11-6 3-13 4-19.5 3.5-2.5 1.5-4.5 4-5 7.5z',
+    lines: '<path d="M30 11c-1 4-3.5 7.5-7.5 10"/>',
+  },
+  bangs: { front: 'M16.5 34C14.5 18 21.5 10.5 32 10.5S49.5 18 47.5 34c-.5-4-1.5-8-3-10.5H19.5c-1.5 2.5-2.5 6.5-3 10.5z', lines: '<path d="M26 23.5l1-4M33 23.5l.5-4.5M40 23.5l-.5-4"/>' },
+  quiff: {
+    front: 'M16.5 31C15 20 19 12 26 9.5c6-2 15-1.5 19 3.5 3 3.5 3.5 10 2.5 18-1-5-3-8.5-5.5-10-6 1-14 1.5-20 0-2.5 1.5-4.5 5-5.5 10z',
+    lines: '<path d="M27 11.5c4-1 9-.5 12 1.5"/>',
+  },
+  spiky: { front: 'M17 29c-1-5 0-9 1.5-12l-.5-5 4.5 2 2-5 4 3.5L32 7l3.5 5.5 4-3.5 2 5 4.5-2-.5 5c1.5 3 2.5 7 1.5 12-1.5-4-3.5-6.5-5.5-7.5-6 1.5-14 1.5-20 0-2 1-4 3.5-5.5 7.5z' },
+  curly: {
+    front: 'M17 30a3 3 0 0 1-1-5 3 3 0 0 1 1-5 3.5 3.5 0 0 1 4-4 3.5 3.5 0 0 1 5-3 3.5 3.5 0 0 1 6-1 3.5 3.5 0 0 1 6 1 3.5 3.5 0 0 1 5 3 3.5 3.5 0 0 1 4 4 3 3 0 0 1 1 5 3 3 0 0 1-1 5c-1-4-3-7-6-8-5 1.5-13 1.5-18 0-3 1-5 4-6 8z',
+  },
+  afro: {
+    back: 'M14 40a5 5 0 0 1-4-7 5 5 0 0 1 0-8 5 5 0 0 1 3-7 5 5 0 0 1 5-6 5 5 0 0 1 7-4 5 5 0 0 1 7-2 5 5 0 0 1 7 2 5 5 0 0 1 7 4 5 5 0 0 1 5 6 5 5 0 0 1 3 7 5 5 0 0 1 0 8 5 5 0 0 1-4 7z',
+    front: 'M17 29c0-9 6-15 15-15s15 6 15 15c-2-3.5-5-6-8-6.5-4.5 1-9.5 1-14 0-3 .5-6 3-8 6.5z',
+  },
+  long: {
+    back: 'M13 55c1-8 1-17 1-27C14 16 22 9 32 9s18 7 18 19c0 10 0 19 1 27-3 1-7 1-10 0l-1-15H24l-1 15c-3 1-7 1-10 0z',
+    front: CAP,
+  },
+  wavy: {
+    back: 'M13.5 54c-2-3 1-6-1-9s1-6-1-9 1-5 .5-8C13 16 22 9 32 9s19 7 19 19c-.5 3 2.5 5 .5 8s1 6-1 9 1 6-1 9c-3 1-7 1-10 0l-1-14H24l-1 14c-3 1-7 1-9.5 0z',
+    front: 'M16.5 32C14.5 18 21.5 10.5 32 10.5S49.5 18 47.5 32c-2-6-6-10-11-11-1 2-3 3.5-5.5 3.5S26 22 25 20.5c-4 1.5-7 5.5-8.5 11.5z',
+  },
+  bob: {
+    back: 'M14.5 44C13 38 13.5 33 14 28 14.5 16 22 9.5 32 9.5S49.5 16 50 28c.5 5 1 10-.5 16-3 1-6 1-8.5 0V30H23v14c-2.5 1-5.5 1-8.5 0z',
+    front: 'M16 34C14.5 18 21.5 10.5 32 10.5S49.5 18 48 34c-1-4-2-8-3.5-10.5-3.5-.5-6.5-2-8.5-4.5-3 3-9 5-16 5.5-1.5 2.5-3 6-4 9.5z',
+  },
+  bun: {
+    back: 'M32 13.5a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z',
+    front: 'M17 30c-1-10 5-17 15-17s16 7 15 17c-1.5-4-4-7-7-8.5-5 1-11 1-16 0-3 1.5-5.5 4.5-7 8.5z',
+  },
+  ponytail: {
+    back: 'M43 17c7 1 10 7 9.5 15-.5 6-2.5 11-6.5 14 1.5-6 1-11-1.5-15z',
+    front: 'M17 30c-1-10 5-17 15-17s16 7 15 17c-1.5-4-4-7-7-8.5-5 1-11 1-16 0-3 1.5-5.5 4.5-7 8.5z',
+    lines: '<path d="M44.5 17.5l2 3"/>',
+  },
+};
+
+/** Accessories drawn on top. `occlude` hides what is under them. */
+export const accessories = {
+  none: {},
+  glasses: {
+    draw: '<circle cx="25" cy="30" r="4.5"/><circle cx="39" cy="30" r="4.5"/><path d="M29.5 30a2.5 2.5 0 0 1 5 0M20.5 29l-3.5-1M43.5 29l3.5-1"/>',
+  },
+  'square-glasses': {
+    draw: '<rect x="19.5" y="26.5" width="11" height="7.5" rx="2"/><rect x="33.5" y="26.5" width="11" height="7.5" rx="2"/><path d="M30.5 29.5h3M19.5 28.5l-2.5-1M44.5 28.5l2.5-1"/>',
+  },
+  sunglasses: {
+    draw: '<path d="M19 27h11v2.5a4.5 4.5 0 0 1-4.5 4.5h-2a4.5 4.5 0 0 1-4.5-4.5z" fill="currentColor"/><path d="M34 27h11v2.5a4.5 4.5 0 0 1-4.5 4.5h-2a4.5 4.5 0 0 1-4.5-4.5z" fill="currentColor"/><path d="M30 28h4M19 27.5l-2-.5M45 27.5l2-.5"/>',
+  },
+  earrings: {
+    draw: '<circle cx="16.5" cy="38.5" r="2"/><circle cx="47.5" cy="38.5" r="2"/>',
+  },
+  hat: {
+    draw: '<path d="M16.5 22c0-8.5 7-14 15.5-14s15.5 5.5 15.5 14"/><rect x="15" y="21" width="34" height="6" rx="2"/><circle cx="32" cy="5.5" r="3"/><path d="M24 11.5v9.5M32 8.5v12.5M40 11.5v9.5"/>',
+    occlude: '<path d="M16.5 22c0-8.5 7-14 15.5-14s15.5 5.5 15.5 14z"/><rect x="15" y="21" width="34" height="6" rx="2"/><circle cx="32" cy="5.5" r="3"/>',
+  },
+};
+
+const NECK = { draw: '<path d="M27 40v16M37 40v16"/>', occlude: '<path d="M27 40h10v16H27z"/>' };
+const BODY_D = 'M6 64c0-8 7-13 18-14 1.5 3 4.5 5 8 5s6.5-2 8-5c11 1 18 6 18 14';
+const BODY = { draw: `<path d="${BODY_D}"/>`, occlude: `<path d="${BODY_D}z"/>` };
+const EARS_D = '<ellipse cx="17.5" cy="31" rx="3.5" ry="4.5"/><ellipse cx="46.5" cy="31" rx="3.5" ry="4.5"/>';
+const EARS = { draw: EARS_D, occlude: EARS_D };
+
+/** Soft background colors picked from the seed when none is given. */
+export const backgrounds = ['#fde68a', '#fecaca', '#bfdbfe', '#bbf7d0', '#ddd6fe', '#fbcfe8', '#fed7aa', '#a5f3fc', '#e5e7eb', '#d9f99d'];
+
+/** Part names by category, e.g. parts.hair → ['none', 'short', …]. */
+export const parts = {
+  face: Object.keys(faces),
+  eyes: Object.keys(eyes),
+  nose: Object.keys(noses),
+  mouth: Object.keys(mouths),
+  hair: Object.keys(hair),
+  accessory: Object.keys(accessories),
+};
+
+// --- seeded randomness ------------------------------------------------------
+
+/** 32-bit FNV-1a hash of a string. */
+export function hash(str) {
+  let h = 0x811c9dc5;
+  for (const ch of String(str)) {
+    const c = ch.codePointAt(0);
+    h ^= c & 0xff; h = Math.imul(h, 0x01000193);
+    if (c > 0xff) { h ^= c >>> 8; h = Math.imul(h, 0x01000193); }
+  }
+  return h >>> 0;
+}
+
+/** mulberry32: small, fast seeded PRNG returning floats in [0, 1). */
+export function prng(seed) {
+  let a = seed >>> 0;
+  return () => {
+    a = (a + 0x6d2b79f5) >>> 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+/**
+ * Which parts a seed maps to. Accessories are weighted so about half the
+ * avatars have none.
+ */
+export function pick(seed) {
+  const rand = prng(hash(seed));
+  const one = (list) => list[Math.floor(rand() * list.length)];
+  const face = one(parts.face), eyesName = one(parts.eyes), nose = one(parts.nose);
+  const mouth = one(parts.mouth), hairName = one(parts.hair);
+  const accessory = rand() < 0.5 ? 'none' : one(parts.accessory.filter((a) => a !== 'none'));
+  const background = one(backgrounds);
+  return { face, eyes: eyesName, nose, mouth, hair: hairName, accessory, background };
+}
+
+// --- rendering ----------------------------------------------------------------
+
+const esc = (v) => String(v).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+
+function check(category, list, name) {
+  if (!list[name] && list[name] !== '') throw new Error(`Unknown ${category} "${name}". Options: ${Object.keys(list).join(', ')}`);
+  return list[name];
+}
+
+/** The ordered layers for a set of parts: [{ draw, occlude? }]. */
+function layers(p) {
+  const h = check('hair', hair, p.hair);
+  const acc = check('accessory', accessories, p.accessory);
+  const faceD = check('face', faces, p.face);
+  const out = [NECK, BODY, EARS];
+  if (h.back) out.push({ draw: `<path d="${h.back}"/>`, occlude: `<path d="${h.back}"/>` });
+  out.push({ draw: `<path d="${faceD}"/>`, occlude: `<path d="${faceD}"/>` });
+  out.push({ draw: check('eyes', eyes, p.eyes) + check('nose', noses, p.nose) + check('mouth', mouths, p.mouth) });
+  if (h.front) out.push({ draw: `<path d="${h.front}"${h.solid ? ' fill="currentColor"' : ''}/>${h.lines || ''}`, occlude: `<path d="${h.front}"/>` });
+  if (acc.draw) out.push({ draw: acc.draw, occlude: acc.occlude });
+  return out;
+}
+
+// Stack layers: everything below a layer with an occluder is wrapped in a
+// group masked by that occluder. Each occluder appears once.
+function compose(list, id) {
+  let defs = '', body = '';
+  list.forEach((layer, i) => {
+    if (layer.occlude && body) {
+      const m = `${id}-${i}`;
+      defs += `<mask id="${m}" maskUnits="userSpaceOnUse" x="0" y="0" width="64" height="64"><rect width="64" height="64" fill="#fff" stroke="none"/><g fill="#000" stroke="#000">${layer.occlude}</g></mask>`;
+      body = `<g mask="url(#${m})">${body}</g>`;
+    }
+    body += layer.draw;
+  });
+  return (defs ? `<defs>${defs}</defs>` : '') + body;
+}
+
+function open(size, color, extra = '') {
+  const dims = size == null ? '' : ` width="${esc(size)}" height="${esc(size)}"`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"${dims} fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" color="${esc(color)}"${extra}>`;
+}
+
+/**
+ * Build an avatar SVG string from any seed.
+ * @param {string} seed e.g. an email, username or id
+ * @param {object} [options]
+ * @param {number|string} [options.size] width/height attribute (omit for a fluid SVG)
+ * @param {string} [options.color] line color (default "#1f2937"; "currentColor" inherits)
+ * @param {string|null} [options.background] fill color; omit for a seeded pastel, "none" for transparent
+ * @param {object} [options.parts] override any picked part, e.g. { hair: 'bun', accessory: 'none' }
+ * @param {string} [options.title] accessible name (default "Avatar")
+ */
+export function avatar(seed, options = {}) {
+  const { size, color = '#1f2937', title = 'Avatar' } = options;
+  const p = { ...pick(seed), ...options.parts };
+  const background = options.background === undefined ? p.background : options.background;
+  const id = `ma${hash(JSON.stringify([seed, p])).toString(36)}`;
+  const bg = background && background !== 'none' && background !== 'transparent'
+    ? `<rect width="64" height="64" fill="${esc(background)}" stroke="none"/>` : '';
+  return `${open(size, color, ' role="img"')}<title>${esc(title)}</title>${bg}${compose(layers(p), id)}</svg>`;
+}
+
+/**
+ * One part on its own, as a standalone 64×64 SVG using currentColor.
+ * @param {'face'|'eyes'|'nose'|'mouth'|'hair'|'accessory'} category
+ * @param {string} name
+ */
+export function partSvg(category, name) {
+  let inner;
+  if (category === 'face') inner = `<path d="${check('face', faces, name)}"/>`;
+  else if (category === 'eyes') inner = check('eyes', eyes, name);
+  else if (category === 'nose') inner = check('nose', noses, name);
+  else if (category === 'mouth') inner = check('mouth', mouths, name);
+  else if (category === 'hair') {
+    const h = check('hair', hair, name);
+    const list = [];
+    if (h.back) list.push({ draw: `<path d="${h.back}"/>` }, { draw: '', occlude: `<path d="${faces.round}"/>` });
+    if (h.front) list.push({ draw: `<path d="${h.front}"${h.solid ? ' fill="currentColor"' : ''}/>${h.lines || ''}`, occlude: `<path d="${h.front}"/>` });
+    inner = compose(list, `mp-hair-${name}`);
+  } else if (category === 'accessory') inner = check('accessory', accessories, name).draw || '';
+  else throw new Error(`Unknown category "${category}"`);
+  return `${open(null, 'currentColor').replace(' color="currentColor"', '')}${inner}</svg>`;
+}
+
+export default avatar;

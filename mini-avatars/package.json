@@ -1,0 +1,24 @@
+{
+  "name": "mini-avatars",
+  "version": "1.0.0",
+  "description": "Mix-and-match line-drawn avatars, deterministic from any seed string. Zero dependencies.",
+  "type": "module",
+  "main": "avatar.js",
+  "exports": {
+    ".": "./avatar.js",
+    "./svg/parts/*": "./svg/parts/*",
+    "./manifest.json": "./manifest.json"
+  },
+  "files": ["avatar.js", "svg", "manifest.json", "index.html", "LICENSE", "LICENSE-CODE"],
+  "scripts": {
+    "build": "node build.js",
+    "test": "node --test"
+  },
+  "keywords": ["avatar", "identicon", "svg", "generator", "seed", "deterministic", "line-art"],
+  "license": "(CC0-1.0 AND MIT)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ghanemja/mini-avatars"
+  },
+  "engines": { "node": ">=18" }
+}
