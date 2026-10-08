@@ -1,6 +1,6 @@
 # os — a small open source toolbox
 
-A collection of small, useful, zero-dependency open source projects: asset packs, tiny libraries, CLI tools and snippet collections. Each folder is a self-contained project with its own README, license and tests. Each one is also published as its own repository.
+A collection of small, useful, zero-dependency open source projects: asset packs, tiny libraries, CLI tools and snippet collections. Each folder is a self-contained project with its own README, license and tests. Each one can be split out into its own repository with `scripts/publish-repos.sh`.
 
 See [docs/IDEAS.md](docs/IDEAS.md) for the full catalog and [docs/CONVENTIONS.md](docs/CONVENTIONS.md) for the rules every project follows.
 
@@ -42,6 +42,16 @@ See [docs/IDEAS.md](docs/IDEAS.md) for the full catalog and [docs/CONVENTIONS.md
 ```
 
 Requires Node 18+. No install step: nothing has dependencies.
+
+## Publishing each project as its own repo
+
+```sh
+gh auth login            # once
+./scripts/publish-repos.sh            # all projects → github.com/ghanemja/<name>
+./scripts/publish-repos.sh ghanemja doodles   # just one
+```
+
+The script creates a public repo per folder (skipping ones that exist) and pushes that folder's history to `main`.
 
 ## License
 
