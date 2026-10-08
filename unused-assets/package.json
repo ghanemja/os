@@ -1,0 +1,35 @@
+{
+  "name": "unused-assets",
+  "version": "1.0.0",
+  "description": "Find images, fonts and media files that no source file references",
+  "type": "module",
+  "main": "index.js",
+  "exports": "./index.js",
+  "bin": {
+    "unused-assets": "bin/unused-assets.js"
+  },
+  "files": [
+    "index.js",
+    "bin/"
+  ],
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "assets",
+    "unused",
+    "images",
+    "fonts",
+    "cleanup",
+    "cli"
+  ],
+  "license": "MIT",
+  "author": "ghanemja",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ghanemja/unused-assets"
+  }
+}

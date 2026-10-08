@@ -1,0 +1,7 @@
+{
+  "name": "@acme/widget",
+  "version": "1.2.3",
+  "license": "MIT",
+  "engines": { "node": ">=18" },
+  "repository": "github:acme/widget"
+}

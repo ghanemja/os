@@ -1,0 +1,36 @@
+{
+  "name": "regex-cookbook",
+  "version": "1.0.0",
+  "description": "Tested regular expressions with explanations, caveats and test cases",
+  "type": "module",
+  "main": "index.js",
+  "exports": "./index.js",
+  "files": [
+    "index.js",
+    "patterns.js",
+    "COOKBOOK.md",
+    "index.html"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "docs": "node scripts/build-docs.js",
+    "docs:check": "node scripts/build-docs.js --check"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "regex",
+    "regexp",
+    "regular-expressions",
+    "patterns",
+    "validation",
+    "cookbook"
+  ],
+  "license": "MIT",
+  "author": "ghanemja",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ghanemja/regex-cookbook"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "name": "readme-badges",
+  "version": "1.0.0",
+  "description": "Detects your project and suggests or writes the right shields.io README badges",
+  "type": "module",
+  "main": "index.js",
+  "exports": "./index.js",
+  "bin": {
+    "readme-badges": "bin/readme-badges.js"
+  },
+  "files": [
+    "index.js",
+    "bin/"
+  ],
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "readme",
+    "badges",
+    "shields",
+    "shields.io",
+    "cli"
+  ],
+  "license": "MIT",
+  "author": "ghanemja",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ghanemja/readme-badges"
+  }
+}
