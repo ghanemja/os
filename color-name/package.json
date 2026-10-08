@@ -1,0 +1,33 @@
+{
+  "name": "color-name",
+  "version": "0.1.0",
+  "description": "Hex in, human color name out (\"dusty teal\"), matched by CIEDE2000",
+  "type": "module",
+  "main": "./index.js",
+  "module": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    }
+  },
+  "files": [
+    "index.js",
+    "index.d.ts"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "test": "node --test"
+  },
+  "keywords": ["color", "colour", "color-name", "hex", "ciede2000", "delta-e", "lab", "zero-dependency"],
+  "author": "ghanemja",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ghanemja/color-name"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

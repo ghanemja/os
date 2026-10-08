@@ -1,0 +1,33 @@
+{
+  "name": "relative-time",
+  "version": "0.1.0",
+  "description": "\"3 minutes ago\" in any language via Intl.RelativeTimeFormat, under 1 KB",
+  "type": "module",
+  "main": "./index.js",
+  "module": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    }
+  },
+  "files": [
+    "index.js",
+    "index.d.ts"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "test": "node --test"
+  },
+  "keywords": ["relative-time", "time-ago", "intl", "i18n", "date", "format", "zero-dependency"],
+  "author": "ghanemja",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ghanemja/relative-time"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

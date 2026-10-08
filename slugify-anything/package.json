@@ -1,0 +1,33 @@
+{
+  "name": "slugify-anything",
+  "version": "0.1.0",
+  "description": "URL slugs that survive emoji, accents and non-Latin scripts",
+  "type": "module",
+  "main": "./index.js",
+  "module": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    }
+  },
+  "files": [
+    "index.js",
+    "index.d.ts"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "test": "node --test"
+  },
+  "keywords": ["slug", "slugify", "url", "transliteration", "unicode", "emoji", "cyrillic", "greek", "zero-dependency"],
+  "author": "ghanemja",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ghanemja/slugify-anything"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
