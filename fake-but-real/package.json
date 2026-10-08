@@ -1,0 +1,29 @@
+{
+  "name": "fake-but-real",
+  "version": "1.0.0",
+  "description": "Believable, seedable placeholder data that isn't lorem ipsum: people, companies, products, addresses, bios, reviews.",
+  "type": "module",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    }
+  },
+  "files": ["index.js", "index.d.ts"],
+  "scripts": {
+    "test": "node --test"
+  },
+  "keywords": ["fake", "faker", "mock", "placeholder", "seed", "test-data", "fixtures"],
+  "author": "ghanemja",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ghanemja/fake-but-real"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "sideEffects": false
+}

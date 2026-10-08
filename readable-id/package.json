@@ -1,0 +1,29 @@
+{
+  "name": "readable-id",
+  "version": "1.0.0",
+  "description": "Friendly, human-readable IDs like brave-otter-42, with a collision-probability helper.",
+  "type": "module",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    }
+  },
+  "files": ["index.js", "index.d.ts"],
+  "scripts": {
+    "test": "node --test"
+  },
+  "keywords": ["id", "readable", "human-readable", "slug", "name-generator", "unique-id"],
+  "author": "ghanemja",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ghanemja/readable-id"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "sideEffects": false
+}
