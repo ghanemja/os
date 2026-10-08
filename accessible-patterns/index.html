@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Accessible patterns</title>
+  <link rel="stylesheet" href="demo.css">
+  <style>
+    main { max-width: 960px; }
+    .grid { list-style: none; padding: 0; margin: 24px 0; display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+    .card { position: relative; border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; background: var(--bg); height: 100%; }
+    .card:hover { border-color: var(--accent); }
+    .card:focus-within { outline: 3px solid var(--focus); outline-offset: 2px; }
+    .card h2 { margin: 0 0 0.35em; font-size: 1.1rem; }
+    .card h2 a { color: var(--fg); text-decoration: none; }
+    .card h2 a::after { content: ""; position: absolute; inset: 0; border-radius: 12px; } /* whole card is the link target */
+    .card h2 a:focus-visible { outline: none; }
+    .card p { margin: 0 0 0.6em; color: var(--muted); font-size: 0.95rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+    .tags li { font: 0.75rem ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: 0.1em 0.6em; }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Accessible patterns</h1>
+      <p class="lead">Correct ARIA markup and keyboard handling for common widgets, following the <a href="https://www.w3.org/WAI/ARIA/apg/">WAI-ARIA Authoring Practices</a>. Each pattern is one small vanilla JavaScript module with no dependencies, plus a demo page and a README that documents its keyboard interaction and ARIA roles, states and properties.</p>
+    </header>
+
+    <ul class="grid">
+      <li class="card"><h2><a href="patterns/modal-dialog/index.html">Modal dialog</a></h2><p>Focus trap, Escape to close, inert background, focus returns to the trigger.</p><ul class="tags" aria-label="ARIA"><li>dialog</li><li>aria-modal</li><li>inert</li></ul></li>
+      <li class="card"><h2><a href="patterns/tabs/index.html">Tabs</a></h2><p>Arrow keys, Home/End, automatic or manual activation, horizontal or vertical.</p><ul class="tags" aria-label="ARIA"><li>tablist</li><li>tab</li><li>tabpanel</li></ul></li>
+      <li class="card"><h2><a href="patterns/disclosure/index.html">Disclosure</a></h2><p>A button that shows and hides a section.</p><ul class="tags" aria-label="ARIA"><li>aria-expanded</li><li>aria-controls</li></ul></li>
+      <li class="card"><h2><a href="patterns/accordion/index.html">Accordion</a></h2><p>Stacked sections that open one at a time or several at once, with arrow keys between headers.</p><ul class="tags" aria-label="ARIA"><li>region</li><li>aria-expanded</li></ul></li>
+      <li class="card"><h2><a href="patterns/menu-button/index.html">Menu button</a></h2><p>A button that opens a menu of actions, with arrow keys and type-ahead.</p><ul class="tags" aria-label="ARIA"><li>menu</li><li>menuitem</li><li>aria-haspopup</li></ul></li>
+      <li class="card"><h2><a href="patterns/combobox/index.html">Combobox</a></h2><p>Autocomplete input with a listbox popup, using aria-activedescendant.</p><ul class="tags" aria-label="ARIA"><li>combobox</li><li>listbox</li><li>option</li></ul></li>
+      <li class="card"><h2><a href="patterns/toggle-button/index.html">Toggle button</a></h2><p>An on/off button with a constant label.</p><ul class="tags" aria-label="ARIA"><li>aria-pressed</li></ul></li>
+      <li class="card"><h2><a href="patterns/tooltip/index.html">Tooltip</a></h2><p>Shows on focus and hover, is hoverable, and Escape dismisses it.</p><ul class="tags" aria-label="ARIA"><li>tooltip</li><li>aria-describedby</li></ul></li>
+      <li class="card"><h2><a href="patterns/alert/index.html">Alert and live regions</a></h2><p>Polite and assertive announcements that work reliably, including for repeated messages.</p><ul class="tags" aria-label="ARIA"><li>alert</li><li>status</li><li>aria-live</li></ul></li>
+      <li class="card"><h2><a href="patterns/skip-link/index.html">Skip link</a></h2><p>"Skip to main content" that really moves focus.</p><ul class="tags" aria-label="ARIA"><li>WCAG 2.4.1</li></ul></li>
+    </ul>
+
+    <p>The demos use ES modules, so open them over HTTP, for example with <code>npx serve</code> or <code>python3 -m http.server</code>. Browsers block module scripts on <code>file://</code> pages.</p>
+  </main>
+  <footer class="page-footer" style="max-width:960px"><p>MIT © 2026 ghanemja</p></footer>
+</body>
+</html>

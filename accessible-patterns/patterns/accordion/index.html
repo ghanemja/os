@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Accordion</title>
+  <link rel="stylesheet" href="../../demo.css">
+  <style>
+    .accordion { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .accordion h3 { margin: 0; font-size: 1rem; }
+    .accordion h3 + div + h3, .accordion div + h3 { border-top: 1px solid var(--border); }
+    .accordion button {
+      display: flex; justify-content: space-between; align-items: center; width: 100%;
+      border: 0; border-radius: 0; background: var(--surface); text-align: left; padding: 0.85em 1em; font-weight: 600;
+    }
+    .accordion button::after { content: "+"; font-size: 1.3em; line-height: 1; }
+    .accordion button[aria-expanded="true"]::after { content: "\2212"; }
+    .accordion button[aria-disabled="true"] { cursor: default; }
+    .accordion [role="region"] { padding: 12px 16px; }
+  </style>
+</head>
+<body>
+  <header class="page-header"><a href="../../index.html">&larr; All patterns</a></header>
+  <main>
+    <h1>Accordion</h1>
+    <p class="lead">A stack of headings, each of which shows or hides a section. The headings are buttons inside real heading elements, so screen reader users can still jump between them by heading.</p>
+
+    <h2>One section at a time</h2>
+    <section class="demo" aria-label="Single-open demo">
+      <div class="accordion" id="single">
+        <h3><button type="button" id="s-h1" aria-expanded="true" aria-controls="s-p1">Personal information</button></h3>
+        <div id="s-p1" role="region" aria-labelledby="s-h1"><p>Name, date of birth and contact details.</p></div>
+        <h3><button type="button" id="s-h2" aria-expanded="false" aria-controls="s-p2">Billing address</button></h3>
+        <div id="s-p2" role="region" aria-labelledby="s-h2" hidden><p>Where we send invoices.</p></div>
+        <h3><button type="button" id="s-h3" aria-expanded="false" aria-controls="s-p3">Shipping address</button></h3>
+        <div id="s-p3" role="region" aria-labelledby="s-h3" hidden><p>Where we send parcels.</p></div>
+      </div>
+    </section>
+
+    <h2>Multiple sections open</h2>
+    <section class="demo" aria-label="Multi-open demo">
+      <div class="accordion" id="multi">
+        <h3><button type="button" id="m-h1" aria-expanded="false" aria-controls="m-p1">What is your refund policy?</button></h3>
+        <div id="m-p1" role="region" aria-labelledby="m-h1" hidden><p>Full refund within 30 days.</p></div>
+        <h3><button type="button" id="m-h2" aria-expanded="false" aria-controls="m-p2">Do you ship internationally?</button></h3>
+        <div id="m-p2" role="region" aria-labelledby="m-h2" hidden><p>Yes, to over 40 countries.</p></div>
+        <h3><button type="button" id="m-h3" aria-expanded="false" aria-controls="m-p3">Can I change my order?</button></h3>
+        <div id="m-p3" role="region" aria-labelledby="m-h3" hidden><p>Until it ships, yes.</p></div>
+      </div>
+    </section>
+  </main>
+  <footer class="page-footer"><p>Follows the <a href="https://www.w3.org/WAI/ARIA/apg/patterns/accordion/">WAI-ARIA APG accordion pattern</a>.</p></footer>
+
+  <script type="module">
+    import { createAccordion } from './accordion.js';
+    createAccordion(document.getElementById('single'), { allowMultiple: false, allowToggle: false });
+    createAccordion(document.getElementById('multi'), { allowMultiple: true });
+  </script>
+</body>
+</html>

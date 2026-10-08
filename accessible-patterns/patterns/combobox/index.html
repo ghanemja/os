@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Combobox</title>
+  <link rel="stylesheet" href="../../demo.css">
+  <style>
+    .combo { position: relative; max-width: 360px; }
+    [role="listbox"] {
+      position: absolute; left: 0; right: 0; top: calc(100% + 4px); z-index: 5; margin: 0; padding: 4px;
+      list-style: none; max-height: 240px; overflow-y: auto;
+      background: var(--bg); border: 1px solid var(--border); border-radius: 8px; box-shadow: var(--shadow);
+    }
+    [role="option"] { padding: 0.4em 0.6em; border-radius: 6px; cursor: pointer; }
+    [role="option"]:hover { background: var(--surface); }
+    [role="option"][aria-selected="true"] { background: var(--accent); color: var(--accent-fg); }
+    [role="option"] mark { background: none; color: inherit; font-weight: 700; text-decoration: underline; }
+    input[aria-activedescendant] { outline: 3px solid var(--focus); outline-offset: 2px; }
+  </style>
+</head>
+<body>
+  <header class="page-header"><a href="../../index.html">&larr; All patterns</a></header>
+  <main>
+    <h1>Combobox (autocomplete)</h1>
+    <p class="lead">A text input with a list of suggestions that narrows as you type. Focus stays in the input. The highlighted option is tracked with <code>aria-activedescendant</code>, so screen readers read it out while you keep typing.</p>
+
+    <section class="demo" aria-label="Demo">
+      <label for="country">Country</label>
+      <div class="combo">
+        <input id="country" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="country-list" autocomplete="off">
+        <ul id="country-list" role="listbox" aria-label="Countries" hidden></ul>
+      </div>
+      <p id="country-status" class="visually-hidden" role="status" aria-live="polite"></p>
+      <p id="chosen"></p>
+    </section>
+
+    <h2>Try it</h2>
+    <ul>
+      <li>Type "an" to see matches, with those that start with "an" first.</li>
+      <li><kbd>Down Arrow</kbd> / <kbd>Up Arrow</kbd> move through the options, <kbd>Enter</kbd> picks one, <kbd>Escape</kbd> closes the list (press it again to clear the field).</li>
+      <li><kbd>Alt</kbd>+<kbd>Down Arrow</kbd> opens the list without highlighting an option.</li>
+    </ul>
+  </main>
+  <footer class="page-footer"><p>Follows the <a href="https://www.w3.org/WAI/ARIA/apg/patterns/combobox/">WAI-ARIA APG combobox pattern</a> (list autocomplete, no automatic selection).</p></footer>
+
+  <script type="module">
+    import { createCombobox } from './combobox.js';
+    const countries = ['Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Argentina', 'Armenia', 'Australia', 'Austria',
+      'Bangladesh', 'Belgium', 'Brazil', 'Canada', 'Chile', 'China', 'Denmark', 'Egypt', 'Finland', 'France', 'Germany',
+      'Ghana', 'Greece', 'India', 'Indonesia', 'Ireland', 'Italy', 'Japan', 'Jordan', 'Kenya', 'Lebanon', 'Mexico',
+      'Morocco', 'Netherlands', 'New Zealand', 'Nigeria', 'Norway', 'Pakistan', 'Peru', 'Poland', 'Portugal', 'Romania',
+      'Spain', 'Sudan', 'Sweden', 'Switzerland', 'Tanzania', 'Thailand', 'Ukraine', 'United Kingdom', 'United States', 'Vietnam'];
+    const chosen = document.getElementById('chosen');
+    createCombobox(document.getElementById('country'), {
+      options: countries,
+      status: document.getElementById('country-status'),
+      onSelect: (value) => { chosen.textContent = `Selected: ${value}`; },
+    });
+  </script>
+</body>
+</html>

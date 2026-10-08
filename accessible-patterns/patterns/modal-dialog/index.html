@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Modal dialog</title>
+  <link rel="stylesheet" href="../../demo.css">
+  <style>
+    .dialog-backdrop { position: fixed; inset: 0; background: rgb(0 0 0 / 0.45); z-index: 10; }
+    [role="dialog"] {
+      position: fixed; z-index: 11; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: min(480px, calc(100vw - 32px)); max-height: calc(100vh - 32px); overflow: auto;
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border); border-radius: 12px;
+      padding: 24px; box-shadow: var(--shadow);
+    }
+    [role="dialog"][hidden] { display: none; }
+    [role="dialog"] h2 { margin-top: 0; }
+    .actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; flex-wrap: wrap; }
+    .field { margin-bottom: 12px; }
+    body.has-modal { overflow: hidden; }
+  </style>
+</head>
+<body>
+  <header class="page-header"><a href="../../index.html">&larr; All patterns</a></header>
+  <main>
+    <h1>Modal dialog</h1>
+    <p class="lead">A window on top of the page. While it is open, keyboard focus stays inside it, the page behind it is <code>inert</code>, <kbd>Escape</kbd> closes it, and focus goes back to the button that opened it.</p>
+
+    <section class="demo" aria-label="Demo">
+      <button type="button" class="primary" id="open-dialog">Edit profile</button>
+      <p id="result" role="status"></p>
+    </section>
+
+    <h2>Try it</h2>
+    <ul>
+      <li>Open the dialog, then press <kbd>Tab</kbd> and <kbd>Shift</kbd>+<kbd>Tab</kbd>. Focus wraps around inside the dialog.</li>
+      <li>Press <kbd>Escape</kbd> or click the backdrop. Focus returns to "Edit profile".</li>
+      <li>With a screen reader, the page behind the dialog is unreachable while it is open.</li>
+    </ul>
+  </main>
+
+  <div id="profile-dialog" role="dialog" aria-modal="true" aria-labelledby="profile-title" aria-describedby="profile-desc" hidden>
+    <h2 id="profile-title">Edit profile</h2>
+    <p id="profile-desc">Changes are visible to your team.</p>
+    <form id="profile-form">
+      <div class="field">
+        <label for="name">Name</label>
+        <input id="name" type="text" value="Ada Lovelace" autofocus>
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" type="email" value="ada@example.com">
+      </div>
+      <div class="actions">
+        <button type="button" data-dialog-close>Cancel</button>
+        <button type="submit" class="primary">Save</button>
+      </div>
+    </form>
+  </div>
+
+  <footer class="page-footer"><p>Follows the <a href="https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/">WAI-ARIA APG dialog pattern</a>.</p></footer>
+
+  <script type="module">
+    import { createModal } from './modal-dialog.js';
+    const result = document.getElementById('result');
+    const dialog = createModal(document.getElementById('profile-dialog'));
+    document.getElementById('open-dialog').addEventListener('click', (e) => dialog.open(e.currentTarget));
+    document.getElementById('profile-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      dialog.close();
+      result.textContent = `Saved ${document.getElementById('name').value}.`;
+    });
+  </script>
+</body>
+</html>

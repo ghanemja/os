@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Skip link</title>
+  <link rel="stylesheet" href="../../demo.css">
+  <style>
+    .skip-link {
+      position: absolute; left: 16px; top: 8px; z-index: 100; padding: 0.6em 1em; border-radius: 8px;
+      background: var(--accent); color: var(--accent-fg); font-weight: 600; text-decoration: none;
+      transform: translateY(-200%);
+    }
+    .skip-link:focus { transform: none; }
+    .site-nav { border-bottom: 1px solid var(--border); }
+    .site-nav ul { list-style: none; display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 12px 16px; margin: 0 auto; max-width: 760px; }
+    main:focus { outline: none; }
+    main:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="page-header"><a href="../../index.html">&larr; All patterns</a></header>
+  <nav class="site-nav" aria-label="Site">
+    <ul>
+      <li><a href="#">Home</a></li><li><a href="#">Products</a></li><li><a href="#">Pricing</a></li>
+      <li><a href="#">Docs</a></li><li><a href="#">Blog</a></li><li><a href="#">Careers</a></li>
+      <li><a href="#">Support</a></li><li><a href="#">Sign in</a></li>
+    </ul>
+  </nav>
+  <main id="main">
+    <h1>Skip link</h1>
+    <p class="lead">A link at the very start of the page that takes keyboard users past repeated navigation and straight to the main content (WCAG 2.4.1, Bypass Blocks). It stays hidden until it gets focus.</p>
+    <section class="demo" aria-label="Demo">
+      <p>Reload the page and press <kbd>Tab</kbd> once. "Skip to main content" appears in the top-left corner. Press <kbd>Enter</kbd> and the next <kbd>Tab</kbd> goes to <a href="#after">the first link in the main content</a> instead of the navigation.</p>
+    </section>
+    <p id="after">Use <code>transform</code> or the <code>.visually-hidden</code> technique to hide it. Don't use <code>display: none</code>, because a hidden link can't be focused.</p>
+  </main>
+  <footer class="page-footer"><p>Related: <a href="https://www.w3.org/WAI/WCAG22/Understanding/bypass-blocks.html">Understanding SC 2.4.1 Bypass Blocks</a>.</p></footer>
+
+  <script type="module">
+    import { enhanceSkipLinks } from './skip-link.js';
+    enhanceSkipLinks();
+  </script>
+</body>
+</html>

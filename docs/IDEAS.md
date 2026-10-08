@@ -58,7 +58,7 @@ Small, useful, open source tools. Each one does one thing, has no runtime depend
 ### CLI tools
 
 15. **og-image** — templates as SVG strings, text wrapping, outputs SVG (PNG via an optional rasterizer if present).
-16. **favicon-all** — writes `favicon.svg`, sized SVGs, `site.webmanifest` and the `<link>` tags; PNG output when a rasterizer is available.
+16. **favicon-all** — writes a cleaned `favicon.svg`, sized PNGs, `favicon.ico`, `site.webmanifest` and the `<link>` tags; PNG output when a rasterizer is available.
 17. **readme-badges** — reads `package.json` / `pyproject.toml` / `LICENSE` / CI config and generates shields.io badge markdown.
 18. **unused-assets** — scans a project for asset files and reports any whose filename isn't referenced in source files.
 

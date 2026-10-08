@@ -1,0 +1,28 @@
+{
+  "name": "og-image",
+  "version": "1.0.0",
+  "description": "Generate 1200x630 social preview images (SVG, optional PNG) from a title and a template. Zero dependencies.",
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./rasterize": "./src/rasterize.js"
+  },
+  "bin": {
+    "og-image": "./bin/og-image.js"
+  },
+  "files": ["src", "bin"],
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18.3"
+  },
+  "keywords": ["og-image", "open-graph", "social-card", "twitter-card", "svg", "cli"],
+  "author": "ghanemja",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ghanemja/og-image"
+  }
+}

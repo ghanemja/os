@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tooltip</title>
+  <link rel="stylesheet" href="../../demo.css">
+  <style>
+    .tip-wrap { position: relative; display: inline-block; margin: 0 8px 48px 0; }
+    [role="tooltip"] {
+      position: absolute; left: 50%; top: calc(100% + 8px); transform: translateX(-50%); z-index: 5;
+      width: max-content; max-width: 240px; padding: 6px 10px; border-radius: 6px; font-size: 0.875rem;
+      background: var(--fg); color: var(--bg);
+    }
+    [role="tooltip"]::before {
+      content: ""; position: absolute; bottom: 100%; left: 50%; margin-left: -6px; border: 6px solid transparent; border-bottom-color: var(--fg);
+    }
+    [role="tooltip"][hidden] { display: none; }
+    .icon-button { width: 2.5em; height: 2.5em; padding: 0; display: inline-grid; place-items: center; }
+  </style>
+</head>
+<body>
+  <header class="page-header"><a href="../../index.html">&larr; All patterns</a></header>
+  <main>
+    <h1>Tooltip</h1>
+    <p class="lead">A short description that appears when a control gets keyboard focus or the pointer hovers over it. The tooltip is linked with <code>aria-describedby</code>, so screen readers read it after the control's name.</p>
+
+    <section class="demo" aria-label="Demo">
+      <span class="tip-wrap">
+        <button type="button" class="icon-button" aria-label="Copy link" aria-describedby="tip-copy">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+        <span role="tooltip" id="tip-copy" hidden>Copies the page URL to your clipboard</span>
+      </span>
+      <span class="tip-wrap">
+        <button type="button" aria-describedby="tip-save">Save draft</button>
+        <span role="tooltip" id="tip-save" hidden>Drafts are kept for 30 days</span>
+      </span>
+    </section>
+
+    <h2>Try it</h2>
+    <ul>
+      <li>Tab to a button. The tooltip appears right away.</li>
+      <li>Hover with the mouse, then move onto the tooltip. It stays open (WCAG 1.4.13, hoverable).</li>
+      <li>Press <kbd>Escape</kbd> to hide it without moving focus (dismissible).</li>
+    </ul>
+    <p>Tooltips are for supplementary information only. Never put essential content or interactive elements in them, since touch users may never see them.</p>
+  </main>
+  <footer class="page-footer"><p>Follows the <a href="https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/">WAI-ARIA APG tooltip pattern</a>.</p></footer>
+
+  <script type="module">
+    import { createTooltip } from './tooltip.js';
+    for (const trigger of document.querySelectorAll('[aria-describedby^="tip-"]')) createTooltip(trigger);
+  </script>
+</body>
+</html>

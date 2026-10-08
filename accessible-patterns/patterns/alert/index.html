@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Alert and live regions</title>
+  <link rel="stylesheet" href="../../demo.css">
+  <style>
+    .row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+    .banner { padding: 12px 16px; border-radius: 8px; border: 1px solid; }
+    .banner:empty { display: none; }
+    .banner.error { color: var(--danger); border-color: var(--danger); }
+    .banner.ok { color: var(--success); border-color: var(--success); }
+  </style>
+</head>
+<body>
+  <header class="page-header"><a href="../../index.html">&larr; All patterns</a></header>
+  <main>
+    <h1>Alert and live regions</h1>
+    <p class="lead">Messages that screen readers announce without moving focus. <code>role="status"</code> (polite) waits until the user is idle. <code>role="alert"</code> (assertive) interrupts, so save it for urgent, time-sensitive messages.</p>
+
+    <section class="demo" aria-label="Demo">
+      <div class="row">
+        <button type="button" id="save">Save (polite status)</button>
+        <button type="button" id="fail">Simulate error (assertive alert)</button>
+      </div>
+      <!-- Visible regions: present and empty at page load. -->
+      <div id="visible-status" class="banner ok" role="status" aria-live="polite" aria-atomic="true"></div>
+      <div id="visible-alert" class="banner error" role="alert" aria-atomic="true"></div>
+    </section>
+
+    <h2>Rules that make announcements reliable</h2>
+    <ul>
+      <li>Put the live region in the page <strong>before</strong> you need it. Adding an element that already contains text is often not announced.</li>
+      <li>Change the text content of the region. Don't toggle <code>display</code> on a region that already has text.</li>
+      <li>Repeating the same text is ignored, so <code>nextAnnouncement()</code> adds or removes a trailing non-breaking space to make each repeat a change.</li>
+      <li>Don't move focus to an alert. That's what dialogs are for.</li>
+    </ul>
+  </main>
+  <footer class="page-footer"><p>Follows the <a href="https://www.w3.org/WAI/ARIA/apg/patterns/alert/">WAI-ARIA APG alert pattern</a>.</p></footer>
+
+  <script type="module">
+    import { createAnnouncer, nextAnnouncement } from './alert.js';
+    const announcer = createAnnouncer(); // hidden regions, for messages with no visible text
+    const status = document.getElementById('visible-status');
+    const alertEl = document.getElementById('visible-alert');
+    let saves = 0;
+    document.getElementById('save').addEventListener('click', () => {
+      saves += 1;
+      alertEl.textContent = '';
+      status.textContent = nextAnnouncement(status.textContent, 'Draft saved.');
+      if (saves % 3 === 0) announcer.announce(`${saves} drafts saved this session.`);
+    });
+    document.getElementById('fail').addEventListener('click', () => {
+      status.textContent = '';
+      alertEl.textContent = nextAnnouncement(alertEl.textContent, 'Could not save: you are offline.');
+    });
+  </script>
+</body>
+</html>

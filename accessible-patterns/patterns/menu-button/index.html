@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Menu button</title>
+  <link rel="stylesheet" href="../../demo.css">
+  <style>
+    .menu-wrap { position: relative; display: inline-block; }
+    [aria-haspopup="menu"]::after { content: ""; display: inline-block; margin-left: 0.5em; border: 0.3em solid transparent; border-top-color: currentColor; vertical-align: 0.1em; }
+    [role="menu"] {
+      position: absolute; top: calc(100% + 4px); left: 0; z-index: 5; min-width: 180px; margin: 0; padding: 4px;
+      list-style: none; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; box-shadow: var(--shadow);
+    }
+    [role="menuitem"] { padding: 0.45em 0.75em; border-radius: 6px; cursor: pointer; }
+    [role="menuitem"]:hover, [role="menuitem"]:focus { background: var(--accent); color: var(--accent-fg); outline: none; }
+    [role="menuitem"][aria-disabled="true"] { opacity: 0.5; cursor: not-allowed; background: none; color: inherit; }
+    [role="separator"] { height: 1px; background: var(--border); margin: 4px 0; }
+  </style>
+</head>
+<body>
+  <header class="page-header"><a href="../../index.html">&larr; All patterns</a></header>
+  <main>
+    <h1>Menu button</h1>
+    <p class="lead">A button that opens a menu of actions. Use it for commands like "Duplicate" or "Delete". It is not for site navigation; a list of links works better there, with a disclosure if it needs to collapse.</p>
+
+    <section class="demo" aria-label="Demo">
+      <div class="menu-wrap">
+        <button type="button" id="actions-button" aria-haspopup="menu" aria-expanded="false" aria-controls="actions-menu">Actions</button>
+        <ul id="actions-menu" role="menu" aria-labelledby="actions-button" hidden>
+          <li role="menuitem" tabindex="-1">Duplicate</li>
+          <li role="menuitem" tabindex="-1">Rename</li>
+          <li role="menuitem" tabindex="-1" aria-disabled="true">Move (no folders)</li>
+          <li role="separator"></li>
+          <li role="menuitem" tabindex="-1">Delete</li>
+        </ul>
+      </div>
+      <p id="last-action" role="status"></p>
+    </section>
+
+    <h2>Try it</h2>
+    <ul>
+      <li>Focus the button and press <kbd>Down Arrow</kbd> to open the menu on the first item, or <kbd>Up Arrow</kbd> to open it on the last.</li>
+      <li>Type <kbd>r</kbd> to jump to "Rename".</li>
+      <li><kbd>Escape</kbd> closes the menu and returns focus to the button.</li>
+    </ul>
+  </main>
+  <footer class="page-footer"><p>Follows the <a href="https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/">WAI-ARIA APG menu button pattern</a>.</p></footer>
+
+  <script type="module">
+    import { createMenuButton } from './menu-button.js';
+    const out = document.getElementById('last-action');
+    createMenuButton(document.getElementById('actions-button'), {
+      onSelect: (item) => { out.textContent = `You chose "${item.textContent}".`; },
+    });
+  </script>
+</body>
+</html>

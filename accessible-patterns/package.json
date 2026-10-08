@@ -1,0 +1,32 @@
+{
+  "name": "accessible-patterns",
+  "version": "1.0.0",
+  "description": "Correct ARIA markup and keyboard handling for modals, tabs, menus, comboboxes and more. Vanilla ES modules, zero dependencies.",
+  "type": "module",
+  "exports": {
+    "./modal-dialog": "./patterns/modal-dialog/modal-dialog.js",
+    "./tabs": "./patterns/tabs/tabs.js",
+    "./disclosure": "./patterns/disclosure/disclosure.js",
+    "./accordion": "./patterns/accordion/accordion.js",
+    "./menu-button": "./patterns/menu-button/menu-button.js",
+    "./combobox": "./patterns/combobox/combobox.js",
+    "./toggle-button": "./patterns/toggle-button/toggle-button.js",
+    "./tooltip": "./patterns/tooltip/tooltip.js",
+    "./alert": "./patterns/alert/alert.js",
+    "./skip-link": "./patterns/skip-link/skip-link.js"
+  },
+  "files": ["patterns", "index.html", "demo.css"],
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": ["accessibility", "a11y", "aria", "wai-aria", "apg", "keyboard", "modal", "tabs", "combobox", "vanilla-js"],
+  "author": "ghanemja",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ghanemja/accessible-patterns"
+  }
+}

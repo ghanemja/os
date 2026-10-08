@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tabs</title>
+  <link rel="stylesheet" href="../../demo.css">
+  <style>
+    [role="tablist"] { display: flex; gap: 4px; border-bottom: 1px solid var(--border); overflow-x: auto; }
+    [role="tab"] {
+      border: 1px solid transparent; border-bottom: none; border-radius: 8px 8px 0 0;
+      background: none; color: var(--muted); padding: 0.5em 1em; margin-bottom: -1px; white-space: nowrap;
+    }
+    [role="tab"][aria-selected="true"] { color: var(--fg); background: var(--bg); border-color: var(--border); font-weight: 600; }
+    [role="tab"][aria-disabled="true"] { opacity: 0.5; cursor: not-allowed; }
+    [role="tabpanel"] { padding: 16px 4px 4px; }
+    [role="tablist"][aria-orientation="vertical"] { flex-direction: column; border-bottom: none; border-right: 1px solid var(--border); }
+    [role="tablist"][aria-orientation="vertical"] [role="tab"] { border-radius: 8px 0 0 8px; text-align: left; margin: 0 -1px 0 0; border: 1px solid transparent; border-right: none; }
+    [role="tablist"][aria-orientation="vertical"] [role="tab"][aria-selected="true"] { border-color: var(--border); }
+    .vertical { display: flex; gap: 0; }
+    .vertical [role="tabpanel"] { padding: 4px 16px; }
+  </style>
+</head>
+<body>
+  <header class="page-header"><a href="../../index.html">&larr; All patterns</a></header>
+  <main>
+    <h1>Tabs</h1>
+    <p class="lead">Layered sections of content shown one at a time. The tab list is a single <kbd>Tab</kbd> stop, and you move between tabs with the arrow keys.</p>
+
+    <h2>Automatic activation</h2>
+    <p>Moving focus with the arrow keys selects the tab right away. Use this when panels display without delay.</p>
+    <section class="demo" aria-label="Automatic activation demo">
+      <div role="tablist" aria-label="Fruit facts" id="auto">
+        <button type="button" role="tab" id="auto-tab-1" aria-controls="auto-panel-1" aria-selected="true">Apple</button>
+        <button type="button" role="tab" id="auto-tab-2" aria-controls="auto-panel-2" aria-selected="false">Banana</button>
+        <button type="button" role="tab" id="auto-tab-3" aria-controls="auto-panel-3" aria-selected="false" aria-disabled="true">Cherry (sold out)</button>
+        <button type="button" role="tab" id="auto-tab-4" aria-controls="auto-panel-4" aria-selected="false">Durian</button>
+      </div>
+      <div role="tabpanel" id="auto-panel-1" aria-labelledby="auto-tab-1" tabindex="0"><p>Apples come in thousands of varieties.</p></div>
+      <div role="tabpanel" id="auto-panel-2" aria-labelledby="auto-tab-2" tabindex="0" hidden><p>Bananas are botanically berries.</p></div>
+      <div role="tabpanel" id="auto-panel-3" aria-labelledby="auto-tab-3" tabindex="0" hidden><p>Cherries are sold out.</p></div>
+      <div role="tabpanel" id="auto-panel-4" aria-labelledby="auto-tab-4" tabindex="0" hidden><p>Durian is known for its strong smell.</p></div>
+    </section>
+
+    <h2>Manual activation, vertical</h2>
+    <p>The arrow keys only move focus. Press <kbd>Enter</kbd> or <kbd>Space</kbd> to show the panel. Use this when showing a panel is slow, for example when it loads data.</p>
+    <section class="demo" aria-label="Manual activation demo">
+      <div class="vertical">
+        <div role="tablist" aria-label="Settings" aria-orientation="vertical" id="manual">
+          <button type="button" role="tab" id="man-tab-1" aria-controls="man-panel-1" aria-selected="true">General</button>
+          <button type="button" role="tab" id="man-tab-2" aria-controls="man-panel-2" aria-selected="false">Privacy</button>
+          <button type="button" role="tab" id="man-tab-3" aria-controls="man-panel-3" aria-selected="false">Notifications</button>
+        </div>
+        <div role="tabpanel" id="man-panel-1" aria-labelledby="man-tab-1" tabindex="0"><p>General settings.</p></div>
+        <div role="tabpanel" id="man-panel-2" aria-labelledby="man-tab-2" tabindex="0" hidden><p>Privacy settings.</p></div>
+        <div role="tabpanel" id="man-panel-3" aria-labelledby="man-tab-3" tabindex="0" hidden><p>Notification settings.</p></div>
+      </div>
+    </section>
+  </main>
+  <footer class="page-footer"><p>Follows the <a href="https://www.w3.org/WAI/ARIA/apg/patterns/tabs/">WAI-ARIA APG tabs pattern</a>.</p></footer>
+
+  <script type="module">
+    import { createTabs } from './tabs.js';
+    createTabs(document.getElementById('auto'), { activation: 'automatic' });
+    createTabs(document.getElementById('manual'), { activation: 'manual' });
+  </script>
+</body>
+</html>

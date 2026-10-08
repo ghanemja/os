@@ -1,0 +1,28 @@
+{
+  "name": "favicon-all",
+  "version": "1.0.0",
+  "description": "One SVG in: favicon.svg, PNG sizes, favicon.ico, site.webmanifest and the HTML tags out. Zero dependencies.",
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./rasterize": "./src/rasterize.js"
+  },
+  "bin": {
+    "favicon-all": "./bin/favicon-all.js"
+  },
+  "files": ["src", "bin"],
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18.3"
+  },
+  "keywords": ["favicon", "ico", "webmanifest", "apple-touch-icon", "pwa", "svg", "cli"],
+  "author": "ghanemja",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ghanemja/favicon-all"
+  }
+}

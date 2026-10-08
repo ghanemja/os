@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Toggle button</title>
+  <link rel="stylesheet" href="../../demo.css">
+  <style>
+    .toolbar { display: flex; gap: 8px; flex-wrap: wrap; }
+    [aria-pressed] { display: inline-flex; align-items: center; gap: 0.5em; }
+    [aria-pressed]::before {
+      content: ""; width: 0.9em; height: 0.9em; border-radius: 3px; border: 2px solid currentColor;
+    }
+    [aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+    [aria-pressed="true"]::before { background: currentColor; box-shadow: inset 0 0 0 2px var(--accent); }
+    .preview { margin-top: 16px; padding: 12px; background: var(--surface); border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <header class="page-header"><a href="../../index.html">&larr; All patterns</a></header>
+  <main>
+    <h1>Toggle button</h1>
+    <p class="lead">A button with an on/off state, exposed with <code>aria-pressed</code>. Screen readers announce it as "toggle button, pressed" or "not pressed". The label stays the same; only the state changes.</p>
+
+    <section class="demo" aria-label="Demo">
+      <div class="toolbar" role="group" aria-label="Text formatting">
+        <button type="button" aria-pressed="false" data-style="bold">Bold</button>
+        <button type="button" aria-pressed="false" data-style="italic">Italic</button>
+        <button type="button" aria-pressed="false" data-style="underline">Underline</button>
+      </div>
+      <p class="preview" id="preview">The quick brown fox jumps over the lazy dog.</p>
+    </section>
+
+    <p>Don't change the label and <code>aria-pressed</code> together. "Mute" with <code>aria-pressed="true"</code> is clear. A button whose label flips between "Mute" and "Unmute" should not have <code>aria-pressed</code>, because "Unmute, pressed" is confusing.</p>
+  </main>
+  <footer class="page-footer"><p>Follows the <a href="https://www.w3.org/WAI/ARIA/apg/patterns/button/">WAI-ARIA APG button pattern</a> (toggle button).</p></footer>
+
+  <script type="module">
+    import { createToggleButton } from './toggle-button.js';
+    const preview = document.getElementById('preview');
+    const css = { bold: ['fontWeight', '700', ''], italic: ['fontStyle', 'italic', ''], underline: ['textDecoration', 'underline', ''] };
+    for (const btn of document.querySelectorAll('[data-style]')) {
+      const [prop, on, off] = css[btn.dataset.style];
+      createToggleButton(btn, { onChange: (pressed) => { preview.style[prop] = pressed === true ? on : off; } });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Disclosure</title>
+  <link rel="stylesheet" href="../../demo.css">
+  <style>
+    .disclosure-button { display: inline-flex; align-items: center; gap: 0.5em; }
+    .disclosure-button::before {
+      content: ""; width: 0.5em; height: 0.5em; border: solid currentColor; border-width: 0 2px 2px 0;
+      transform: rotate(-45deg); transition: transform 0.15s;
+    }
+    .disclosure-button[aria-expanded="true"]::before { transform: rotate(45deg); }
+    .disclosure-panel { margin-top: 12px; padding: 12px 16px; background: var(--surface); border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <header class="page-header"><a href="../../index.html">&larr; All patterns</a></header>
+  <main>
+    <h1>Disclosure</h1>
+    <p class="lead">A button that shows and hides a section of content. The button reports its state with <code>aria-expanded</code>.</p>
+
+    <section class="demo" aria-label="Demo">
+      <button type="button" class="disclosure-button" aria-expanded="false" aria-controls="shipping">Shipping details</button>
+      <div id="shipping" class="disclosure-panel" hidden>
+        <p>Orders ship within 2 business days. Free returns within 30 days.</p>
+        <a href="#">Read the full policy</a>
+      </div>
+    </section>
+
+    <p>For a single disclosure, <code>&lt;details&gt;</code> and <code>&lt;summary&gt;</code> work without JavaScript. Use this pattern when you need the trigger to be a real button, for example in a navigation menu or with custom animation.</p>
+  </main>
+  <footer class="page-footer"><p>Follows the <a href="https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/">WAI-ARIA APG disclosure pattern</a>.</p></footer>
+
+  <script type="module">
+    import { createDisclosure } from './disclosure.js';
+    createDisclosure(document.querySelector('.disclosure-button'));
+  </script>
+</body>
+</html>
