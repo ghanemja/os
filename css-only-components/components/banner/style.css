@@ -1,0 +1,52 @@
+/* Dismissible banner: checking the hidden checkbox hides the banner right after it. */
+.cc-banner-toggle,
+.cc-banner__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.cc-banner {
+  --cc-banner-accent: var(--cc-accent, #4f46e5);
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  max-width: 36rem;
+  padding: .625rem .625rem .625rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--cc-banner-accent) 45%, transparent);
+  border-left-width: 4px;
+  border-left-color: var(--cc-banner-accent);
+  border-radius: .5rem;
+  background: color-mix(in srgb, var(--cc-banner-accent) 10%, Canvas);
+  color: CanvasText;
+}
+.cc-banner--success { --cc-banner-accent: #16a34a; }
+.cc-banner--warning { --cc-banner-accent: #d97706; }
+.cc-banner--error { --cc-banner-accent: #dc2626; }
+.cc-banner__text {
+  flex: 1;
+}
+.cc-banner__close {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: .375rem;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.cc-banner__close:hover {
+  background: color-mix(in srgb, currentColor 10%, transparent);
+}
+.cc-banner-toggle:focus-visible + .cc-banner .cc-banner__close {
+  outline: 2px solid var(--cc-banner-accent);
+  outline-offset: 1px;
+}
+.cc-banner-toggle:checked + .cc-banner {
+  display: none;
+}

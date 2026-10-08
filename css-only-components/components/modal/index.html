@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Modal · css-only-components</title>
+  <meta name="description" content="A dialog opened with the HTML popover attribute: centered, with a backdrop, light-dismiss and Esc to close.">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root { color-scheme: light dark; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; line-height: 1.5; }
+    body { margin: 0; background: Canvas; color: CanvasText; }
+    main { max-width: 760px; margin: 0 auto; padding: 32px 16px 64px; }
+    .demo { padding: 48px 24px 24px; border: 1px solid color-mix(in srgb, currentColor 15%, transparent); border-radius: 12px; }
+    .demo > * + * { margin-top: 16px; }
+    button { font: inherit; padding: .5rem .875rem; border-radius: .5rem; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); background: Canvas; color: CanvasText; cursor: pointer; }
+  </style>
+</head>
+<body>
+<main>
+  <p><a href="../../index.html">&larr; All components</a></p>
+  <h1>Modal</h1>
+  <p>A dialog opened with the HTML popover attribute: centered, with a backdrop, light-dismiss and Esc to close. No JavaScript.</p>
+
+  <div class="demo">
+    <!-- snippet:start -->
+    <button type="button" popovertarget="cc-modal-demo">Open dialog</button>
+
+    <div id="cc-modal-demo" class="cc-modal" popover role="dialog" aria-labelledby="cc-modal-demo-title">
+      <div class="cc-modal__header">
+        <h2 id="cc-modal-demo-title" class="cc-modal__title">Archive project?</h2>
+        <button type="button" class="cc-modal__close" popovertarget="cc-modal-demo" popovertargetaction="hide" aria-label="Close">&times;</button>
+      </div>
+      <p>You can restore it from Settings at any time.</p>
+      <div class="cc-modal__actions">
+        <button type="button" popovertarget="cc-modal-demo" popovertargetaction="hide">Cancel</button>
+        <button type="button" popovertarget="cc-modal-demo" popovertargetaction="hide">Archive</button>
+      </div>
+    </div>
+    <!-- snippet:end -->
+  </div>
+
+  <h2>Accessibility notes</h2>
+  <ul>
+    <li>Uses the <code>popover</code> attribute and <code>popovertarget</code> buttons. These are HTML, not JavaScript (Baseline 2024). <kbd>Esc</kbd>, clicking outside and the close buttons all dismiss it, and focus returns to the opening button.</li>
+    <li>A popover is <strong>not modal</strong>: focus is not trapped and the page behind it is not made inert, so keyboard and screen reader users can still reach the page underneath. For a true modal (for example a destructive confirmation), use <code>&lt;dialog&gt;</code> with <code>showModal()</code>, which needs one line of JavaScript, or invoker commands (<code>command="show-modal"</code>) where browsers support them.</li>
+    <li>The container has <code>role="dialog"</code> and <code>aria-labelledby</code> so it is announced with its title. <code>aria-modal</code> is deliberately left out because it is not modal.</li>
+  </ul>
+</main>
+</body>
+</html>

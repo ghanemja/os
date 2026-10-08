@@ -1,0 +1,33 @@
+{
+  "name": "tiny-confetti",
+  "version": "0.1.0",
+  "description": "One-file canvas confetti burst",
+  "type": "module",
+  "main": "./tiny-confetti.js",
+  "module": "./tiny-confetti.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./tiny-confetti.js"
+    }
+  },
+  "files": [
+    "tiny-confetti.js",
+    "index.d.ts"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "test": "node --test"
+  },
+  "keywords": ["confetti", "canvas", "animation", "celebration", "zero-dependency"],
+  "author": "ghanemja",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ghanemja/tiny-confetti"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

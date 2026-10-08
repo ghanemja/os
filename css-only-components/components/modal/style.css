@@ -1,0 +1,63 @@
+/* Modal: [popover] element. The UA centers it in the top layer. */
+.cc-modal {
+  width: min(32rem, calc(100vw - 2rem));
+  max-height: calc(100vh - 2rem);
+  box-sizing: border-box;
+  padding: 1.5rem;
+  border: 0;
+  border-radius: .75rem;
+  background: Canvas;
+  color: CanvasText;
+  box-shadow: 0 20px 60px rgb(0 0 0 / .35);
+}
+.cc-modal::backdrop {
+  background: rgb(0 0 0 / .5);
+}
+.cc-modal:popover-open {
+  animation: cc-modal-in .2s ease-out;
+}
+@keyframes cc-modal-in {
+  from { opacity: 0; translate: 0 12px; }
+}
+.cc-modal__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.cc-modal__title {
+  margin: 0;
+  font-size: 1.25rem;
+}
+.cc-modal__close {
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 0;
+  border-radius: .375rem;
+  background: none;
+  color: inherit;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.cc-modal__close:hover {
+  background: color-mix(in srgb, currentColor 10%, transparent);
+}
+.cc-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: .5rem;
+  margin-top: 1.5rem;
+}
+.cc-modal :focus-visible {
+  outline: 2px solid var(--cc-accent, #4f46e5);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cc-modal:popover-open { animation: none; }
+}
+@media (forced-colors: active) {
+  .cc-modal { border: 1px solid CanvasText; }
+}

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>tiny-confetti demo</title>
+  <style>
+    :root { color-scheme: light dark; font-family: system-ui, sans-serif; }
+    body { max-width: 720px; margin: 40px auto; padding: 0 16px; line-height: 1.5; }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+    button { font: inherit; padding: 8px 14px; border-radius: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); background: Canvas; color: CanvasText; cursor: pointer; }
+    #big { font-size: 1.25rem; padding: 14px 24px; }
+    .zone { margin-top: 24px; height: 160px; border: 2px dashed color-mix(in srgb, currentColor 30%, transparent); border-radius: 12px; display: grid; place-items: center; cursor: crosshair; user-select: none; }
+    output { display: block; min-height: 1.5em; color: color-mix(in srgb, currentColor 60%, transparent); }
+  </style>
+</head>
+<body>
+  <h1>tiny-confetti</h1>
+  <p>One-file canvas confetti. The canvas exists only while a burst runs.</p>
+
+  <div class="row">
+    <button id="big">🎉 Celebrate</button>
+  </div>
+  <div class="row">
+    <button id="circles">Circles only</button>
+    <button id="strips">Strips, wide spread</button>
+    <button id="mono">Brand colors</button>
+    <button id="cannons">Side cannons</button>
+    <button id="float">Low gravity</button>
+    <button id="skip">reducedMotion: 'skip'</button>
+  </div>
+  <output id="status" aria-live="polite"></output>
+
+  <div class="zone" id="zone">Click anywhere in this box</div>
+
+  <script type="module">
+    import confetti from './tiny-confetti.js';
+
+    const $ = (id) => document.getElementById(id);
+    const status = $('status');
+    const run = async (...bursts) => {
+      status.textContent = 'Running…';
+      await Promise.all(bursts.map((opts) => confetti(opts)));
+      status.textContent = 'Done, and the canvas is gone.';
+    };
+
+    $('big').addEventListener('click', (e) => run({ origin: e.currentTarget }));
+    $('circles').addEventListener('click', (e) => run({ origin: e.currentTarget, shapes: ['circle'], count: 80 }));
+    $('strips').addEventListener('click', (e) => run({ origin: e.currentTarget, shapes: ['strip'], spread: 160 }));
+    $('mono').addEventListener('click', (e) => run({ origin: e.currentTarget, colors: ['#4f46e5', '#a5b4fc', '#ffffff'] }));
+    $('float').addEventListener('click', (e) => run({ origin: e.currentTarget, gravity: 0.3, duration: 5000, velocity: 500 }));
+    $('skip').addEventListener('click', (e) => run({ origin: e.currentTarget, reducedMotion: 'skip' }));
+    $('cannons').addEventListener('click', () => {
+      const y = innerHeight;
+      run(
+        { x: 0, y, angle: 60, spread: 40, velocity: 1400 },
+        { x: innerWidth, y, angle: 120, spread: 40, velocity: 1400 },
+      );
+    });
+    $('zone').addEventListener('click', (e) => run({ x: e.clientX, y: e.clientY, count: 60, spread: 360, velocity: 600 }));
+  </script>
+</body>
+</html>

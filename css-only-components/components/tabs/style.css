@@ -1,0 +1,49 @@
+/* Tabs: radios + labels, then panels (divs) in the same order. Up to 6 tabs. */
+.cc-tabs {
+  display: flex;
+  flex-wrap: wrap;
+}
+.cc-tabs > input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.cc-tabs > label {
+  padding: .625rem 1rem;
+  border-bottom: 2px solid transparent;
+  color: color-mix(in srgb, currentColor 70%, transparent);
+  font-weight: 500;
+  cursor: pointer;
+}
+.cc-tabs > label:hover {
+  color: inherit;
+}
+.cc-tabs > input:checked + label {
+  border-bottom-color: var(--cc-accent, #4f46e5);
+  color: inherit;
+}
+.cc-tabs > input:focus-visible + label {
+  outline: 2px solid var(--cc-accent, #4f46e5);
+  outline-offset: -2px;
+  border-radius: .25rem .25rem 0 0;
+}
+.cc-tabs__panel {
+  display: none;
+  order: 1;
+  flex-basis: 100%;
+  margin-top: -1px;
+  padding: 1rem 0;
+  border-top: 1px solid var(--cc-border, color-mix(in srgb, currentColor 18%, transparent));
+}
+.cc-tabs > input:nth-of-type(1):checked ~ .cc-tabs__panel:nth-of-type(1),
+.cc-tabs > input:nth-of-type(2):checked ~ .cc-tabs__panel:nth-of-type(2),
+.cc-tabs > input:nth-of-type(3):checked ~ .cc-tabs__panel:nth-of-type(3),
+.cc-tabs > input:nth-of-type(4):checked ~ .cc-tabs__panel:nth-of-type(4),
+.cc-tabs > input:nth-of-type(5):checked ~ .cc-tabs__panel:nth-of-type(5),
+.cc-tabs > input:nth-of-type(6):checked ~ .cc-tabs__panel:nth-of-type(6) {
+  display: block;
+}

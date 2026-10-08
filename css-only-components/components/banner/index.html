@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dismissible banner · css-only-components</title>
+  <meta name="description" content="A toast-like notice that closes with a hidden checkbox; no script involved.">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root { color-scheme: light dark; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; line-height: 1.5; }
+    body { margin: 0; background: Canvas; color: CanvasText; }
+    main { max-width: 760px; margin: 0 auto; padding: 32px 16px 64px; }
+    .demo { padding: 48px 24px 24px; border: 1px solid color-mix(in srgb, currentColor 15%, transparent); border-radius: 12px; }
+    .demo > * + * { margin-top: 16px; }
+    button { font: inherit; padding: .5rem .875rem; border-radius: .5rem; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); background: Canvas; color: CanvasText; cursor: pointer; }
+  </style>
+</head>
+<body>
+<main>
+  <p><a href="../../index.html">&larr; All components</a></p>
+  <h1>Dismissible banner</h1>
+  <p>A toast-like notice that closes with a hidden checkbox; no script involved. No JavaScript.</p>
+
+  <div class="demo">
+    <!-- snippet:start -->
+    <input type="checkbox" id="cc-banner-demo" class="cc-banner-toggle">
+    <div class="cc-banner" role="status">
+      <span class="cc-banner__text">Your changes were saved.</span>
+      <label for="cc-banner-demo" class="cc-banner__close"><span aria-hidden="true">&times;</span><span class="cc-banner__sr">Dismiss</span></label>
+    </div>
+
+    <input type="checkbox" id="cc-banner-demo-2" class="cc-banner-toggle">
+    <div class="cc-banner cc-banner--warning" role="status">
+      <span class="cc-banner__text">Scheduled maintenance on Sunday, 02:00–03:00 UTC.</span>
+      <label for="cc-banner-demo-2" class="cc-banner__close"><span aria-hidden="true">&times;</span><span class="cc-banner__sr">Dismiss</span></label>
+    </div>
+    <!-- snippet:end -->
+  </div>
+
+  <h2>Accessibility notes</h2>
+  <ul>
+    <li>The close control is a <code>&lt;label&gt;</code> for a visually hidden checkbox. Screen readers announce it as "Dismiss, checkbox, not checked", which is not ideal but understandable. The hidden text "Dismiss" gives it a name.</li>
+    <li>Dismissal is not remembered. The banner comes back on reload, because CSS cannot store state. If it must stay closed, use a form or cookie on the server.</li>
+    <li>After dismissing, focus stays on the (now hidden) checkbox. Pressing <kbd>Space</kbd> again brings the banner back.</li>
+    <li>Use <code>role="status"</code> only for banners that appear after the page loads. Messages already present on load are not announced, which is usually fine.</li>
+  </ul>
+</main>
+</body>
+</html>

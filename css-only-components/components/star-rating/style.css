@@ -1,0 +1,61 @@
+/* Star rating: radios in natural order; :has() lights stars up to the chosen/hovered one. */
+.cc-rating {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.cc-rating legend {
+  margin-bottom: .25rem;
+  padding: 0;
+  font-weight: 600;
+}
+.cc-rating__stars {
+  display: inline-flex;
+  gap: .125rem;
+}
+.cc-rating__stars input,
+.cc-rating__text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.cc-rating__stars label {
+  color: var(--cc-rating-off, color-mix(in srgb, currentColor 25%, transparent));
+  font-size: var(--cc-rating-size, 1.75rem);
+  line-height: 1;
+  cursor: pointer;
+  transition: color .1s, scale .1s;
+}
+.cc-rating__stars label::before {
+  content: "\2605";
+  content: "\2605" / "";
+}
+/* Chosen star and every star before it */
+.cc-rating__stars input:checked + label,
+.cc-rating__stars label:has(~ input:checked) {
+  color: var(--cc-rating-on, #f59e0b);
+}
+/* While hovering, preview up to the hovered star instead */
+.cc-rating__stars:has(label:hover) label {
+  color: var(--cc-rating-off, color-mix(in srgb, currentColor 25%, transparent));
+}
+.cc-rating__stars:has(label:hover) label:hover,
+.cc-rating__stars:has(label:hover) label:has(~ label:hover) {
+  color: var(--cc-rating-on, #f59e0b);
+}
+.cc-rating__stars label:hover {
+  scale: 1.15;
+}
+.cc-rating__stars input:focus-visible + label {
+  outline: 2px solid var(--cc-accent, #4f46e5);
+  outline-offset: 2px;
+  border-radius: .25rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cc-rating__stars label { transition: none; }
+  .cc-rating__stars label:hover { scale: none; }
+}

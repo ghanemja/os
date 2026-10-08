@@ -1,0 +1,78 @@
+/* Dropdown: <details> disclosure with an absolutely positioned list. */
+.cc-dropdown {
+  position: relative;
+  display: inline-block;
+}
+.cc-dropdown > summary {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .5rem .875rem;
+  border: 1px solid var(--cc-border, color-mix(in srgb, currentColor 18%, transparent));
+  border-radius: .5rem;
+  background: Canvas;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+.cc-dropdown > summary::-webkit-details-marker {
+  display: none;
+}
+.cc-dropdown > summary::after {
+  content: "";
+  width: .375rem;
+  height: .375rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  rotate: 45deg;
+  translate: 0 -2px;
+}
+.cc-dropdown[open] > summary::after {
+  rotate: 225deg;
+  translate: 0 2px;
+}
+.cc-dropdown > summary:focus-visible {
+  outline: 2px solid var(--cc-accent, #4f46e5);
+  outline-offset: 2px;
+}
+.cc-dropdown__menu {
+  position: absolute;
+  top: calc(100% + .25rem);
+  left: 0;
+  z-index: 20;
+  min-width: 12rem;
+  margin: 0;
+  padding: .25rem;
+  list-style: none;
+  border: 1px solid var(--cc-border, color-mix(in srgb, currentColor 18%, transparent));
+  border-radius: .5rem;
+  background: Canvas;
+  color: CanvasText;
+  box-shadow: 0 10px 30px rgb(0 0 0 / .15);
+}
+.cc-dropdown--right .cc-dropdown__menu {
+  left: auto;
+  right: 0;
+}
+.cc-dropdown__menu a,
+.cc-dropdown__menu button {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  padding: .5rem .75rem;
+  border: 0;
+  border-radius: .375rem;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+.cc-dropdown__menu a:hover,
+.cc-dropdown__menu a:focus-visible,
+.cc-dropdown__menu button:hover,
+.cc-dropdown__menu button:focus-visible {
+  background: color-mix(in srgb, var(--cc-accent, #4f46e5) 14%, transparent);
+  outline: 2px solid transparent; /* stays visible in forced-colors mode */
+}

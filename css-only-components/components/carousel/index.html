@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Carousel · css-only-components</title>
+  <meta name="description" content="A horizontally scrolling, snap-aligned carousel with anchor-link navigation.">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root { color-scheme: light dark; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; line-height: 1.5; }
+    body { margin: 0; background: Canvas; color: CanvasText; }
+    main { max-width: 760px; margin: 0 auto; padding: 32px 16px 64px; }
+    .demo { padding: 48px 24px 24px; border: 1px solid color-mix(in srgb, currentColor 15%, transparent); border-radius: 12px; }
+    .demo > * + * { margin-top: 16px; }
+    button { font: inherit; padding: .5rem .875rem; border-radius: .5rem; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); background: Canvas; color: CanvasText; cursor: pointer; }
+  </style>
+</head>
+<body>
+<main>
+  <p><a href="../../index.html">&larr; All components</a></p>
+  <h1>Carousel</h1>
+  <p>A horizontally scrolling, snap-aligned carousel with anchor-link navigation. No JavaScript.</p>
+
+  <div class="demo">
+    <!-- snippet:start -->
+    <div class="cc-carousel">
+      <div class="cc-carousel__track" role="region" aria-label="Featured destinations" tabindex="0">
+        <figure class="cc-carousel__slide" id="cc-slide-1" style="background: #fde68a; color: #1f2328">Lisbon</figure>
+        <figure class="cc-carousel__slide" id="cc-slide-2" style="background: #a7f3d0; color: #1f2328">Kyoto</figure>
+        <figure class="cc-carousel__slide" id="cc-slide-3" style="background: #bfdbfe; color: #1f2328">Oaxaca</figure>
+        <figure class="cc-carousel__slide" id="cc-slide-4" style="background: #fbcfe8; color: #1f2328">Tbilisi</figure>
+      </div>
+      <nav class="cc-carousel__nav" aria-label="Choose slide">
+        <a href="#cc-slide-1">1</a>
+        <a href="#cc-slide-2">2</a>
+        <a href="#cc-slide-3">3</a>
+        <a href="#cc-slide-4">4</a>
+      </nav>
+    </div>
+    <!-- snippet:end -->
+  </div>
+
+  <h2>Accessibility notes</h2>
+  <ul>
+    <li>It is just a scrollable region: swipe, trackpad, <kbd>Shift</kbd>+wheel, or focus the track (it has <code>tabindex="0"</code>) and use the arrow keys. The track has a <code>role="region"</code> and a label so screen reader users know what it is.</li>
+    <li>The numbered links jump to slides with fragment anchors. That changes the URL hash, and may also scroll the whole page vertically so the slide is in view.</li>
+    <li>Nothing auto-advances (auto-rotating carousels are an accessibility problem). Smooth scrolling is off for reduced motion.</li>
+    <li>There is no "slide 2 of 4" announcement, and the dots do not show which slide is current. That needs JavaScript or the very new CSS <code>::scroll-marker</code> features.</li>
+  </ul>
+</main>
+</body>
+</html>

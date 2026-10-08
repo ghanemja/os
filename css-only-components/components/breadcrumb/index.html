@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Breadcrumb · css-only-components</title>
+  <meta name="description" content="A breadcrumb trail with CSS-generated separators.">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root { color-scheme: light dark; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; line-height: 1.5; }
+    body { margin: 0; background: Canvas; color: CanvasText; }
+    main { max-width: 760px; margin: 0 auto; padding: 32px 16px 64px; }
+    .demo { padding: 48px 24px 24px; border: 1px solid color-mix(in srgb, currentColor 15%, transparent); border-radius: 12px; }
+    .demo > * + * { margin-top: 16px; }
+    button { font: inherit; padding: .5rem .875rem; border-radius: .5rem; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); background: Canvas; color: CanvasText; cursor: pointer; }
+  </style>
+</head>
+<body>
+<main>
+  <p><a href="../../index.html">&larr; All components</a></p>
+  <h1>Breadcrumb</h1>
+  <p>A breadcrumb trail with CSS-generated separators. No JavaScript.</p>
+
+  <div class="demo">
+    <!-- snippet:start -->
+    <nav class="cc-breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#docs">Docs</a></li>
+        <li><a href="#components">Components</a></li>
+        <li><span aria-current="page">Breadcrumb</span></li>
+      </ol>
+    </nav>
+    <nav class="cc-breadcrumb cc-breadcrumb--chevron" aria-label="Breadcrumb (chevrons)">
+      <ol>
+        <li><a href="#shop">Shop</a></li>
+        <li><a href="#shoes">Shoes</a></li>
+        <li><span aria-current="page">Trail runners</span></li>
+      </ol>
+    </nav>
+    <!-- snippet:end -->
+  </div>
+
+  <h2>Accessibility notes</h2>
+  <ul>
+    <li>Uses <code>&lt;nav aria-label="Breadcrumb"&gt;</code> and an ordered list, and marks the current page with <code>aria-current="page"</code>, following the WAI-ARIA breadcrumb pattern.</li>
+    <li>The separators are generated with empty alternative text (<code>content: "/" / ""</code>), so screen readers skip them. Browsers without that syntax use the plain fallback, and a few screen readers may then read "slash".</li>
+    <li>The current page is plain text rather than a link to itself.</li>
+  </ul>
+</main>
+</body>
+</html>

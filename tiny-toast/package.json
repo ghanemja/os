@@ -1,0 +1,33 @@
+{
+  "name": "tiny-toast",
+  "version": "0.1.0",
+  "description": "One-file toast notifications, zero setup",
+  "type": "module",
+  "main": "./tiny-toast.js",
+  "module": "./tiny-toast.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./tiny-toast.js"
+    }
+  },
+  "files": [
+    "tiny-toast.js",
+    "index.d.ts"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "test": "node --test"
+  },
+  "keywords": ["toast", "notification", "snackbar", "accessible", "zero-dependency"],
+  "author": "ghanemja",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ghanemja/tiny-toast"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

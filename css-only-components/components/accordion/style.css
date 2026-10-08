@@ -1,0 +1,60 @@
+/* Accordion: <details>/<summary>, optional exclusive group via name="…". */
+.cc-accordion {
+  border: 1px solid var(--cc-border, color-mix(in srgb, currentColor 18%, transparent));
+  border-radius: .5rem;
+  overflow: hidden;
+}
+.cc-accordion details + details {
+  border-top: 1px solid var(--cc-border, color-mix(in srgb, currentColor 18%, transparent));
+}
+.cc-accordion summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .875rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+.cc-accordion summary::-webkit-details-marker {
+  display: none;
+}
+.cc-accordion summary::after {
+  content: "";
+  flex: none;
+  width: .5rem;
+  height: .5rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  rotate: 45deg;
+  translate: 0 -2px;
+  transition: rotate .2s, translate .2s;
+}
+.cc-accordion details[open] > summary::after {
+  rotate: 225deg;
+  translate: 0 2px;
+}
+.cc-accordion summary:hover {
+  background: color-mix(in srgb, currentColor 5%, transparent);
+}
+.cc-accordion summary:focus-visible {
+  outline: 2px solid var(--cc-accent, #4f46e5);
+  outline-offset: -2px;
+}
+.cc-accordion__body {
+  padding: 0 1rem 1rem;
+}
+@supports selector(::details-content) {
+  .cc-accordion { interpolate-size: allow-keywords; }
+  .cc-accordion details::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition: block-size .25s, content-visibility .25s allow-discrete;
+  }
+  .cc-accordion details[open]::details-content { block-size: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cc-accordion summary::after,
+  .cc-accordion details::details-content { transition: none; }
+}

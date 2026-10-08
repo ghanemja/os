@@ -1,0 +1,123 @@
+/* Chips: checkbox filter chips. Tag field: a styled container for tags + text input. */
+.cc-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.cc-chips legend {
+  margin-bottom: .5rem;
+  padding: 0;
+  font-weight: 600;
+}
+.cc-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: .375rem;
+  padding: .375rem .875rem;
+  border: 1px solid var(--cc-border, color-mix(in srgb, currentColor 18%, transparent));
+  border-radius: 999px;
+  font-size: .875rem;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color .15s, border-color .15s;
+}
+.cc-chip input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: inherit;
+}
+.cc-chip::before {
+  content: "\2713";
+  content: "\2713" / "";
+  display: none;
+  font-weight: 700;
+}
+.cc-chip:hover {
+  background: color-mix(in srgb, currentColor 6%, transparent);
+}
+.cc-chip:has(input:checked) {
+  border-color: var(--cc-accent, #4f46e5);
+  background: color-mix(in srgb, var(--cc-accent, #4f46e5) 14%, transparent);
+}
+.cc-chip:has(input:checked)::before {
+  display: inline;
+}
+.cc-chip:has(input:focus-visible) {
+  outline: 2px solid var(--cc-accent, #4f46e5);
+  outline-offset: 2px;
+}
+.cc-tagfield__label {
+  display: block;
+  margin-bottom: .375rem;
+  font-weight: 600;
+}
+.cc-tagfield {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .375rem;
+  max-width: 28rem;
+  padding: .375rem;
+  border: 1px solid var(--cc-border, color-mix(in srgb, currentColor 18%, transparent));
+  border-radius: .5rem;
+  background: Canvas;
+  cursor: text;
+}
+.cc-tagfield:focus-within {
+  border-color: var(--cc-accent, #4f46e5);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--cc-accent, #4f46e5) 25%, transparent);
+}
+.cc-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: .125rem;
+  padding: .125rem .25rem .125rem .5rem;
+  border-radius: .375rem;
+  background: color-mix(in srgb, var(--cc-accent, #4f46e5) 14%, transparent);
+  font-size: .875rem;
+}
+.cc-tag__remove {
+  padding: 0 .3rem;
+  border: 0;
+  border-radius: .25rem;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1.2;
+  opacity: .7;
+  cursor: pointer;
+}
+.cc-tag__remove:hover,
+.cc-tag__remove:focus-visible {
+  background: color-mix(in srgb, currentColor 12%, transparent);
+  opacity: 1;
+}
+.cc-tag__remove:focus-visible {
+  outline: 2px solid var(--cc-accent, #4f46e5);
+}
+.cc-tagfield input {
+  flex: 1 1 8rem;
+  min-width: 6rem;
+  padding: .25rem;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cc-chip { transition: none; }
+}
+@media (forced-colors: active) {
+  .cc-chip:has(input:checked) { border: 2px solid Highlight; }
+  .cc-tagfield:focus-within { outline: 2px solid Highlight; }
+}

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Skeleton loader · css-only-components</title>
+  <meta name="description" content="Shimmering placeholder shapes shown while content loads.">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root { color-scheme: light dark; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; line-height: 1.5; }
+    body { margin: 0; background: Canvas; color: CanvasText; }
+    main { max-width: 760px; margin: 0 auto; padding: 32px 16px 64px; }
+    .demo { padding: 48px 24px 24px; border: 1px solid color-mix(in srgb, currentColor 15%, transparent); border-radius: 12px; }
+    .demo > * + * { margin-top: 16px; }
+    button { font: inherit; padding: .5rem .875rem; border-radius: .5rem; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); background: Canvas; color: CanvasText; cursor: pointer; }
+  </style>
+</head>
+<body>
+<main>
+  <p><a href="../../index.html">&larr; All components</a></p>
+  <h1>Skeleton loader</h1>
+  <p>Shimmering placeholder shapes shown while content loads. No JavaScript.</p>
+
+  <div class="demo">
+    <!-- snippet:start -->
+    <div class="cc-skeleton" aria-busy="true">
+      <span class="cc-skeleton__text">Loading profile…</span>
+      <div class="cc-skeleton__row">
+        <div class="cc-skeleton__circle"></div>
+        <div class="cc-skeleton__stack">
+          <div class="cc-skeleton__line"></div>
+          <div class="cc-skeleton__line cc-skeleton__line--short"></div>
+        </div>
+      </div>
+      <div class="cc-skeleton__block"></div>
+    </div>
+    <!-- snippet:end -->
+  </div>
+
+  <h2>Accessibility notes</h2>
+  <ul>
+    <li>Mark the loading region with <code>aria-busy="true"</code> and include real text such as "Loading…" (visually hidden here), because the shapes themselves mean nothing to a screen reader.</li>
+    <li>When the content arrives (server-rendered or streamed in), replace the skeleton and remove <code>aria-busy</code>.</li>
+    <li>The shimmer stops for reduced motion, and the shapes stay as a static placeholder.</li>
+  </ul>
+</main>
+</body>
+</html>

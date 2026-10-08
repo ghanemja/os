@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Star rating · css-only-components</title>
+  <meta name="description" content="A 1–5 star rating input made of radio buttons, with hover preview.">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root { color-scheme: light dark; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; line-height: 1.5; }
+    body { margin: 0; background: Canvas; color: CanvasText; }
+    main { max-width: 760px; margin: 0 auto; padding: 32px 16px 64px; }
+    .demo { padding: 48px 24px 24px; border: 1px solid color-mix(in srgb, currentColor 15%, transparent); border-radius: 12px; }
+    .demo > * + * { margin-top: 16px; }
+    button { font: inherit; padding: .5rem .875rem; border-radius: .5rem; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); background: Canvas; color: CanvasText; cursor: pointer; }
+  </style>
+</head>
+<body>
+<main>
+  <p><a href="../../index.html">&larr; All components</a></p>
+  <h1>Star rating</h1>
+  <p>A 1–5 star rating input made of radio buttons, with hover preview. No JavaScript.</p>
+
+  <div class="demo">
+    <!-- snippet:start -->
+    <fieldset class="cc-rating">
+      <legend>Rate this recipe</legend>
+      <div class="cc-rating__stars">
+        <input type="radio" name="cc-rating-demo" id="cc-star-1" value="1">
+        <label for="cc-star-1"><span class="cc-rating__text">1 star</span></label>
+        <input type="radio" name="cc-rating-demo" id="cc-star-2" value="2">
+        <label for="cc-star-2"><span class="cc-rating__text">2 stars</span></label>
+        <input type="radio" name="cc-rating-demo" id="cc-star-3" value="3" checked>
+        <label for="cc-star-3"><span class="cc-rating__text">3 stars</span></label>
+        <input type="radio" name="cc-rating-demo" id="cc-star-4" value="4">
+        <label for="cc-star-4"><span class="cc-rating__text">4 stars</span></label>
+        <input type="radio" name="cc-rating-demo" id="cc-star-5" value="5">
+        <label for="cc-star-5"><span class="cc-rating__text">5 stars</span></label>
+      </div>
+    </fieldset>
+    <!-- snippet:end -->
+  </div>
+
+  <h2>Accessibility notes</h2>
+  <ul>
+    <li>It is a <code>&lt;fieldset&gt;</code> of native radios with a <code>&lt;legend&gt;</code>, so it is announced as "Rate this recipe, radio group, 3 stars, 3 of 5". Arrow keys change the value.</li>
+    <li>Each label has visually hidden text ("3 stars"). The star itself is CSS-generated and hidden from assistive tech.</li>
+    <li>The hover and "fill up to" effects use <code>:has()</code> (Baseline 2023). In older browsers only the chosen star is highlighted, but the input still works.</li>
+    <li>Once a rating is picked it cannot be cleared without a reset button (<code>&lt;button type="reset"&gt;</code> inside a form works).</li>
+  </ul>
+</main>
+</body>
+</html>

@@ -1,0 +1,31 @@
+{
+  "name": "css-only-components",
+  "version": "0.1.0",
+  "description": "Tooltips, toggles, accordions, tabs and more with zero JavaScript",
+  "type": "module",
+  "main": "./css-only-components.css",
+  "style": "./css-only-components.css",
+  "exports": {
+    ".": "./css-only-components.css",
+    "./components/*": "./components/*/style.css"
+  },
+  "files": [
+    "css-only-components.css",
+    "components/*/style.css"
+  ],
+  "scripts": {
+    "build": "node scripts/build.js",
+    "check": "node scripts/build.js --check",
+    "test": "node --test"
+  },
+  "keywords": ["css", "components", "no-javascript", "html", "snippets", "ui"],
+  "author": "ghanemja",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ghanemja/css-only-components"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

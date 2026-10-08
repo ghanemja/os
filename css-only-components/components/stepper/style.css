@@ -1,0 +1,79 @@
+/* Stepper: ordered list; steps before [aria-current="step"] render as done. */
+.cc-stepper {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: cc-step;
+}
+.cc-stepper li {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  gap: .5rem;
+  color: color-mix(in srgb, currentColor 65%, transparent);
+  font-size: .875rem;
+  text-align: center;
+  counter-increment: cc-step;
+}
+.cc-stepper li::before {
+  content: counter(cc-step);
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid color-mix(in srgb, currentColor 35%, transparent);
+  border-radius: 50%;
+  background: Canvas;
+  font-weight: 600;
+}
+/* Connector line from the previous step's circle to this one */
+.cc-stepper li + li::after {
+  content: "";
+  position: absolute;
+  top: 1rem;
+  right: 50%;
+  width: 100%;
+  height: 2px;
+  background: color-mix(in srgb, currentColor 25%, transparent);
+  translate: 0 -50%;
+}
+.cc-stepper li:has(~ li[aria-current="step"]),
+.cc-stepper li[aria-current="step"] {
+  color: inherit;
+}
+.cc-stepper li:has(~ li[aria-current="step"])::before {
+  content: "\2713";
+  content: "\2713" / "";
+  border-color: var(--cc-accent, #4f46e5);
+  background: var(--cc-accent, #4f46e5);
+  color: #fff;
+}
+.cc-stepper li[aria-current="step"]::before {
+  border-color: var(--cc-accent, #4f46e5);
+  color: var(--cc-accent, #4f46e5);
+}
+.cc-stepper li[aria-current="step"] {
+  font-weight: 600;
+}
+.cc-stepper li:has(~ li[aria-current="step"])::after,
+.cc-stepper li[aria-current="step"]::after {
+  background: var(--cc-accent, #4f46e5);
+}
+.cc-stepper__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+@media (forced-colors: active) {
+  .cc-stepper li:has(~ li[aria-current="step"])::before,
+  .cc-stepper li[aria-current="step"]::before { border-color: Highlight; }
+}

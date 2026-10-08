@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chips and tag input · css-only-components</title>
+  <meta name="description" content="Toggleable filter chips (checkboxes) and the styling for a tag input field.">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root { color-scheme: light dark; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; line-height: 1.5; }
+    body { margin: 0; background: Canvas; color: CanvasText; }
+    main { max-width: 760px; margin: 0 auto; padding: 32px 16px 64px; }
+    .demo { padding: 48px 24px 24px; border: 1px solid color-mix(in srgb, currentColor 15%, transparent); border-radius: 12px; }
+    .demo > * + * { margin-top: 16px; }
+    button { font: inherit; padding: .5rem .875rem; border-radius: .5rem; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); background: Canvas; color: CanvasText; cursor: pointer; }
+  </style>
+</head>
+<body>
+<main>
+  <p><a href="../../index.html">&larr; All components</a></p>
+  <h1>Chips and tag input</h1>
+  <p>Toggleable filter chips (checkboxes) and the styling for a tag input field. No JavaScript.</p>
+
+  <div class="demo">
+    <!-- snippet:start -->
+    <fieldset class="cc-chips">
+      <legend>Filter by topic</legend>
+      <label class="cc-chip"><input type="checkbox" name="topic" value="design" checked> Design</label>
+      <label class="cc-chip"><input type="checkbox" name="topic" value="code"> Code</label>
+      <label class="cc-chip"><input type="checkbox" name="topic" value="writing"> Writing</label>
+      <label class="cc-chip"><input type="checkbox" name="topic" value="music"> Music</label>
+    </fieldset>
+
+    <label for="cc-tag-entry" class="cc-tagfield__label">Tags</label>
+    <div class="cc-tagfield">
+      <span class="cc-tag">css <button type="button" class="cc-tag__remove" aria-label="Remove css">&times;</button></span>
+      <span class="cc-tag">html <button type="button" class="cc-tag__remove" aria-label="Remove html">&times;</button></span>
+      <input id="cc-tag-entry" type="text" placeholder="Add a tag…">
+    </div>
+    <!-- snippet:end -->
+  </div>
+
+  <h2>Accessibility notes</h2>
+  <ul>
+    <li>Filter chips are real checkboxes inside a <code>&lt;fieldset&gt;</code>, so they work with keyboard, screen readers and plain form submission. The checkmark is decoration; the state is announced as checked or not checked.</li>
+    <li>The tag field is <strong>styling only</strong>. Adding a tag on <kbd>Enter</kbd> or removing one needs JavaScript, or a server round trip: inside a <code>&lt;form&gt;</code>, make the remove buttons <code>type="submit" name="remove" value="css"</code>.</li>
+    <li>Each remove button needs its own label (for example <code>aria-label="Remove css"</code>). "×" alone means nothing to a screen reader.</li>
+    <li>The highlight for the selected state uses <code>:has()</code> (Baseline 2023). In older browsers the chips still work but show no highlight.</li>
+  </ul>
+</main>
+</body>
+</html>

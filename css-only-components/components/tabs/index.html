@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tabs · css-only-components</title>
+  <meta name="description" content="Radio-button tabs: one visible panel at a time, up to six tabs.">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root { color-scheme: light dark; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; line-height: 1.5; }
+    body { margin: 0; background: Canvas; color: CanvasText; }
+    main { max-width: 760px; margin: 0 auto; padding: 32px 16px 64px; }
+    .demo { padding: 48px 24px 24px; border: 1px solid color-mix(in srgb, currentColor 15%, transparent); border-radius: 12px; }
+    .demo > * + * { margin-top: 16px; }
+    button { font: inherit; padding: .5rem .875rem; border-radius: .5rem; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); background: Canvas; color: CanvasText; cursor: pointer; }
+  </style>
+</head>
+<body>
+<main>
+  <p><a href="../../index.html">&larr; All components</a></p>
+  <h1>Tabs</h1>
+  <p>Radio-button tabs: one visible panel at a time, up to six tabs. No JavaScript.</p>
+
+  <div class="demo">
+    <!-- snippet:start -->
+    <div class="cc-tabs">
+      <input type="radio" name="cc-tabs-demo" id="cc-tab-1" checked>
+      <label for="cc-tab-1">Overview</label>
+      <input type="radio" name="cc-tabs-demo" id="cc-tab-2">
+      <label for="cc-tab-2">Specs</label>
+      <input type="radio" name="cc-tabs-demo" id="cc-tab-3">
+      <label for="cc-tab-3">Reviews</label>
+
+      <div class="cc-tabs__panel">A lightweight jacket for spring.</div>
+      <div class="cc-tabs__panel">Weight: 240 g. Fabric: recycled nylon.</div>
+      <div class="cc-tabs__panel">★★★★☆ "Warmer than it looks."</div>
+    </div>
+    <!-- snippet:end -->
+  </div>
+
+  <h2>Accessibility notes</h2>
+  <ul>
+    <li>Screen readers announce these as a radio group, not as tabs, because they are radios. That is honest and usable, but it is not the WAI-ARIA tabs pattern. Adding <code>role="tab"</code> without JavaScript would promise keyboard behavior that is not there.</li>
+    <li>Arrow keys move between tabs and select them right away (native radio behavior). <kbd>Tab</kbd> then moves into the panel content.</li>
+    <li>Hidden panels use <code>display: none</code>, so their content is not read and find-in-page skips it.</li>
+    <li>Markup order matters: all <code>input</code>+<code>label</code> pairs first, then the panels (as <code>div</code>s) in the same order. Each tab group needs a unique radio <code>name</code>.</li>
+  </ul>
+</main>
+</body>
+</html>

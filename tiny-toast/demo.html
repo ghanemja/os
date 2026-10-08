@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>tiny-toast demo</title>
+  <style>
+    :root { color-scheme: light dark; font-family: system-ui, sans-serif; }
+    body { max-width: 720px; margin: 40px auto; padding: 0 16px; line-height: 1.5; }
+    fieldset { border: 1px solid color-mix(in srgb, currentColor 20%, transparent); border-radius: 10px; margin: 0 0 16px; padding: 12px 16px 16px; }
+    legend { font-weight: 600; padding: 0 4px; }
+    button, select { font: inherit; padding: 6px 12px; margin: 4px 4px 0 0; border-radius: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); background: Canvas; color: CanvasText; cursor: pointer; }
+    label { margin-right: 12px; }
+    code { font-size: .9em; }
+  </style>
+</head>
+<body>
+  <h1>tiny-toast</h1>
+  <p>One-file toast notifications. Hover a toast to pause it; press <kbd>Esc</kbd> while it is focused to dismiss.</p>
+
+  <fieldset>
+    <legend>Types</legend>
+    <button data-type="info">Info</button>
+    <button data-type="success">Success</button>
+    <button data-type="warning">Warning</button>
+    <button data-type="error">Error</button>
+  </fieldset>
+
+  <fieldset>
+    <legend>Options</legend>
+    <label>Position
+      <select id="position">
+        <option>top-left</option><option>top-center</option><option>top-right</option>
+        <option>bottom-left</option><option>bottom-center</option><option selected>bottom-right</option>
+      </select>
+    </label>
+    <label>Duration
+      <select id="duration">
+        <option value="2000">2 s</option><option value="4000" selected>4 s</option>
+        <option value="8000">8 s</option><option value="0">sticky</option>
+      </select>
+    </label>
+    <label><input type="checkbox" id="dismissible" checked> dismissible</label>
+  </fieldset>
+
+  <fieldset>
+    <legend>More</legend>
+    <button id="undo">With action (Undo)</button>
+    <button id="burst">Queue 6 at once</button>
+    <button id="clear">Dismiss all</button>
+  </fieldset>
+
+  <script type="module">
+    import toast from './tiny-toast.js';
+
+    const $ = (id) => document.getElementById(id);
+    const sync = () => toast.configure({
+      position: $('position').value,
+      duration: Number($('duration').value),
+      dismissible: $('dismissible').checked,
+    });
+    ['position', 'duration', 'dismissible'].forEach((id) => $(id).addEventListener('change', sync));
+    sync();
+
+    const messages = {
+      info: 'A new version is available.',
+      success: 'Changes saved.',
+      warning: 'Your session expires in 2 minutes.',
+      error: 'Upload failed. Check your connection.',
+    };
+    document.querySelectorAll('[data-type]').forEach((btn) =>
+      btn.addEventListener('click', () => toast[btn.dataset.type](messages[btn.dataset.type])));
+
+    $('undo').addEventListener('click', () => toast('Message deleted.', {
+      action: { label: 'Undo', onClick: () => toast.success('Restored.') },
+    }));
+    $('burst').addEventListener('click', () => {
+      for (let i = 1; i <= 6; i++) toast(`Toast #${i} (3 visible at a time, the rest queue)`);
+    });
+    $('clear').addEventListener('click', () => toast.dismissAll());
+  </script>
+</body>
+</html>

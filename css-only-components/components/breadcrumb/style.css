@@ -1,0 +1,43 @@
+/* Breadcrumb: ordered list with generated separators. */
+.cc-breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .375rem;
+  margin: 0;
+  padding: 0;
+  font-size: .875rem;
+  list-style: none;
+}
+.cc-breadcrumb li {
+  display: inline-flex;
+  align-items: center;
+  gap: .375rem;
+}
+.cc-breadcrumb li + li::before {
+  content: "/";
+  content: "/" / "";
+  opacity: .45;
+}
+.cc-breadcrumb--chevron li + li::before {
+  content: "\203A";
+  content: "\203A" / "";
+}
+.cc-breadcrumb a {
+  color: color-mix(in srgb, currentColor 72%, transparent);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: .2em;
+  border-radius: .125rem;
+}
+.cc-breadcrumb a:hover {
+  color: inherit;
+  text-decoration-color: currentColor;
+}
+.cc-breadcrumb a:focus-visible {
+  outline: 2px solid var(--cc-accent, #4f46e5);
+  outline-offset: 2px;
+}
+.cc-breadcrumb [aria-current="page"] {
+  font-weight: 600;
+}
