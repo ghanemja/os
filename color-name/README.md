@@ -1,5 +1,9 @@
 # color-name
 
+**Live demo:** https://ghanemja.github.io/color-name/
+
+[![color-name demo site](docs/screenshot.png)](https://ghanemja.github.io/color-name/)
+
 Hex in, human color name out.
 
 ```js

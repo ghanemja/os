@@ -1,5 +1,9 @@
 # relative-time
 
+**Live demo:** https://ghanemja.github.io/relative-time/
+
+[![relative-time demo site](docs/screenshot.png)](https://ghanemja.github.io/relative-time/)
+
 "3 minutes ago" in any language. A tiny wrapper around
 [`Intl.RelativeTimeFormat`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Intl/RelativeTimeFormat)
 that picks the right unit for you, handles past and future dates, and has zero dependencies.
