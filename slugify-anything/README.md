@@ -1,5 +1,9 @@
 # slugify-anything
 
+**Live demo:** https://ghanemja.github.io/slugify-anything/
+
+[![slugify-anything demo site](docs/screenshot.png)](https://ghanemja.github.io/slugify-anything/)
+
 URL slugs that survive emoji, accents and non-Latin scripts. Zero dependencies, one file.
 
 ```js

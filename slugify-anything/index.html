@@ -1,0 +1,818 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>slugify-anything — URL slugs that survive anything</title>
+  <meta name="description" content="Turn any string into a clean URL slug. Emoji, accents, Greek, Cyrillic, Turkish İ, CJK and ZWJ sequences included. Zero dependencies, one file.">
+  <meta name="theme-color" content="#f5f2ea">
+  <meta property="og:title" content="slugify-anything: URL slugs that survive anything">
+  <meta property="og:description" content="Crème brûlée, Привет, 🦄 and Straße all become clean URLs. Try it live: type in the address bar.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ghanemja.github.io/slugify-anything/">
+  <meta property="og:image" content="https://ghanemja.github.io/slugify-anything/docs/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="slugify-anything: URL slugs that survive anything">
+  <meta name="twitter:description" content="Emoji, accents and non-Latin scripts in, clean URL slugs out. Zero dependencies.">
+  <meta name="twitter:image" content="https://ghanemja.github.io/slugify-anything/docs/og.png">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2317161a'/%3E%3Crect x='10' y='34' width='44' height='14' rx='3' fill='%23ffe14a'/%3E%3Cpath d='M38 12 24 52' stroke='%23fffdf8' stroke-width='7' stroke-linecap='round'/%3E%3C/svg%3E">
+  <script>
+    (function () {
+      var t;
+      try { t = localStorage.getItem('sa-theme'); } catch (e) {}
+      if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+  <style>
+    :root {
+      --bg: #f5f2ea; --paper: #fffdf8; --ink: #17161a; --muted: #69665f; --line: #e1dccf; --line-strong: #cbc4b3;
+      --hl: #ffe14a; --hl-soft: rgb(255 225 74 / .45); --hl-ink: #17161a; --accent: #2445d6; --bad: #c6370b; --good: #17794b;
+      --chrome: #e9e5da; --chrome-2: #dcd7ca; --shadow: 0 1px 0 rgb(0 0 0 / .04), 0 30px 60px -30px rgb(40 30 10 / .35);
+      --serif: 'Instrument Serif', 'Iowan Old Style', Georgia, serif;
+      --sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+      --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      color-scheme: light;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #111214; --paper: #191a1e; --ink: #eceae4; --muted: #9b988f; --line: #2a2b30; --line-strong: #3a3b42;
+        --hl: #ffd60a; --hl-soft: rgb(255 214 10 / .22); --accent: #8ea4ff; --bad: #ff8a65; --good: #5fd39a;
+        --chrome: #202126; --chrome-2: #2a2b31; --shadow: 0 1px 0 rgb(255 255 255 / .03), 0 30px 60px -30px rgb(0 0 0 / .8);
+        color-scheme: dark;
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg: #111214; --paper: #191a1e; --ink: #eceae4; --muted: #9b988f; --line: #2a2b30; --line-strong: #3a3b42;
+      --hl: #ffd60a; --hl-soft: rgb(255 214 10 / .22); --accent: #8ea4ff; --bad: #ff8a65; --good: #5fd39a;
+      --chrome: #202126; --chrome-2: #2a2b31; --shadow: 0 1px 0 rgb(255 255 255 / .03), 0 30px 60px -30px rgb(0 0 0 / .8);
+      color-scheme: dark;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 5rem; -webkit-text-size-adjust: 100%; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 400 16px/1.6 var(--sans); overflow-x: clip; transition: background-color .25s, color .25s; }
+    a { color: inherit; }
+    button, input, select, textarea { font: inherit; color: inherit; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+    @media (min-width: 720px) { .wrap { padding: 0 28px; } }
+    code, pre, kbd { font-family: var(--mono); }
+    :not(pre) > code { font-size: .88em; padding: .08em .35em; border-radius: 4px; background: var(--chrome); }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    mark { background: linear-gradient(transparent 12%, var(--hl) 12%, var(--hl) 88%, transparent 88%); color: var(--hl-ink); padding: 0 .12em; }
+
+    /* ---------- top bar ---------- */
+    .topbar { position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(12px) saturate(1.4); -webkit-backdrop-filter: blur(12px) saturate(1.4); border-bottom: 1px solid var(--line); }
+    .topbar .wrap { display: flex; align-items: center; gap: 1rem; height: 60px; }
+    .brand { display: flex; align-items: center; gap: .55rem; text-decoration: none; font: 600 1rem/1 var(--mono); letter-spacing: -.02em; white-space: nowrap; }
+    .brand svg { width: 26px; height: 26px; flex: none; }
+    .nav { display: flex; gap: .25rem; margin: 0 0 0 auto; padding: 0; list-style: none; }
+    .nav a { display: block; padding: .4rem .65rem; border-radius: 999px; text-decoration: none; font-size: .9rem; color: var(--muted); }
+    .nav a:hover { color: var(--ink); background: var(--chrome); }
+    .tools { display: flex; gap: .4rem; margin-left: .5rem; }
+    .icon-btn { display: inline-grid; place-items: center; width: 38px; height: 38px; border-radius: 10px; border: 1px solid var(--line); background: var(--paper); cursor: pointer; text-decoration: none; }
+    .icon-btn:hover { border-color: var(--line-strong); }
+    .icon-btn svg { width: 18px; height: 18px; }
+    .theme-icon-dark { display: none; }
+    [data-theme="dark"] .theme-icon-dark { display: block; }
+    [data-theme="dark"] .theme-icon-light { display: none; }
+    @media (max-width: 860px) { .nav { display: none; } .tools { margin-left: auto; } }
+
+    /* ---------- hero ---------- */
+    .hero { padding: 3.25rem 0 2.5rem; }
+    .kicker { display: inline-flex; flex-wrap: wrap; gap: .5rem; align-items: center; margin: 0 0 1.1rem; font: 500 .78rem/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+    .kicker span { padding: .35rem .55rem; border: 1px solid var(--line-strong); border-radius: 999px; }
+    .hero h1 { margin: 0; font: 400 clamp(2.7rem, 8.6vw, 6.4rem)/.92 var(--serif); letter-spacing: -.025em; }
+    .hero__row { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 1rem 3rem; align-items: end; margin: 1.3rem 0 1.8rem; }
+    @media (max-width: 820px) { .hero__row { grid-template-columns: minmax(0, 1fr); } }
+    .hero h1 em { font-style: italic; }
+    .hero__lede { max-width: 36rem; margin: 0; font-size: clamp(1.02rem, 2vw, 1.18rem); color: var(--muted); }
+    .hero__lede b { color: var(--ink); font-weight: 500; }
+
+    .browser { position: relative; border: 1px solid var(--line-strong); border-radius: 14px; background: var(--paper); box-shadow: var(--shadow); overflow: hidden; }
+    .browser__tabs { display: flex; align-items: flex-end; gap: .75rem; padding: .6rem .8rem 0; background: var(--chrome-2); }
+    .dots { display: flex; gap: 7px; padding-bottom: .65rem; flex: none; }
+    .dots i { width: 12px; height: 12px; border-radius: 50%; background: #ff5f57; }
+    .dots i:nth-child(2) { background: #febc2e; } .dots i:nth-child(3) { background: #28c840; }
+    .tab { display: flex; align-items: center; gap: .5rem; min-width: 0; max-width: 260px; padding: .5rem .85rem; border-radius: 9px 9px 0 0; background: var(--chrome); font-size: .8rem; }
+    .tab span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .tab svg { width: 14px; height: 14px; flex: none; }
+    .browser__nav { display: flex; align-items: center; gap: .6rem; padding: .55rem .7rem; background: var(--chrome); border-bottom: 1px solid var(--line); }
+    .navbtns { display: flex; gap: .35rem; color: var(--muted); flex: none; }
+    .navbtns svg { width: 16px; height: 16px; }
+    @media (max-width: 520px) { .navbtns { display: none; } .url { border-radius: 12px; } }
+    .url { flex: 1; min-width: 0; display: flex; align-items: center; gap: .5rem; padding: .55rem .8rem; border-radius: 999px; background: var(--paper); border: 1px solid var(--line); font: 400 clamp(.82rem, 2.2vw, 1.05rem)/1.4 var(--mono); }
+    .url > svg { width: 14px; height: 14px; flex: none; color: var(--good); }
+    .url__text { min-width: 0; overflow-wrap: anywhere; }
+    .url__host { color: var(--muted); }
+    .url__slug { color: var(--ink); font-weight: 500; }
+    .url__slug ruby { ruby-position: over; }
+    .url__slug .t { position: relative; border-radius: 3px; background: linear-gradient(transparent 55%, var(--hl-soft) 55%); }
+    .url__slug rt { font: 500 .62em/1 var(--sans); color: var(--muted); letter-spacing: .02em; padding-bottom: 2px; }
+    .url__slug .pop { animation: pop .9s cubic-bezier(.2, .8, .2, 1); }
+    .url__slug .pop rt { animation: drop .6s cubic-bezier(.2, .8, .2, 1); }
+    .url__slug .empty { color: var(--muted); font-style: italic; font-weight: 400; }
+    @keyframes pop { 0% { background: var(--hl); transform: translateY(-3px) scale(1.12); } 60% { background: var(--hl); transform: none; } 100% { background: linear-gradient(transparent 55%, var(--hl-soft) 55%); } }
+    @keyframes drop { 0% { opacity: 0; transform: translateY(-6px); } 100% { opacity: 1; transform: none; } }
+    .copy-url { flex: none; }
+    .browser__page { padding: clamp(1.1rem, 3vw, 2rem) clamp(1rem, 3vw, 2rem) 1.5rem; }
+    .field-label { display: block; margin-bottom: .35rem; font: 500 .75rem/1 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+    .title-input { display: block; width: 100%; resize: none; overflow: hidden; border: 0; border-bottom: 2px dashed var(--line-strong); padding: .1rem 0 .35rem; background: transparent; font: 400 clamp(1.7rem, 5.4vw, 3.1rem)/1.12 var(--serif); letter-spacing: -.01em; }
+    .title-input:focus { outline: none; border-bottom-color: var(--accent); }
+    .ledger { display: flex; flex-wrap: wrap; gap: .4rem; min-height: 2rem; margin-top: 1rem; }
+    .chip { display: inline-flex; align-items: center; gap: .35rem; padding: .25rem .55rem; border-radius: 6px; border: 1px solid var(--line); background: var(--bg); font: 400 .82rem/1.3 var(--mono); max-width: 100%; }
+    .chip b { font-weight: 500; overflow-wrap: anywhere; }
+    .chip .arrow { color: var(--muted); }
+    .chip .to { background: var(--hl); color: var(--hl-ink); padding: 0 .25rem; border-radius: 3px; }
+    .ledger__empty { font-size: .85rem; color: var(--muted); }
+    .hero__try { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; margin: 0; font-size: .85rem; color: var(--muted); }
+    .pill { padding: .35rem .7rem; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--paper); cursor: pointer; font-size: .85rem; }
+    .pill:hover { border-color: var(--ink); }
+    .pill[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+    /* ---------- sections ---------- */
+    section { padding: 4.5rem 0 1rem; }
+    .eyebrow { margin: 0 0 .6rem; font: 500 .78rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+    h2 { margin: 0 0 .7rem; font: 400 clamp(2.1rem, 5.4vw, 3.4rem)/1 var(--serif); letter-spacing: -.015em; }
+    h2 em { font-style: italic; }
+    .lede { max-width: 40rem; margin: 0 0 2rem; color: var(--muted); font-size: 1.05rem; }
+    .card { border: 1px solid var(--line); border-radius: 14px; background: var(--paper); }
+
+    /* torture wall */
+    .wall { display: grid; grid-auto-flow: dense; grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr)); gap: .85rem; }
+    .spec { display: grid; gap: .6rem; align-content: start; text-align: left; padding: 1rem 1.1rem 1.05rem; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); cursor: pointer; transition: transform .18s, border-color .18s, box-shadow .18s; min-width: 0; }
+    .spec:hover { transform: translateY(-2px); border-color: var(--line-strong); box-shadow: 0 12px 24px -18px rgb(0 0 0 / .4); }
+    .spec__head { display: flex; justify-content: space-between; gap: .5rem; font: 500 .7rem/1 var(--mono); letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+    .spec__head .loc { color: var(--accent); }
+    .spec__in { font: 400 1.65rem/1.12 var(--serif); overflow-wrap: anywhere; }
+    .spec__out { font: 500 .82rem/1.35 var(--mono); overflow-wrap: anywhere; }
+    .spec__out::before { content: "→ "; color: var(--muted); }
+    .spec__out .hl { background: var(--hl); color: var(--hl-ink); border-radius: 2px; }
+    .spec.wide { grid-column: span 2; }
+    @media (max-width: 560px) { .wall { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; } .spec { padding: .8rem .85rem; } .spec__in { font-size: 1.25rem; } .spec__out { font-size: .74rem; } }
+
+    /* options */
+    .opts { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 1.25rem; align-items: start; }
+    @media (max-width: 860px) { .opts { grid-template-columns: minmax(0, 1fr); } }
+    .controls { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.1rem; padding: 1.3rem; min-width: 0; }
+    .ctrl { display: grid; gap: .45rem; }
+    .ctrl > .field-label { margin: 0; }
+    .seg { display: flex; flex-wrap: wrap; gap: .35rem; }
+    .seg button { min-width: 2.6rem; padding: .4rem .7rem; border: 1px solid var(--line-strong); border-radius: 8px; background: var(--bg); cursor: pointer; font: 500 .9rem/1.2 var(--mono); }
+    .seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+    .seg input { width: 5.5rem; padding: .4rem .55rem; border: 1px solid var(--line-strong); border-radius: 8px; background: var(--bg); font: 500 .9rem/1.2 var(--mono); }
+    .switches { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: .6rem; }
+    .switch { display: flex; align-items: center; justify-content: space-between; gap: .75rem; padding: .6rem .75rem; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); cursor: pointer; font-size: .9rem; }
+    .switch input { appearance: none; -webkit-appearance: none; position: relative; width: 38px; height: 22px; flex: none; margin: 0; border-radius: 999px; background: var(--line-strong); cursor: pointer; transition: background .2s; }
+    .switch input::after { content: ""; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--paper); transition: transform .2s; }
+    .switch input:checked { background: var(--accent); }
+    .switch input:checked::after { transform: translateX(16px); }
+    select { padding: .45rem .6rem; border: 1px solid var(--line-strong); border-radius: 8px; background: var(--bg); }
+    .live { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; padding: 1.3rem; min-width: 0; }
+    .ruler-wrap { overflow-x: auto; padding: 2.2rem 0 1.4rem; scrollbar-width: thin; }
+    .ruler { position: relative; display: inline-flex; min-width: 100%; font: 500 1.15rem/1 var(--mono); cursor: ew-resize; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+    .ruler span { position: relative; display: inline-grid; place-items: center; width: .62em; height: 2.1em; border-bottom: 2px solid var(--line-strong); flex: none; }
+    .ruler span.keep { background: color-mix(in srgb, var(--good) 14%, transparent); border-bottom-color: var(--good); }
+    .ruler span.slack { background: repeating-linear-gradient(-45deg, transparent 0 4px, color-mix(in srgb, var(--hl) 60%, transparent) 4px 7px); border-bottom-color: var(--hl); }
+    .ruler span.cut { color: var(--muted); opacity: .45; text-decoration: line-through; }
+    .ruler span.sep { color: var(--muted); }
+    .ruler span[data-n]::after { content: attr(data-n); position: absolute; top: 100%; left: 0; margin-top: 4px; font: 400 .6rem/1 var(--mono); color: var(--muted); }
+    .ruler span[data-n]::before { content: ""; position: absolute; left: 0; bottom: -6px; height: 5px; border-left: 1px solid var(--line-strong); }
+    .cutoff.start::before { right: auto; left: 0; }
+    .cutoff { position: absolute; top: -1.9rem; bottom: -.3rem; width: 2px; background: var(--bad); pointer-events: none; transition: left .12s; }
+    .cutoff::before { content: attr(data-label); position: absolute; top: 0; right: 0; padding: .2rem .4rem; border-radius: 5px; background: var(--bad); color: #fff; font: 600 .7rem/1 var(--mono); white-space: nowrap; }
+    .legend { display: flex; flex-wrap: wrap; gap: .9rem; font-size: .8rem; color: var(--muted); }
+    .legend i { display: inline-block; width: .9rem; height: .9rem; margin-right: .35rem; vertical-align: -2px; border-radius: 3px; }
+    .legend .k { background: color-mix(in srgb, var(--good) 30%, transparent); }
+    .legend .s { background: repeating-linear-gradient(-45deg, transparent 0 3px, var(--hl) 3px 5px); }
+    .legend .c { border: 1px dashed var(--muted); }
+    input[type="range"] { width: 100%; accent-color: var(--accent); }
+    .codeblock { margin: 0; padding: 1rem 3rem 1rem 1rem; border-radius: 10px; background: #17161a; color: #ecebe6; font: 400 .85rem/1.6 var(--mono); overflow-x: auto; white-space: pre; }
+    [data-theme="dark"] .codeblock { background: #0b0b0d; border: 1px solid var(--line); }
+    .codeblock .s { color: #ffd479; } .codeblock .k { color: #9fb3ff; } .codeblock .c { color: #8a877f; } .codeblock .r { color: #7ee2a8; }
+    .code { position: relative; min-width: 0; }
+    .copy { position: absolute; top: .5rem; right: .5rem; display: grid; place-items: center; width: 32px; height: 32px; border: 1px solid rgb(255 255 255 / .16); border-radius: 8px; background: rgb(255 255 255 / .06); color: #ecebe6; cursor: pointer; }
+    .copy:hover { background: rgb(255 255 255 / .14); }
+    .copy svg { width: 15px; height: 15px; }
+    .out-big { padding: .8rem 1rem; border-radius: 10px; background: var(--bg); border: 1px solid var(--line); font: 500 1rem/1.4 var(--mono); overflow-wrap: anywhere; }
+    .out-big small { display: block; margin-bottom: .25rem; font: 500 .7rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+    /* versus */
+    .vs-head, .vs-row { display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: 1rem; align-items: center; padding: .85rem 1.1rem; }
+    .vs-head { font: 500 .72rem/1.2 var(--mono); letter-spacing: .07em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--line); }
+    .vs-head code { text-transform: none; letter-spacing: 0; font-size: .95em; }
+    .vs-row + .vs-row { border-top: 1px solid var(--line); }
+    .vs-in { font: 400 1.35rem/1.15 var(--serif); overflow-wrap: anywhere; }
+    .vs-in input { width: 100%; padding: .45rem .6rem; border: 1px solid var(--line-strong); border-radius: 8px; background: var(--bg); font: 400 1.1rem/1.2 var(--serif); }
+    .vs-out { display: flex; align-items: flex-start; gap: .5rem; font: 500 .88rem/1.4 var(--mono); overflow-wrap: anywhere; min-width: 0; }
+    .vs-out > span:last-child { min-width: 0; }
+    .badge { flex: none; display: inline-grid; place-items: center; width: 1.25rem; height: 1.25rem; border-radius: 50%; font: 700 .72rem/1 var(--sans); color: #fff; }
+    .bad .badge { background: var(--bad); } .good .badge { background: var(--good); }
+    .bad { color: var(--bad); }
+    .vs-out .why { display: block; font: 400 .74rem/1.3 var(--sans); color: var(--muted); }
+    .vs-row.mine { background: color-mix(in srgb, var(--hl) 12%, transparent); }
+    .score { display: flex; flex-wrap: wrap; gap: 1rem 2rem; margin-top: 1rem; font-size: .95rem; }
+    .score b { font: 400 2.2rem/1 var(--serif); margin-right: .35rem; }
+    .score .bad b { color: var(--bad); } .score .good b { color: var(--good); }
+    @media (max-width: 680px) {
+      .vs-head { display: none; }
+      .vs-row { grid-template-columns: 1fr; gap: .45rem; }
+      .vs-out::after { content: attr(data-who); order: -1; flex: none; width: 4.2rem; font: 500 .66rem/1.7 var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+    }
+
+    /* emoji */
+    .emoji-tools { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; margin-bottom: 1rem; }
+    .search { flex: 1 1 220px; display: flex; align-items: center; gap: .5rem; padding: .55rem .85rem; border: 1px solid var(--line-strong); border-radius: 10px; background: var(--paper); }
+    .search svg { width: 16px; height: 16px; color: var(--muted); flex: none; }
+    .search input { flex: 1; min-width: 0; border: 0; background: transparent; outline: none; }
+    .count { font: 500 .85rem/1 var(--mono); color: var(--muted); }
+    .emoji-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: .5rem; max-height: 440px; overflow-y: auto; padding: .75rem; border: 1px solid var(--line); border-radius: 14px; background: var(--paper); overscroll-behavior: contain; }
+    .emo { display: grid; gap: .3rem; justify-items: center; padding: .7rem .4rem .6rem; border: 1px solid transparent; border-radius: 10px; background: var(--bg); cursor: pointer; min-width: 0; }
+    .emo:hover { border-color: var(--line-strong); }
+    .emo .g { font-size: 1.7rem; line-height: 1.1; }
+    .emo .n { max-width: 100%; font: 400 .74rem/1.25 var(--mono); color: var(--muted); text-align: center; overflow-wrap: anywhere; }
+    .flags { display: flex; flex-wrap: wrap; gap: .45rem; align-items: center; margin-top: 1rem; font-size: .9rem; color: var(--muted); }
+    .no-match { grid-column: 1 / -1; padding: 2rem; text-align: center; color: var(--muted); }
+
+    /* get started */
+    .start { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 1rem; }
+    .start .step:first-child { grid-column: 1 / -1; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); align-items: center; }
+    .start .step:first-child .codeblock { font-size: 1rem; }
+    @media (max-width: 760px) { .start .step:first-child { grid-template-columns: minmax(0, 1fr); } }
+    .step { display: grid; gap: .8rem; align-content: start; padding: 1.3rem; min-width: 0; }
+    .step h3 { margin: 0 0 .5rem; font: 400 1.6rem/1.1 var(--serif); }
+    .step h3 span { font: 500 .75rem/1 var(--mono); color: var(--accent); margin-right: .5rem; vertical-align: .35em; }
+    .step p { margin: 0; color: var(--muted); font-size: .95rem; }
+
+    footer { margin-top: 5rem; padding: 2.5rem 0 3rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .9rem; }
+    footer .wrap { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: center; }
+    footer p { margin: 0; }
+
+    .toast { position: fixed; left: 50%; bottom: 1.5rem; z-index: 50; transform: translate(-50%, 1rem); opacity: 0; pointer-events: none; padding: .6rem 1rem; border-radius: 10px; background: var(--ink); color: var(--bg); font-size: .9rem; transition: opacity .2s, transform .2s; max-width: calc(100vw - 32px); }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="sr-only" href="#main">Skip to content</a>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="#top" aria-label="slugify-anything home">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="currentColor"/><rect x="10" y="34" width="44" height="14" rx="3" fill="#ffe14a"/><path d="M38 12 24 52" stroke="var(--bg)" stroke-width="7" stroke-linecap="round"/></svg>
+        slugify-anything
+      </a>
+      <ul class="nav">
+        <li><a href="#torture">Torture test</a></li>
+        <li><a href="#options">Options</a></li>
+        <li><a href="#versus">vs. regex</a></li>
+        <li><a href="#emoji">Emoji</a></li>
+        <li><a href="#start">Get started</a></li>
+      </ul>
+      <div class="tools">
+        <button class="icon-btn" id="theme" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="theme-icon-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+          <svg class="theme-icon-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+        <a class="icon-btn" href="https://github.com/ghanemja/slugify-anything" aria-label="slugify-anything on GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.26 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="wrap" id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <p class="kicker"><span>Zero dependencies</span><span>One file</span><span>MIT</span></p>
+        <h1 id="hero-title">URL slugs that<br>survive <em>anything.</em></h1>
+        <div class="hero__row">
+        <p class="hero__lede">Type a title in any language. Watch it become a clean URL, with every transformed character <mark>highlighted</mark> and its original shown above it. <b>é→e, ß→ss, 🦄→unicorn, Привет→privet.</b></p>
+          <div class="hero__try" role="group" aria-label="Try an example">
+            <span>Try:</span>
+            <button class="pill" type="button" data-try="Αθήνα: Ένας οδηγός για 48 ώρες">Greek</button>
+            <button class="pill" type="button" data-try="Как я выучил JavaScript за 30 дней">Cyrillic</button>
+            <button class="pill" type="button" data-try="Ölmühle in Düsseldorf" data-locale="de">German</button>
+            <button class="pill" type="button" data-try="İSTANBUL’da IŞIK festivali" data-locale="tr">Turkish</button>
+            <button class="pill" type="button" data-try="👩‍💻 Shipping v2.0 🚀 🇯🇵">Emoji</button>
+            <button class="pill" type="button" id="shuffle">Surprise me</button>
+          </div>
+        </div>
+
+        <div class="browser">
+          <div class="browser__tabs" aria-hidden="true">
+            <span class="dots"><i></i><i></i><i></i></span>
+            <div class="tab"><svg viewBox="0 0 16 16"><rect width="16" height="16" rx="4" fill="currentColor" opacity=".18"/><path d="M5 11h6M5 8h6M5 5h4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg><span id="tab-title">My blog</span></div>
+          </div>
+          <div class="browser__nav">
+            <span class="navbtns" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity=".4"><path d="M9 18l6-6-6-6"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg>
+            </span>
+            <div class="url">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+              <output class="url__text" id="url" for="title" aria-live="polite" aria-label="Resulting URL"><span class="url__host">example.com/blog/</span><span class="url__slug" id="slug"></span></output>
+            </div>
+            <button class="icon-btn copy-url" type="button" id="copy-url" aria-label="Copy slug">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+            </button>
+          </div>
+          <div class="browser__page">
+            <label class="field-label" for="title">Post title &middot; type anything</label>
+            <textarea class="title-input" id="title" rows="1" spellcheck="false" autocomplete="off">I ❤️ Crème Brûlée, Привет &amp; Straße 🦄</textarea>
+            <div class="ledger" id="ledger" aria-label="What became what"></div>
+          </div>
+        </div>
+
+      </section>
+    </div>
+
+    <div class="wrap">
+      <section id="torture" aria-labelledby="torture-title">
+        <p class="eyebrow">01 · Torture test</p>
+        <h2 id="torture-title">Throw your <em>worst</em> at it.</h2>
+        <p class="lede">Every card is live: the output below each input is <code>slugify()</code> running in your browser right now, with the current options. Click one to load it into the address bar.</p>
+        <div class="wall" id="wall"></div>
+      </section>
+
+      <section id="options" aria-labelledby="options-title">
+        <p class="eyebrow">02 · Options</p>
+        <h2 id="options-title">Every knob, <em>live.</em></h2>
+        <p class="lede">These options drive the address bar above too. Drag the red cutoff on the ruler to set <code>maxLength</code>: the slug is cut at the last whole word that fits, never mid-word.</p>
+        <div class="opts">
+          <div class="card controls">
+            <div class="ctrl">
+              <span class="field-label" id="sep-label">separator</span>
+              <div class="seg" role="group" aria-labelledby="sep-label" id="sep">
+                <button type="button" data-sep="-" aria-pressed="true">-</button>
+                <button type="button" data-sep="_" aria-pressed="false">_</button>
+                <button type="button" data-sep="." aria-pressed="false">.</button>
+                <button type="button" data-sep="~" aria-pressed="false">~</button>
+                <button type="button" data-sep="" aria-pressed="false" aria-label="no separator">none</button>
+                <input id="sep-custom" maxlength="4" placeholder="custom" aria-label="Custom separator">
+              </div>
+            </div>
+            <div class="switches">
+              <label class="switch"><span><code>lowercase</code></span><input type="checkbox" id="opt-lower" checked></label>
+              <label class="switch"><span><code>emoji</code> names</span><input type="checkbox" id="opt-emoji" checked></label>
+              <label class="switch"><span><code>unicode</code> keep</span><input type="checkbox" id="opt-unicode" checked></label>
+            </div>
+            <div class="ctrl">
+              <label class="field-label" for="opt-locale">locale</label>
+              <select id="opt-locale">
+                <option value="">none (default rules)</option>
+                <option value="de">de: ä→ae ö→oe ü→ue</option>
+                <option value="da">da / nb: æ→ae ø→oe å→aa</option>
+                <option value="uk">uk: Ukrainian г→h и→y</option>
+                <option value="bg">bg: Bulgarian щ→sht</option>
+                <option value="tr">tr: Turkish lowercasing</option>
+              </select>
+            </div>
+            <div class="ctrl">
+              <label class="field-label" for="opt-max">maxLength: <span id="max-val">off</span></label>
+              <input type="range" id="opt-max" min="0" max="60" value="0" aria-describedby="max-help">
+              <span id="max-help" class="sr-only">0 means unlimited. Cuts on word boundaries.</span>
+            </div>
+          </div>
+
+          <div class="card live">
+            <div>
+              <span class="field-label">maxLength ruler · drag to cut</span>
+              <div class="ruler-wrap" id="ruler-wrap">
+                <div class="ruler" id="ruler" aria-hidden="true"></div>
+              </div>
+              <div class="legend"><span><i class="k"></i>kept</span><span><i class="s"></i>freed by word boundary</span><span><i class="c"></i>cut</span></div>
+            </div>
+            <div class="out-big"><small>result</small><span id="opt-out"></span></div>
+            <pre class="codeblock" id="opt-code"></pre>
+          </div>
+        </div>
+      </section>
+
+      <section id="versus" aria-labelledby="versus-title">
+        <p class="eyebrow">03 · Why not a one-liner?</p>
+        <h2 id="versus-title">Naive regex <em>vs.</em> slugify-anything</h2>
+        <p class="lede">The classic <code>/[^a-z0-9]+/g</code> slugifier is fine until your first non-English title. Then it mangles words, drops whole languages and can hand you an empty string.</p>
+        <div class="card" role="table" aria-label="Comparison">
+          <div class="vs-head" role="row"><span role="columnheader">Input</span><span role="columnheader">Naive <code>replace(/[^a-z0-9]+/g, '-')</code></span><span role="columnheader">slugify-anything</span></div>
+          <div class="vs-row mine" role="row">
+            <div class="vs-in" role="cell"><input id="vs-mine" value="Café Müller — ½ price!" aria-label="Your own input"></div>
+            <div class="vs-out" role="cell" data-who="naive" id="vs-mine-naive"></div>
+            <div class="vs-out" role="cell" data-who="ours" id="vs-mine-ours"></div>
+          </div>
+          <div id="vs-rows"></div>
+        </div>
+        <div class="score" id="score"></div>
+      </section>
+
+      <section id="emoji" aria-labelledby="emoji-title">
+        <p class="eyebrow">04 · The emoji table</p>
+        <h2 id="emoji-title"><span id="emoji-total">300+</span> emoji, <em>named.</em></h2>
+        <p class="lede">Known emoji become words, skin tones and variation selectors are stripped, ZWJ sequences like 👨‍💻 are matched whole. The table is exported as <code>EMOJI</code>. Click one to add it to the title.</p>
+        <div class="emoji-tools">
+          <label class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="emoji-q" type="search" placeholder="Search names: heart, cat, food…" aria-label="Search emoji names"></label>
+          <span class="count" id="emoji-count" aria-live="polite"></span>
+        </div>
+        <div class="emoji-grid" id="emoji-grid"></div>
+        <div class="flags" id="flags"><span>Plus every flag, by region code:</span></div>
+      </section>
+
+      <section id="start" aria-labelledby="start-title">
+        <p class="eyebrow">05 · Get started</p>
+        <h2 id="start-title">One file. <em>No dependencies.</em></h2>
+        <p class="lede">Works in Node 18+ and every modern browser. Types included.</p>
+        <div class="start">
+          <div class="card step">
+            <div><h3><span>01</span>Install</h3>
+            <p>Straight from GitHub, no registry needed. Zero dependencies come along with it.</p></div>
+            <pre class="codeblock" data-copy>npm i github:ghanemja/slugify-anything</pre>
+          </div>
+          <div class="card step">
+            <h3><span>02</span>Slugify</h3>
+            <p>One function. Sensible defaults.</p>
+<pre class="codeblock" data-copy><span class="k">import</span> { slugify } <span class="k">from</span> <span class="s">'slugify-anything'</span>;
+
+slugify(<span class="s">'Crème brûlée &amp; café'</span>);
+<span class="c">// → "creme-brulee-and-cafe"</span>
+slugify(<span class="s">'I ❤️ NY 🚀'</span>);
+<span class="c">// → "i-heart-ny-rocket"</span></pre>
+          </div>
+          <div class="card step">
+            <h3><span>03</span>Tune it</h3>
+            <p>Locales, length limits, custom rules, ASCII-only.</p>
+<pre class="codeblock" data-copy>slugify(<span class="s">'Müller'</span>, { locale: <span class="s">'de'</span> });  <span class="c">// "mueller"</span>
+slugify(<span class="s">'C++ &amp; C#'</span>, {
+  custom: { <span class="s">'C++'</span>: <span class="s">'cpp'</span>, <span class="s">'C#'</span>: <span class="s">'csharp'</span> }
+});                              <span class="c">// "cpp-and-csharp"</span>
+slugify(title, { unicode: <span class="s">'drop'</span>, maxLength: <span class="r">60</span> })
+  || fallbackId;</pre>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p><b>slugify-anything</b> · MIT License · © 2026 ghanemja</p>
+      <p><a href="https://github.com/ghanemja/slugify-anything">Source on GitHub</a> · <a href="https://github.com/ghanemja/slugify-anything/blob/main/LICENSE">License</a></p>
+    </div>
+  </footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script type="module">
+    import { slugify, EMOJI } from './index.js';
+
+    const $ = (s, r = document) => r.querySelector(s);
+    const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+    const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+    const seg = typeof Intl !== 'undefined' && Intl.Segmenter ? new Intl.Segmenter(undefined, { granularity: 'grapheme' }) : null;
+    const graphemes = (s) => seg ? [...seg.segment(s)].map((x) => x.segment) : [...s];
+
+    /* ---------- theme ---------- */
+    const root = document.documentElement;
+    const themeBtn = $('#theme');
+    const syncTheme = () => {
+      const dark = root.getAttribute('data-theme') === 'dark';
+      themeBtn.setAttribute('aria-pressed', String(dark));
+      $('meta[name="theme-color"]').setAttribute('content', dark ? '#111214' : '#f5f2ea');
+    };
+    themeBtn.addEventListener('click', () => {
+      const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('sa-theme', next); } catch (e) {}
+      syncTheme();
+    });
+    syncTheme();
+
+    /* ---------- toast + copy ---------- */
+    const toast = $('#toast');
+    let toastTimer;
+    function say(msg) {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 1600);
+    }
+    async function copy(text, label = 'Copied') {
+      try { await navigator.clipboard.writeText(text); say(label); }
+      catch (e) { say('Copy failed: select and copy manually'); }
+    }
+    const COPY_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>';
+    function addCopy(pre, getText) {
+      const wrap = document.createElement('div');
+      wrap.className = 'code';
+      pre.replaceWith(wrap); wrap.appendChild(pre);
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'copy'; b.setAttribute('aria-label', 'Copy code'); b.innerHTML = COPY_ICON;
+      b.addEventListener('click', () => copy(getText ? getText() : pre.textContent.replace(/\s+$/, ''), 'Code copied'));
+      wrap.appendChild(b);
+    }
+    $$('pre[data-copy]').forEach((p) => addCopy(p, () => p.textContent.replace(/\s+$/, '')));
+    addCopy($('#opt-code'), () => $('#opt-code').textContent.split('\n// →')[0]);
+
+    /* ---------- state ---------- */
+    const state = { separator: '-', lowercase: true, emoji: true, unicode: 'keep', locale: '', maxLength: 0 };
+    const opts = (extra = {}) => {
+      const o = { separator: state.separator, lowercase: state.lowercase, emoji: state.emoji, unicode: state.unicode, maxLength: state.maxLength, ...extra };
+      if (state.locale) o.locale = state.locale;
+      return o;
+    };
+    const title = $('#title');
+
+    /* Align the real slug against per-grapheme transliterations so we can show what became what.
+       The slug itself always comes from one real slugify() call; this only annotates it. */
+    function annotate(input, slug, o) {
+      const one = { ...o, maxLength: 0 };
+      const sep = o.separator;
+      const runs = [];   // { src, out, changed } or { sep } or { plain }
+      let pos = 0;
+      const lower = slug.toLowerCase();
+      for (const g of graphemes(input)) {
+        if (pos >= slug.length) break;
+        const p = slugify(g, one);
+        if (!p) continue;
+        const pl = p.toLowerCase();
+        if (sep && lower.startsWith(sep.toLowerCase(), pos) && !lower.startsWith(pl, pos)) { runs.push({ sep: slug.slice(pos, pos + sep.length) }); pos += sep.length; }
+        if (lower.startsWith(pl, pos)) {
+          const out = slug.slice(pos, pos + p.length);
+          const changed = g.toLowerCase() !== out.toLowerCase() && g.toLocaleLowerCase(o.locale || undefined) !== out.toLowerCase();
+          const last = runs[runs.length - 1];
+          if (last && !last.sep && !last.plain && last.changed === changed) { last.src += g; last.out += out; }
+          else runs.push({ src: g, out, changed });
+          pos += p.length;
+        } else break;
+      }
+      if (pos < slug.length) runs.push({ plain: slug.slice(pos) });
+      return runs;
+    }
+
+    let prevKeys = new Set();
+    function renderHero() {
+      const input = title.value;
+      const o = opts();
+      const slug = slugify(input, o);
+      const slugEl = $('#slug');
+      $('#tab-title').textContent = input.trim() || 'Untitled';
+      if (!slug) {
+        slugEl.innerHTML = '<span class="empty">(empty, add a fallback)</span>';
+        prevKeys = new Set();
+      } else {
+        const runs = annotate(input, slug, o);
+        const keys = new Set();
+        let html = '', i = 0;
+        for (const r of runs) {
+          if (r.sep !== undefined) html += esc(r.sep);
+          else if (r.plain !== undefined) html += esc(r.plain);
+          else if (!r.changed) html += esc(r.out);
+          else {
+            const key = i + '|' + r.src + '|' + r.out;
+            keys.add(key);
+            const pop = !prevKeys.has(key) && !reduced.matches ? ' pop' : '';
+            html += `<ruby class="t${pop}" title="${esc(r.src.trim())} → ${esc(r.out)}">${esc(r.out)}<rt>${esc(r.src.trim())}</rt></ruby>`;
+          }
+          i++;
+        }
+        slugEl.innerHTML = html;
+        prevKeys = keys;
+        // Ledger: unique source → output pairs.
+        const seen = new Map();
+        for (const r of runs) if (r.changed) {
+          const k = r.src.trim() + '→' + r.out;
+          if (r.src.trim() && !seen.has(k)) seen.set(k, r);
+        }
+        const items = [...seen.values()].slice(0, 14);
+        $('#ledger').innerHTML = items.length
+          ? items.map((r) => `<span class="chip"><b>${esc(r.src.trim())}</b><span class="arrow">→</span><b class="to">${esc(r.out)}</b></span>`).join('')
+          : '<span class="ledger__empty">Nothing needed transliterating. Try an accent, an emoji or another script.</span>';
+      }
+      if (!slug) $('#ledger').innerHTML = '<span class="ledger__empty">Everything here was dropped. Use a fallback ID, or switch <code>unicode</code> back to keep.</span>';
+      title.style.height = 'auto';
+      title.style.height = title.scrollHeight + 'px';
+    }
+
+    title.addEventListener('input', () => { renderAll(); });
+    title.addEventListener('keydown', (e) => { if (e.key === 'Enter') e.preventDefault(); });
+    $('#copy-url').addEventListener('click', () => copy(slugify(title.value, opts()), 'Slug copied'));
+
+    function load(text, locale) {
+      title.value = text;
+      if (locale !== undefined) { state.locale = locale; $('#opt-locale').value = locale; }
+      renderAll();
+    }
+    $$('[data-try]').forEach((b) => b.addEventListener('click', () => load(b.dataset.try, b.dataset.locale || '')));
+
+    /* ---------- torture wall ---------- */
+    const TORTURE = [
+      { label: 'Greek', text: 'Αθήνα, Ελλάδα' },
+      { label: 'Cyrillic', text: 'Привет, мир!' },
+      { label: 'German', text: 'Straße in Köln', locale: 'de' },
+      { label: 'Turkish İ', text: 'İSTANBUL ışık', locale: 'tr' },
+      { label: 'Emoji ZWJ', text: '👨‍💻 Developer 🏳️‍🌈 Pride', wide: true },
+      { label: 'Flags', text: '🇩🇪 vs 🇯🇵' },
+      { label: 'Japanese', text: '東京タワー 2026' },
+      { label: 'Vietnamese', text: 'Tiếng Việt có dấu' },
+      { label: 'Polish', text: 'Zażółć gęślą jaźń' },
+      { label: 'Icelandic', text: 'Þórsmörk & Ærø' },
+      { label: 'Symbols', text: 'C++ & C# — 100% @home', wide: true },
+      { label: 'Ukrainian', text: 'Київ, Україна', locale: 'uk' },
+      { label: 'Skin tones', text: '👋🏽 Hi 👍🏿' },
+      { label: 'Ligatures', text: 'ﬁnancial Ｆｕｌｌ ①②③', wide: true },
+      { label: 'Apostrophes', text: 'Don’t stop—won’t stop' },
+      { label: 'Zalgo', text: 'Z̴̛a̷͝l̶͠g̸̕o̵̾ text' },
+      { label: 'Korean', text: '서울 맛집 추천' },
+      { label: 'Arabic', text: 'مرحبا بالعالم' },
+      { label: 'Hindi', text: 'नमस्ते दुनिया' },
+      { label: 'Currency', text: '€5 → £4 ≈ ¥700', wide: true },
+      { label: 'Danish', text: 'Ølbryggeri på Ærø', locale: 'da' },
+      { label: 'Bulgarian', text: 'Щастлива София', locale: 'bg' },
+      { label: 'SHOUTING', text: 'ЖУРНАЛ ЖИЗНЬ' },
+      { label: 'Empty-ish', text: '¡¿…!? ~~~ ***' }
+    ];
+    const wall = $('#wall');
+    wall.innerHTML = TORTURE.map((t, i) => `
+      <button type="button" class="spec${t.wide ? ' wide' : ''}" data-i="${i}" aria-label="Load ${esc(t.label)} example: ${esc(t.text)}">
+        <span class="spec__head"><span>${esc(t.label)}</span>${t.locale ? `<span class="loc">locale: ${t.locale}</span>` : ''}</span>
+        <span class="spec__in" lang="${t.locale || ''}">${esc(t.text)}</span>
+        <span class="spec__out"></span>
+      </button>`).join('');
+    wall.addEventListener('click', (e) => {
+      const b = e.target.closest('.spec'); if (!b) return;
+      const t = TORTURE[+b.dataset.i];
+      load(t.text, t.locale || '');
+      $('#top').scrollIntoView({ behavior: reduced.matches ? 'auto' : 'smooth' });
+      title.focus({ preventScroll: true });
+    });
+    function renderWall() {
+      $$('.spec', wall).forEach((b) => {
+        const t = TORTURE[+b.dataset.i];
+        const o = opts(t.locale ? { locale: t.locale } : {});
+        const s = slugify(t.text, o);
+        $('.spec__out', b).innerHTML = s ? esc(s) : '<span class="hl">"" (empty)</span>';
+      });
+    }
+
+    $('#shuffle').addEventListener('click', () => {
+      const t = TORTURE[Math.floor(Math.random() * TORTURE.length)];
+      load(t.text, t.locale || '');
+    });
+
+    /* ---------- options ---------- */
+    const sepGroup = $('#sep');
+    const sepCustom = $('#sep-custom');
+    function setSep(v, fromCustom) {
+      state.separator = v;
+      $$('button', sepGroup).forEach((b) => b.setAttribute('aria-pressed', String(!fromCustom && b.dataset.sep === v)));
+      if (!fromCustom) sepCustom.value = '';
+      renderAll();
+    }
+    sepGroup.addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) setSep(b.dataset.sep, false); });
+    sepCustom.addEventListener('input', () => { if (sepCustom.value) setSep(sepCustom.value, true); else setSep('-', false); });
+    $('#opt-lower').addEventListener('change', (e) => { state.lowercase = e.target.checked; renderAll(); });
+    $('#opt-emoji').addEventListener('change', (e) => { state.emoji = e.target.checked; renderAll(); });
+    $('#opt-unicode').addEventListener('change', (e) => { state.unicode = e.target.checked ? 'keep' : 'drop'; renderAll(); });
+    $('#opt-locale').addEventListener('change', (e) => { state.locale = e.target.value; renderAll(); });
+    const maxInput = $('#opt-max');
+    maxInput.addEventListener('input', () => { state.maxLength = +maxInput.value; renderAll(); });
+
+    const ruler = $('#ruler');
+    function renderOptions() {
+      const input = title.value;
+      const full = [...slugify(input, opts({ maxLength: 0 }))];
+      const max = Math.max(10, full.length + 4);
+      maxInput.max = String(max);
+      if (state.maxLength > max) { state.maxLength = max; }
+      maxInput.value = String(state.maxLength);
+      $('#max-val').textContent = state.maxLength ? state.maxLength : 'off (0)';
+      const cut = [...slugify(input, opts())];
+      const m = state.maxLength;
+      const sepChars = new Set([...state.separator]);
+      let cells = '';
+      for (let i = 0; i < Math.max(full.length, m); i++) {
+        const c = full[i] ?? '';
+        let cls = '';
+        if (!m || i < cut.length) cls = 'keep';
+        else if (i < m) cls = 'slack';
+        else cls = 'cut';
+        if (sepChars.has(c)) cls += ' sep';
+        cells += `<span class="${cls}"${i && i % 10 === 0 ? ` data-n="${i}"` : ''}>${c === ' ' ? '&nbsp;' : esc(c)}</span>`;
+      }
+      const lineIdx = m ? m : full.length;
+      ruler.innerHTML = cells + `<i class="cutoff${lineIdx < 8 ? ' start' : ''}" style="left:calc(${lineIdx} * .62em - 1px)" data-label="${m ? 'max ' + m : 'no limit'}"></i>`;
+      const result = cut.join('');
+      $('#opt-out').textContent = result ? result : '"" (empty string)';
+      // code
+      const parts = [];
+      if (state.separator !== '-') parts.push(`separator: <span class="s">'${esc(state.separator)}'</span>`);
+      if (!state.lowercase) parts.push('lowercase: <span class="k">false</span>');
+      if (!state.emoji) parts.push('emoji: <span class="k">false</span>');
+      if (state.unicode === 'drop') parts.push(`unicode: <span class="s">'drop'</span>`);
+      if (state.locale) parts.push(`locale: <span class="s">'${state.locale}'</span>`);
+      if (m) parts.push(`maxLength: <span class="r">${m}</span>`);
+      const arg = JSON.stringify(input).replace(/^"|"$/g, '').replace(/'/g, "\\'");
+      const code = `slugify(<span class="s">'${esc(arg)}'</span>${parts.length ? `, {\n  ${parts.join(',\n  ')}\n}` : ''});\n<span class="c">// → ${esc(JSON.stringify(result))}</span>`;
+      const pre = $('#opt-code');
+      pre.innerHTML = code;
+    }
+    // Drag the ruler to set maxLength.
+    let dragging = false;
+    function rulerTo(e) {
+      const r = ruler.getBoundingClientRect();
+      const cell = parseFloat(getComputedStyle(ruler).fontSize) * .62;
+      const idx = Math.round((e.clientX - r.left) / cell);
+      state.maxLength = Math.max(1, Math.min(+maxInput.max, idx));
+      renderAll();
+    }
+    ruler.addEventListener('pointerdown', (e) => { dragging = true; ruler.setPointerCapture(e.pointerId); rulerTo(e); });
+    ruler.addEventListener('pointermove', (e) => { if (dragging) rulerTo(e); });
+    ruler.addEventListener('pointerup', () => { dragging = false; });
+    ruler.addEventListener('pointercancel', () => { dragging = false; });
+
+    /* ---------- versus ---------- */
+    const naive = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    const VS = ['Crème brûlée', 'Привет, мир', 'Ελληνικά', '東京タワー', 'I ❤️ NY', 'C++ & C#', 'Straße', 'Don’t panic', '🇯🇵 trip report', 'Zażółć gęślą jaźń'];
+    function judge(input, out, isNaive) {
+      if (!out) return { ok: false, why: 'empty string: broken URL' };
+      if (isNaive) {
+        const ours = slugify(input).split('-').filter(Boolean);
+        const mine = out.split('-').filter(Boolean);
+        const lostWords = ours.length > mine.length;
+        const mangled = mine.some((w) => !ours.includes(w));
+        if (lostWords && !mangled) return { ok: false, why: 'words silently dropped' };
+        if (mangled) return { ok: false, why: 'words split or mangled' };
+      }
+      return { ok: true, why: '' };
+    }
+    function cell(input, out, isNaive) {
+      const j = judge(input, out, isNaive);
+      return `<span class="badge" aria-hidden="true">${j.ok ? '✓' : '✕'}</span><span>${out ? esc(out) : '""'}${j.why ? `<span class="why">${j.why}</span>` : ''}<span class="sr-only">${j.ok ? 'good' : 'bad'}</span></span>`;
+    }
+    function setCell(el, input, out, isNaive) {
+      el.className = 'vs-out ' + (judge(input, out, isNaive).ok ? 'good' : 'bad');
+      el.innerHTML = cell(input, out, isNaive);
+    }
+    function renderVersus() {
+      let n = 0, o = 0;
+      $('#vs-rows').innerHTML = VS.map((s) => {
+        const a = naive(s), b = slugify(s);
+        const ja = judge(s, a, true).ok, jb = judge(s, b, false).ok;
+        n += ja; o += jb;
+        return `<div class="vs-row" role="row"><div class="vs-in" role="cell">${esc(s)}</div>
+          <div class="vs-out ${ja ? 'good' : 'bad'}" role="cell" data-who="naive">${cell(s, a, true)}</div>
+          <div class="vs-out ${jb ? 'good' : 'bad'}" role="cell" data-who="ours">${cell(s, b, false)}</div></div>`;
+      }).join('');
+      $('#score').innerHTML = `<span class="bad"><b>${n}/${VS.length}</b>survive the naive regex</span><span class="good"><b>${o}/${VS.length}</b>survive slugify-anything</span>`;
+    }
+    const vsMine = $('#vs-mine');
+    function renderMine() {
+      const s = vsMine.value;
+      setCell($('#vs-mine-naive'), s, naive(s), true);
+      setCell($('#vs-mine-ours'), s, slugify(s), false);
+    }
+    vsMine.addEventListener('input', renderMine);
+
+    /* ---------- emoji browser ---------- */
+    const entries = Object.entries(EMOJI);
+    $('#emoji-total').textContent = entries.length;
+    const grid = $('#emoji-grid');
+    const q = $('#emoji-q');
+    function renderEmoji() {
+      const term = q.value.trim().toLowerCase();
+      const list = term ? entries.filter(([e, n]) => n.includes(term) || e === term) : entries;
+      grid.innerHTML = list.length
+        ? list.map(([e, n]) => `<button type="button" class="emo" data-e="${esc(e)}" aria-label="Add ${esc(e)} (${esc(n)}) to the title"><span class="g" aria-hidden="true">${e}</span><span class="n">${esc(slugify(e))}</span></button>`).join('')
+        : '<p class="no-match">No emoji named like that. Unknown emoji are dropped.</p>';
+      $('#emoji-count').textContent = `${list.length} of ${entries.length}`;
+    }
+    q.addEventListener('input', renderEmoji);
+    function addToTitle(e) {
+      title.value = (title.value.replace(/\s+$/, '') + ' ' + e).trimStart();
+      renderAll();
+      say(`Added ${e} → ${slugify(e)}`);
+    }
+    grid.addEventListener('click', (ev) => { const b = ev.target.closest('.emo'); if (b) addToTitle(b.dataset.e); });
+    const flags = ['🇫🇷', '🇧🇷', '🇯🇵', '🇳🇬', '🇺🇦', '🇮🇳', '🇨🇦', '🇰🇷'];
+    $('#flags').insertAdjacentHTML('beforeend', flags.map((f) => `<button type="button" class="pill" data-flag="${f}" aria-label="Add ${f} to the title">${f} <code>${slugify(f)}</code></button>`).join(''));
+    $('#flags').addEventListener('click', (ev) => { const b = ev.target.closest('[data-flag]'); if (b) addToTitle(b.dataset.flag); });
+
+    /* ---------- render ---------- */
+    function renderAll() { renderHero(); renderWall(); renderOptions(); }
+    renderAll();
+    renderVersus();
+    renderMine();
+    renderEmoji();
+    addEventListener('resize', () => { title.style.height = 'auto'; title.style.height = title.scrollHeight + 'px'; });
+  </script>
+</body>
+</html>

@@ -1,0 +1,972 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>readable-id — friendly IDs like brave-otter-42</title>
+  <meta name="description" content="Friendly, human-readable IDs like brave-otter-42, with a collision-probability helper. Zero dependencies, crypto-random, one file.">
+  <meta name="theme-color" content="#fff3dc">
+  <meta property="og:title" content="readable-id: friendly IDs like brave-otter-42">
+  <meta property="og:description" content="Pull the lever: human-readable IDs, crypto-random, with a built-in collision calculator. Zero dependencies.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ghanemja.github.io/readable-id/">
+  <meta property="og:image" content="https://ghanemja.github.io/readable-id/docs/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="readable-id: friendly IDs like brave-otter-42">
+  <meta name="twitter:description" content="Human-readable, crypto-random IDs with a collision calculator. Zero dependencies.">
+  <meta name="twitter:image" content="https://ghanemja.github.io/readable-id/docs/og.png">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='4' y='8' width='56' height='48' rx='12' fill='%23e0263f'/%3E%3Crect x='11' y='20' width='12' height='24' rx='3' fill='%23fff8ea'/%3E%3Crect x='26' y='20' width='12' height='24' rx='3' fill='%23fff8ea'/%3E%3Crect x='41' y='20' width='12' height='24' rx='3' fill='%23fff8ea'/%3E%3Cpath d='M11 32h42' stroke='%23ffb627' stroke-width='3'/%3E%3C/svg%3E">
+  <script>
+    (function () {
+      var t;
+      try { t = localStorage.getItem('rid-theme'); } catch (e) {}
+      if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Outfit:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap">
+  <style>
+    :root {
+      --bg: #fff3dc; --bg-2: #ffe9c2; --panel: #fffaf0; --ink: #2b1720; --muted: #7a5e57; --line: #f0d9b5; --line-strong: #dfbf8f;
+      --red: #e0263f; --red-deep: #a5102a; --gold: #ffb627; --gold-deep: #c9850a; --teal: #0e9f8b; --pink: #ff3d8b;
+      --reel: #fffdf7; --reel-ink: #2b1720; --cab-1: #ef3b52; --cab-2: #b3122a; --cab-glow: rgb(224 38 63 / .35);
+      --bad: #d0263c; --good: #0e8f7c;
+      --display: 'Bungee', 'Arial Black', Impact, sans-serif;
+      --sans: 'Outfit', system-ui, -apple-system, 'Segoe UI', sans-serif;
+      --mono: 'Space Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      color-scheme: light;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #160b1d; --bg-2: #301a3b; --panel: #21112a; --ink: #fbeee2; --muted: #b89eb0; --line: #36203f; --line-strong: #4d2f58;
+        --red: #ff4766; --red-deep: #c21d3c; --gold: #ffc845; --gold-deep: #e0a020; --teal: #34d3b9; --pink: #ff4f9a;
+        --reel: #fff8ea; --reel-ink: #2b1720; --cab-1: #5b1a77; --cab-2: #2c0a3c; --cab-glow: rgb(255 79 154 / .35);
+        --bad: #ff6b81; --good: #3fdcc2;
+        color-scheme: dark;
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg: #160b1d; --bg-2: #301a3b; --panel: #21112a; --ink: #fbeee2; --muted: #b89eb0; --line: #36203f; --line-strong: #4d2f58;
+      --red: #ff4766; --red-deep: #c21d3c; --gold: #ffc845; --gold-deep: #e0a020; --teal: #34d3b9; --pink: #ff4f9a;
+      --reel: #fff8ea; --reel-ink: #2b1720; --cab-1: #5b1a77; --cab-2: #2c0a3c; --cab-glow: rgb(255 79 154 / .35);
+      --bad: #ff6b81; --good: #3fdcc2;
+      color-scheme: dark;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 5rem; -webkit-text-size-adjust: 100%; }
+    body { margin: 0; color: var(--ink); font: 400 17px/1.6 var(--sans); overflow-x: clip;
+           background: var(--bg) radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--ink) 9%, transparent) 1px, transparent 0) 0 0 / 22px 22px; }
+    a { color: inherit; }
+    button, input, select { font: inherit; color: inherit; }
+    :focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; border-radius: 6px; }
+    .wrap { max-width: 1160px; margin: 0 auto; padding: 0 16px; }
+    @media (min-width: 720px) { .wrap { padding: 0 28px; } }
+    code, pre, kbd { font-family: var(--mono); }
+    :not(pre) > code { font-size: .85em; padding: .08em .35em; border-radius: 5px; background: color-mix(in srgb, var(--gold) 28%, transparent); }
+    kbd { display: inline-block; padding: .05rem .4rem; border: 1px solid currentColor; border-bottom-width: 3px; border-radius: 6px; font-size: .75em; line-height: 1.4; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+    /* ---------- top bar ---------- */
+    .topbar { position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--bg) 85%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 2px solid var(--ink); }
+    .topbar .wrap { display: flex; align-items: center; gap: 1rem; height: 62px; }
+    .brand { display: flex; align-items: center; gap: .55rem; text-decoration: none; font: 400 1.05rem/1 var(--display); white-space: nowrap; }
+    .brand svg { width: 30px; height: 30px; flex: none; }
+    .nav { display: flex; gap: .2rem; margin: 0 0 0 auto; padding: 0; list-style: none; }
+    .nav a { display: block; padding: .4rem .7rem; border-radius: 999px; text-decoration: none; font-weight: 500; font-size: .95rem; }
+    .nav a:hover { background: var(--gold); color: #2b1720; }
+    .tools { display: flex; gap: .45rem; margin-left: .5rem; }
+    .icon-btn { display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; border: 2px solid var(--ink); background: var(--panel); cursor: pointer; text-decoration: none; box-shadow: 0 3px 0 var(--ink); transition: transform .1s, box-shadow .1s; }
+    .icon-btn:active { transform: translateY(3px); box-shadow: 0 0 0 var(--ink); }
+    .icon-btn svg { width: 19px; height: 19px; }
+    .theme-icon-dark { display: none; }
+    [data-theme="dark"] .theme-icon-dark { display: block; }
+    [data-theme="dark"] .theme-icon-light { display: none; }
+    @media (max-width: 900px) { .nav { display: none; } .tools { margin-left: auto; } }
+
+    /* ---------- hero ---------- */
+    .hero { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 2.5rem 3.5rem; align-items: center; padding: 3.5rem 0 3rem; }
+    @media (max-width: 960px) { .hero { grid-template-columns: minmax(0, 1fr); padding-top: 2.25rem; } }
+    .tag { display: inline-flex; align-items: center; gap: .45rem; margin: 0 0 1.1rem; padding: .35rem .8rem; border: 2px solid var(--ink); border-radius: 999px; background: var(--gold); color: #2b1720; font: 700 .78rem/1 var(--mono); letter-spacing: .04em; text-transform: uppercase; box-shadow: 0 3px 0 var(--ink); }
+    .hero h1 { margin: 0; font: 400 clamp(2.4rem, 6.4vw, 4.4rem)/1 var(--display); letter-spacing: -.01em; }
+    .hero h1 .hl { color: var(--red); }
+    .hero__lede { margin: 1.2rem 0 1.6rem; font-size: clamp(1.05rem, 2vw, 1.2rem); color: var(--muted); max-width: 32rem; }
+    .hero__lede strong { color: var(--ink); font-weight: 600; }
+    .hero__cta { display: flex; flex-wrap: wrap; gap: .7rem; }
+    .btn { display: inline-flex; align-items: center; gap: .5rem; padding: .75rem 1.2rem; border: 2px solid var(--ink); border-radius: 14px; background: var(--panel); color: var(--ink); font-weight: 600; text-decoration: none; cursor: pointer; box-shadow: 0 4px 0 var(--ink); transition: transform .1s, box-shadow .1s; }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 5px 0 var(--ink); }
+    .btn:active { transform: translateY(4px); box-shadow: 0 0 0 var(--ink); }
+    .btn--primary { background: var(--red); color: #fff; }
+
+    /* the machine */
+    .stage { position: relative; padding-right: 0; }
+    @media (min-width: 640px) { .stage { padding-right: 58px; } }
+    .machine { position: relative; padding: 14px; border-radius: 28px; border: 3px solid var(--ink);
+               background: linear-gradient(160deg, var(--cab-1), var(--cab-2)); box-shadow: 0 8px 0 var(--ink), 0 30px 60px -20px var(--cab-glow); color: #fff; }
+    .marquee { display: flex; align-items: center; justify-content: center; gap: .8rem; padding: .55rem .5rem .75rem; }
+    .marquee__title { font: 400 clamp(1rem, 3.4vw, 1.45rem)/1 var(--display); color: var(--gold); text-shadow: 0 3px 0 rgb(0 0 0 / .35); white-space: nowrap; }
+    .bulbs { display: flex; gap: 7px; }
+    .bulbs i { width: 9px; height: 9px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 8px var(--gold); animation: chase 1.2s steps(1) infinite; }
+    .bulbs i:nth-child(2n) { animation-delay: .6s; }
+    .machine.win .bulbs i { animation-duration: .25s; }
+    @keyframes chase { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
+    @media (max-width: 420px) { .bulbs i:nth-child(n+4) { display: none; } }
+    .window { position: relative; padding: 12px; border-radius: 18px; background: #1d0f16; border: 3px solid var(--ink); box-shadow: inset 0 0 0 3px rgb(255 255 255 / .06); }
+    .reels { --h: 74px; --fs: clamp(1.05rem, 3.4vw, 1.6rem); position: relative; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+    @media (max-width: 520px) { .reels { --h: 58px; --fs: .92rem; gap: 6px; } .reel__strip span { padding: 0 .2rem; } .payline { display: none; } }
+    .reel { position: relative; flex: 1 1 auto; display: grid; gap: 4px; min-width: 0; font: 700 var(--fs)/1 var(--mono); }
+    .reel__label { overflow: hidden; white-space: nowrap; font: 700 .62rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: rgb(255 255 255 / .55); text-align: center; }
+    .reel__win { position: relative; height: var(--h); overflow: hidden; border-radius: 10px; background: var(--reel); color: var(--reel-ink);
+                 box-shadow: inset 0 10px 14px -8px rgb(0 0 0 / .45), inset 0 -10px 14px -8px rgb(0 0 0 / .45); }
+    .reel__strip { display: flex; flex-direction: column; will-change: transform; }
+    .reel__strip span { display: grid; place-items: center; height: var(--h); padding: 0 .6rem; font: inherit; white-space: nowrap; }
+    .reel__strip.blur span { filter: blur(.6px); }
+    .reel[data-kind="num"] .reel__strip span { color: var(--red-deep); }
+    .payline { position: absolute; left: -4px; right: -4px; top: calc(50% + 8px); height: 2px; background: color-mix(in srgb, var(--gold) 70%, transparent); pointer-events: none; transform: translateY(-50%); box-shadow: 0 0 10px var(--gold); opacity: .55; }
+    .result { display: flex; align-items: center; gap: .6rem; margin-top: 12px; padding: .6rem .6rem .6rem 1rem; border-radius: 14px; background: rgb(0 0 0 / .28); border: 2px solid rgb(255 255 255 / .12); }
+    .result output { flex: 1; min-width: 0; font: 700 clamp(1.05rem, 3.6vw, 1.55rem)/1.2 var(--mono); color: #fff; overflow-wrap: anywhere; }
+    .result output.pop { animation: pop .5s cubic-bezier(.2, 1.4, .4, 1); }
+    @keyframes pop { from { transform: scale(.92); color: var(--gold); } to { transform: none; } }
+    .copy-btn { flex: none; display: inline-flex; align-items: center; gap: .4rem; padding: .55rem .85rem; border: 2px solid var(--ink); border-radius: 10px; background: var(--gold); color: #2b1720; font-weight: 700; font-size: .9rem; cursor: pointer; box-shadow: 0 3px 0 var(--ink); }
+    .copy-btn:active { transform: translateY(3px); box-shadow: none; }
+    .copy-btn svg { width: 16px; height: 16px; }
+    .panel { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: .7rem 1rem; align-items: center; margin-top: 12px; padding: .7rem .8rem; border-radius: 14px; background: rgb(0 0 0 / .2); }
+    .knob { display: flex; align-items: center; gap: .45rem; font-size: .82rem; font-weight: 600; color: rgb(255 255 255 / .85); }
+    .knob .lbl { font: 700 .66rem/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: rgb(255 255 255 / .6); }
+    .stepper { display: inline-flex; align-items: center; border-radius: 9px; background: rgb(255 255 255 / .12); }
+    .stepper button { width: 30px; height: 30px; border: 0; border-radius: 9px; background: transparent; color: #fff; cursor: pointer; font-weight: 700; font-size: 1.05rem; }
+    .stepper button:hover { background: rgb(255 255 255 / .16); }
+    .stepper button:disabled { opacity: .3; cursor: default; }
+    .stepper output { min-width: 1.4rem; text-align: center; font: 700 .95rem/1 var(--mono); }
+    .seps { display: inline-flex; gap: 3px; padding: 3px; border-radius: 9px; background: rgb(255 255 255 / .12); }
+    .seps button { min-width: 28px; height: 26px; padding: 0 .4rem; border: 0; border-radius: 7px; background: transparent; color: #fff; cursor: pointer; font: 700 .85rem/1 var(--mono); }
+    .seps button[aria-pressed="true"] { background: var(--gold); color: #2b1720; }
+    .toggle { display: inline-flex; align-items: center; gap: .45rem; cursor: pointer; }
+    .toggle input { appearance: none; -webkit-appearance: none; position: relative; width: 36px; height: 20px; margin: 0; border-radius: 999px; background: rgb(255 255 255 / .2); cursor: pointer; }
+    .toggle input::after { content: ""; position: absolute; top: 3px; left: 3px; width: 14px; height: 14px; border-radius: 50%; background: #fff; transition: transform .15s; }
+    .toggle input:checked { background: var(--gold); }
+    .toggle input:checked::after { transform: translateX(16px); background: #2b1720; }
+    .spin { display: flex; align-items: center; justify-content: center; gap: .7rem; width: 100%; margin-top: 12px; padding: .9rem 1rem; border: 3px solid var(--ink); border-radius: 16px; cursor: pointer;
+            background: linear-gradient(var(--gold), var(--gold-deep)); color: #2b1720; font: 400 clamp(1.1rem, 3.6vw, 1.4rem)/1 var(--display); box-shadow: 0 6px 0 var(--ink); transition: transform .08s, box-shadow .08s; }
+    .spin:active, .spin.down { transform: translateY(6px); box-shadow: 0 0 0 var(--ink); }
+    .spin kbd { font-family: var(--mono); font-size: .7rem; color: #2b1720; }
+    .spin[aria-busy="true"] { filter: saturate(.6); }
+    .pinned { display: none; align-items: center; gap: .4rem; margin-top: 10px; font-size: .85rem; color: rgb(255 255 255 / .85); }
+    .pinned.on { display: flex; flex-wrap: wrap; }
+    .pinned button { display: inline-flex; align-items: center; gap: .3rem; padding: .15rem .55rem; border: 0; border-radius: 999px; background: var(--gold); color: #2b1720; font: 700 .8rem/1.5 var(--mono); cursor: pointer; }
+    /* lever */
+    .lever { display: none; position: absolute; right: 0; top: 18%; width: 56px; height: 220px; padding: 0; border: 0; background: transparent; cursor: pointer; }
+    @media (min-width: 640px) { .lever { display: block; } }
+    .lever__base { position: absolute; left: 0; top: 130px; width: 28px; height: 70px; border: 3px solid var(--ink); border-left: 0; border-radius: 0 14px 14px 0; background: linear-gradient(90deg, #9aa0a8, #e8ebef 45%, #8a9098); }
+    .lever__arm { position: absolute; left: 22px; top: 18px; width: 12px; height: 150px; transform-origin: 50% 132px; border: 3px solid var(--ink); border-radius: 8px; background: linear-gradient(90deg, #8a9098, #f4f6f8 50%, #8a9098); transition: transform .35s cubic-bezier(.3, 1.6, .5, 1); }
+    .lever__knob { position: absolute; left: -14px; top: -30px; width: 34px; height: 34px; border: 3px solid var(--ink); border-radius: 50%; background: radial-gradient(circle at 35% 35%, #ff8a9a, var(--red) 55%, var(--red-deep)); }
+    .lever.pulled .lever__arm { transform: scaleY(-.55); transition-duration: .18s; transition-timing-function: ease-in; }
+    .tape { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: 1.2rem; min-height: 2rem; }
+    .ticket { padding: .3rem .65rem; border: 2px dashed var(--line-strong); border-radius: 8px; background: var(--panel); font: 700 .8rem/1.4 var(--mono); cursor: pointer; }
+    .ticket:hover { border-color: var(--ink); }
+    .tape__label { font-size: .85rem; color: var(--muted); align-self: center; }
+
+    /* ---------- sections ---------- */
+    section { padding: 5rem 0 1rem; }
+    .eyebrow { display: inline-block; margin: 0 0 .8rem; padding: .3rem .65rem; border-radius: 8px; background: var(--ink); color: var(--bg); font: 700 .74rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+    h2 { margin: 0 0 .8rem; font: 400 clamp(1.9rem, 4.8vw, 3rem)/1.05 var(--display); }
+    h2 .hl { color: var(--red); }
+    .lede { max-width: 42rem; margin: 0 0 2rem; color: var(--muted); font-size: 1.08rem; }
+    .card { border: 2px solid var(--ink); border-radius: 20px; background: var(--panel); box-shadow: 0 5px 0 var(--ink); }
+    .field-label { display: block; margin-bottom: .4rem; font: 700 .72rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+    .chips { display: flex; flex-wrap: wrap; gap: .35rem; }
+    .chips button { padding: .38rem .75rem; border: 2px solid var(--ink); border-radius: 10px; background: var(--panel); cursor: pointer; font: 700 .85rem/1.2 var(--mono); }
+    .chips button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+    input[type="range"] { width: 100%; accent-color: var(--red); }
+
+    /* odds */
+    .odds { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); gap: 1.25rem; align-items: start; }
+    @media (max-width: 900px) { .odds { grid-template-columns: minmax(0, 1fr); } }
+    .odds__controls { display: grid; gap: 1.3rem; padding: 1.4rem; min-width: 0; }
+    .count-big { font: 400 clamp(1.8rem, 5vw, 2.4rem)/1 var(--display); }
+    .count-big small { font: 600 1rem/1 var(--sans); color: var(--muted); margin-left: .35rem; }
+    .stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
+    .stat { padding: .8rem .9rem; border-radius: 14px; background: var(--bg-2); min-width: 0; }
+    .stat b { display: block; font: 700 clamp(1.05rem, 2.6vw, 1.35rem)/1.15 var(--mono); overflow-wrap: anywhere; }
+    .stat span { font-size: .8rem; color: var(--muted); }
+    .odds__chart { padding: 1.3rem; min-width: 0; }
+    .gauge { position: relative; height: 34px; margin-bottom: 1rem; border: 2px solid var(--ink); border-radius: 12px; overflow: hidden; background: repeating-linear-gradient(90deg, transparent 0 9.8%, color-mix(in srgb, var(--ink) 15%, transparent) 9.8% 10%), var(--bg-2); }
+    .gauge__fill { position: absolute; inset: 0 auto 0 0; width: 0; background: linear-gradient(90deg, var(--teal), var(--gold) 50%, var(--red)); background-size: var(--full, 100%) 100%; transition: width .3s; }
+    .gauge__txt { position: absolute; inset: 0; display: grid; place-items: center; font: 700 .95rem/1 var(--mono); color: var(--ink); text-shadow: 0 0 6px var(--bg); }
+    .verdict { margin: 0 0 .5rem; font-size: 1.05rem; }
+    .verdict b { color: var(--red); }
+    svg.chart { display: block; width: 100%; height: auto; overflow: visible; font-family: var(--mono); }
+    .chart .grid line { stroke: color-mix(in srgb, var(--ink) 14%, transparent); }
+    .chart .axis text { fill: var(--muted); font-size: 11px; }
+    .chart .curve { fill: none; stroke: var(--red); stroke-width: 3; stroke-linejoin: round; }
+    .chart .area { fill: url(#area); }
+    .chart .half { stroke: var(--ink); stroke-dasharray: 4 5; opacity: .5; }
+    .chart .marker line { stroke: var(--ink); stroke-width: 2; }
+    .chart .marker circle { fill: var(--gold); stroke: var(--ink); stroke-width: 3; }
+    .chart .marker text { fill: var(--ink); font-size: 12px; font-weight: 700; }
+    .chart .lbl { fill: var(--muted); font-size: 11px; }
+
+    /* stream */
+    .stream { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 1.25rem; align-items: start; }
+    @media (max-width: 900px) { .stream { grid-template-columns: minmax(0, 1fr); } }
+    .stream__board { padding: 1.2rem; min-width: 0; }
+    .stream__board canvas { display: block; width: 100%; height: auto; border-radius: 10px; background: var(--bg-2); image-rendering: pixelated; }
+    .stream__bar { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem; justify-content: space-between; margin-bottom: 1rem; }
+    .counters { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .6rem; margin-top: 1rem; }
+    .counters .stat b { font-size: clamp(1.1rem, 3vw, 1.6rem); }
+    .stat.dup b { color: var(--bad); }
+    .stream__side { display: grid; gap: 1rem; padding: 1.2rem; min-width: 0; }
+    .ticker { height: 270px; overflow: hidden; margin: 0; padding: 0; list-style: none; font: 700 .9rem/1.9 var(--mono); mask-image: linear-gradient(#000 70%, transparent); -webkit-mask-image: linear-gradient(#000 70%, transparent); }
+    .ticker li { display: flex; justify-content: space-between; gap: .5rem; padding: 0 .5rem; border-radius: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ticker li.hint { display: block; font-weight: 400; color: var(--muted); white-space: normal; }
+    .ticker li span { color: var(--muted); font-weight: 400; }
+    .ticker li.dup { background: color-mix(in srgb, var(--bad) 18%, transparent); color: var(--bad); }
+    .note { font-size: .92rem; color: var(--muted); margin: 0; }
+    .note b { color: var(--ink); }
+
+    /* validator */
+    .validator { padding: clamp(1.1rem, 3vw, 1.8rem); }
+    .vinput { display: flex; align-items: center; gap: .6rem; padding: .3rem .3rem .3rem 1rem; border: 3px solid var(--ink); border-radius: 16px; background: var(--bg); transition: border-color .15s, box-shadow .15s; }
+    .vinput input { flex: 1; min-width: 0; padding: .7rem 0; border: 0; outline: none; background: transparent; font: 700 clamp(1.1rem, 3.6vw, 1.6rem)/1.2 var(--mono); }
+    .vinput.ok { border-color: var(--good); box-shadow: 0 0 0 4px color-mix(in srgb, var(--good) 22%, transparent); }
+    .vinput.no { border-color: var(--bad); box-shadow: 0 0 0 4px color-mix(in srgb, var(--bad) 18%, transparent); }
+    .vbadge { flex: none; padding: .55rem .8rem; border-radius: 11px; font: 700 .85rem/1 var(--mono); color: #fff; background: var(--muted); white-space: nowrap; }
+    .ok .vbadge { background: var(--good); } .no .vbadge { background: var(--bad); }
+    .parts { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0; min-height: 3.5rem; }
+    .part { display: grid; gap: .15rem; padding: .5rem .75rem; border-radius: 12px; border: 2px solid; min-width: 0; }
+    .part b { font: 700 1rem/1.2 var(--mono); overflow-wrap: anywhere; }
+    .part span { font-size: .75rem; }
+    .part.good { border-color: var(--good); color: var(--good); background: color-mix(in srgb, var(--good) 10%, transparent); }
+    .part.bad { border-color: var(--bad); color: var(--bad); background: color-mix(in srgb, var(--bad) 8%, transparent); }
+    .part.miss { border-style: dashed; border-color: var(--muted); color: var(--muted); }
+    .shape { font-size: .92rem; color: var(--muted); margin: 0 0 .9rem; }
+    .samples { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; font-size: .9rem; color: var(--muted); }
+
+    /* words */
+    .words { padding: clamp(1rem, 3vw, 1.6rem); }
+    .words__bar { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+    .tabs { display: inline-flex; padding: 4px; gap: 4px; border: 2px solid var(--ink); border-radius: 14px; background: var(--bg); }
+    .tabs button { padding: .45rem .9rem; border: 0; border-radius: 10px; background: transparent; cursor: pointer; font-weight: 600; }
+    .tabs button[aria-selected="true"] { background: var(--red); color: #fff; }
+    .tabs button span { font: 700 .75rem/1 var(--mono); opacity: .75; margin-left: .25rem; }
+    .search { flex: 1 1 200px; max-width: 320px; padding: .6rem .9rem; border: 2px solid var(--ink); border-radius: 12px; background: var(--bg); }
+    .wordgrid { display: flex; flex-wrap: wrap; gap: .35rem; max-height: 360px; overflow-y: auto; padding: .2rem; overscroll-behavior: contain; }
+    .word { padding: .3rem .6rem; border: 1.5px solid var(--line-strong); border-radius: 8px; background: var(--bg); cursor: pointer; font: 400 .85rem/1.3 var(--mono); }
+    .word:hover { border-color: var(--ink); }
+    .word[aria-pressed="true"] { background: var(--gold); border-color: var(--ink); color: #2b1720; font-weight: 700; }
+    .word .letter { color: var(--red); font-weight: 700; }
+    .words__foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .75rem; margin-top: 1rem; font-size: .9rem; color: var(--muted); }
+
+    /* get started */
+    .start { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr)); gap: 1.25rem; }
+    .start .step:first-child { grid-column: 1 / -1; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); align-items: center; }
+    .start .step:first-child .codeblock { font-size: 1rem; }
+    @media (max-width: 760px) { .start .step:first-child { grid-template-columns: minmax(0, 1fr); } }
+    .step { display: grid; gap: .8rem; align-content: start; padding: 1.4rem; min-width: 0; }
+    .step h3 { margin: 0; font: 400 1.35rem/1.1 var(--display); }
+    .step h3 span { color: var(--red); margin-right: .4rem; }
+    .step p { margin: 0; color: var(--muted); }
+    .code { position: relative; min-width: 0; }
+    .codeblock { margin: 0; padding: 1rem 3.2rem 1rem 1rem; border-radius: 14px; background: #2b1720; color: #fbeee2; font: 400 .84rem/1.65 var(--mono); overflow-x: auto; white-space: pre; }
+    [data-theme="dark"] .codeblock { background: #0d0612; }
+    .codeblock .s { color: #ffc845; } .codeblock .k { color: #ff8fb5; } .codeblock .c { color: #a8909e; } .codeblock .n { color: #6fe3cf; }
+    .copy { position: absolute; top: .55rem; right: .55rem; display: grid; place-items: center; width: 32px; height: 32px; border: 0; border-radius: 9px; background: rgb(255 255 255 / .12); color: #fbeee2; cursor: pointer; }
+    .copy:hover { background: rgb(255 255 255 / .22); }
+    .copy svg { width: 15px; height: 15px; }
+
+    footer { margin-top: 5rem; padding: 2.5rem 0 3rem; border-top: 2px solid var(--ink); font-size: .95rem; }
+    footer .wrap { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: center; }
+    footer p { margin: 0; }
+    footer .fid { font: 700 .9rem/1 var(--mono); color: var(--muted); }
+
+    .toast { position: fixed; left: 50%; bottom: 1.5rem; z-index: 50; transform: translate(-50%, 1rem); opacity: 0; pointer-events: none; padding: .65rem 1.1rem; border: 2px solid var(--ink); border-radius: 12px; background: var(--gold); color: #2b1720; font-weight: 600; transition: opacity .2s, transform .2s; max-width: calc(100vw - 32px); box-shadow: 0 4px 0 var(--ink); }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="sr-only" href="#main">Skip to content</a>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="#top" aria-label="readable-id home">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><rect x="4" y="8" width="56" height="48" rx="12" fill="#e0263f" stroke="currentColor" stroke-width="3"/><rect x="11" y="20" width="12" height="24" rx="3" fill="#fff8ea"/><rect x="26" y="20" width="12" height="24" rx="3" fill="#fff8ea"/><rect x="41" y="20" width="12" height="24" rx="3" fill="#fff8ea"/><path d="M11 32h42" stroke="#ffb627" stroke-width="3"/></svg>
+        readable-id
+      </a>
+      <ul class="nav">
+        <li><a href="#odds">Collision odds</a></li>
+        <li><a href="#stream">Generate 1000</a></li>
+        <li><a href="#validate">Validator</a></li>
+        <li><a href="#words">Word lists</a></li>
+        <li><a href="#start">Get started</a></li>
+      </ul>
+      <div class="tools">
+        <button class="icon-btn" id="theme" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="theme-icon-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+          <svg class="theme-icon-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+        <a class="icon-btn" href="https://github.com/ghanemja/readable-id" aria-label="readable-id on GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.26 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="wrap" id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div>
+          <p class="tag">Zero deps · crypto-random · MIT</p>
+          <h1 id="hero-title">IDs you can <span class="hl">say out loud.</span></h1>
+          <p class="hero__lede">Pull the lever. <strong>readable-id</strong> makes friendly IDs like <code>brave-otter-42</code> for rooms, preview deploys and invite codes, from <strong>500 hand-picked words</strong>, with no modulo bias and a calculator that tells you exactly when they'll collide.</p>
+          <div class="hero__cta">
+            <a class="btn btn--primary" href="#start">Get started</a>
+            <a class="btn" href="#odds">Check the odds</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="stage">
+            <div class="machine" id="machine">
+              <div class="marquee" aria-hidden="true"><span class="bulbs"><i></i><i></i><i></i><i></i><i></i></span><span class="marquee__title">readable·id</span><span class="bulbs"><i></i><i></i><i></i><i></i><i></i></span></div>
+              <div class="window">
+                <div class="reels" id="reels" aria-hidden="true"></div>
+                <div class="payline" aria-hidden="true"></div>
+              </div>
+              <div class="result">
+                <output id="result" aria-live="polite" aria-label="Generated ID">brave-otter-42</output>
+                <button class="copy-btn" type="button" id="copy-id"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>Copy</button>
+              </div>
+              <div class="pinned" id="pinned"><span>Pinned:</span></div>
+              <div class="panel" role="group" aria-label="Machine settings">
+                <div class="knob"><span class="lbl" id="words-lbl">words</span>
+                  <span class="stepper"><button type="button" data-step="words" data-d="-1" aria-label="Fewer words">−</button><output id="words-val" aria-labelledby="words-lbl">2</output><button type="button" data-step="words" data-d="1" aria-label="More words">+</button></span></div>
+                <div class="knob"><span class="lbl" id="digits-lbl">digits</span>
+                  <span class="stepper"><button type="button" data-step="digits" data-d="-1" aria-label="Fewer digits">−</button><output id="digits-val" aria-labelledby="digits-lbl">2</output><button type="button" data-step="digits" data-d="1" aria-label="More digits">+</button></span></div>
+                <label class="knob toggle"><span class="lbl">number</span><input type="checkbox" id="number" checked></label>
+                <div class="knob"><span class="lbl" id="sep-lbl">sep</span>
+                  <span class="seps" role="group" aria-labelledby="sep-lbl" id="seps">
+                    <button type="button" data-sep="-" aria-pressed="true">-</button><button type="button" data-sep="_" aria-pressed="false">_</button><button type="button" data-sep="." aria-pressed="false">.</button><button type="button" data-sep="" aria-pressed="false" aria-label="no separator">∅</button>
+                  </span></div>
+              </div>
+              <button class="spin" type="button" id="spin">Pull <kbd>Space</kbd></button>
+            </div>
+            <button class="lever" type="button" id="lever" aria-label="Pull the lever to generate a new ID">
+              <span class="lever__base"></span>
+              <span class="lever__arm"><span class="lever__knob"></span></span>
+            </button>
+          </div>
+          <div class="tape" id="tape" aria-label="Recent IDs, click to copy"><span class="tape__label">Your pulls appear here. Click one to copy.</span></div>
+        </div>
+      </section>
+    </div>
+
+    <div class="wrap">
+      <section id="odds" aria-labelledby="odds-title">
+        <span class="eyebrow">01 · Collision calculator</span>
+        <h2 id="odds-title">When will two IDs <span class="hl">collide?</span></h2>
+        <p class="lede">The birthday paradox bites sooner than you think. Slide to your expected volume and pick a shape: the numbers come straight from <code>combinations()</code> and <code>collisionProbability()</code>.</p>
+        <div class="odds">
+          <div class="card odds__controls">
+            <div>
+              <label class="field-label" for="n-range">IDs you will generate</label>
+              <div class="count-big" id="n-big">1,000</div>
+              <input type="range" id="n-range" min="0" max="800" value="200" aria-valuetext="1,000 IDs">
+            </div>
+            <div>
+              <span class="field-label" id="ow-lbl">words</span>
+              <div class="chips" role="group" aria-labelledby="ow-lbl" id="o-words">
+                <button type="button" data-v="1" aria-pressed="false">1</button><button type="button" data-v="2" aria-pressed="true">2</button><button type="button" data-v="3" aria-pressed="false">3</button><button type="button" data-v="4" aria-pressed="false">4</button>
+              </div>
+            </div>
+            <div>
+              <span class="field-label" id="od-lbl">digits</span>
+              <div class="chips" role="group" aria-labelledby="od-lbl" id="o-digits">
+                <button type="button" data-v="0" aria-pressed="false">none</button><button type="button" data-v="1" aria-pressed="false">1</button><button type="button" data-v="2" aria-pressed="true">2</button><button type="button" data-v="3" aria-pressed="false">3</button><button type="button" data-v="4" aria-pressed="false">4</button><button type="button" data-v="6" aria-pressed="false">6</button>
+              </div>
+            </div>
+            <div class="stats">
+              <div class="stat"><b id="s-combos">6,374,400</b><span>possible IDs</span></div>
+              <div class="stat"><b id="s-odds">1 in 13</b><span>chance of any duplicate</span></div>
+              <div class="stat"><b id="s-safe">–</b><span>IDs before 1% risk</span></div>
+              <div class="stat"><b id="s-half">–</b><span>IDs for a coin flip (50%)</span></div>
+            </div>
+          </div>
+          <div class="card odds__chart">
+            <p class="verdict" id="verdict"></p>
+            <div class="gauge" aria-hidden="true"><div class="gauge__fill" id="gauge"></div><div class="gauge__txt" id="gauge-txt"></div></div>
+            <svg class="chart" id="chart" viewBox="0 0 640 300" role="img" aria-label="Collision probability by number of IDs"></svg>
+          </div>
+        </div>
+      </section>
+
+      <section id="stream" aria-labelledby="stream-title">
+        <span class="eyebrow">02 · Stress test</span>
+        <h2 id="stream-title">Generate <span class="hl">1,000</span>. Watch for twins.</h2>
+        <p class="lede">Each square is one real <code>readableId()</code> call. Duplicates light up red. Shrink the ID space to watch the birthday paradox happen live, then compare with the predicted odds.</p>
+        <div class="stream">
+          <div class="card stream__board">
+            <div class="stream__bar">
+              <div class="chips" role="group" aria-label="ID shape" id="space">
+                <button type="button" data-space="default" aria-pressed="true">adj-noun-00</button>
+                <button type="button" data-space="one" aria-pressed="false">adj-noun-0</button>
+                <button type="button" data-space="none" aria-pressed="false">adj-noun</button>
+                <button type="button" data-space="three" aria-pressed="false">adj-adj-noun-00</button>
+              </div>
+              <button class="btn btn--primary" type="button" id="run">Generate 1000</button>
+            </div>
+            <canvas id="board" width="800" height="500" aria-label="1000 generated IDs, duplicates in red" role="img"></canvas>
+            <div class="counters">
+              <div class="stat"><b id="c-gen">0</b><span>generated</span></div>
+              <div class="stat"><b id="c-uniq">0</b><span>unique</span></div>
+              <div class="stat dup"><b id="c-dup">0</b><span>duplicates</span></div>
+            </div>
+          </div>
+          <div class="card stream__side">
+            <div>
+              <span class="field-label">Live feed</span>
+              <ol class="ticker" id="ticker" aria-live="off"><li class="hint">Press Generate 1000 to start the stream.</li></ol>
+            </div>
+            <p class="note" id="predict"></p>
+            <p class="note" id="runs">Runs so far: <b>0</b></p>
+          </div>
+        </div>
+      </section>
+
+      <section id="validate" aria-labelledby="validate-title">
+        <span class="eyebrow">03 · Validator</span>
+        <h2 id="validate-title">Is that a <span class="hl">real one?</span></h2>
+        <p class="lede"><code>isReadableId()</code> checks the exact shape and that every word is in the lists, so typos and made-up IDs are rejected instantly. It follows the machine's settings above.</p>
+        <div class="card validator">
+          <p class="shape" id="shape"></p>
+          <label class="sr-only" for="vin">ID to validate</label>
+          <div class="vinput" id="vbox"><input id="vin" value="brave-otter-42" spellcheck="false" autocomplete="off"><span class="vbadge" id="vbadge">valid</span></div>
+          <div class="parts" id="parts" aria-live="polite"></div>
+          <div class="samples"><span>Try:</span>
+            <span class="chips" id="vsamples"></span>
+          </div>
+        </div>
+      </section>
+
+      <section id="words" aria-labelledby="words-title">
+        <span class="eyebrow">04 · The word lists</span>
+        <h2 id="words-title">Every word, <span class="hl">hand-picked.</span></h2>
+        <p class="lede">No body parts, no insults, nothing that reads badly next to its neighbour. Lowercase <code>a-z</code> only, so any separator is safe. Click a word to <b>pin</b> it into the machine using the <code>adjectives</code> / <code>nouns</code> options.</p>
+        <div class="card words">
+          <div class="words__bar">
+            <div class="tabs" role="tablist" aria-label="Word list">
+              <button type="button" role="tab" id="tab-adj" aria-selected="true" aria-controls="wordgrid" data-list="adjectives">Adjectives<span id="n-adj"></span></button>
+              <button type="button" role="tab" id="tab-noun" aria-selected="false" aria-controls="wordgrid" data-list="nouns" tabindex="-1">Nouns<span id="n-noun"></span></button>
+            </div>
+            <input class="search" id="wq" type="search" placeholder="Filter words…" aria-label="Filter words">
+          </div>
+          <div class="wordgrid" id="wordgrid" role="tabpanel" aria-labelledby="tab-adj"></div>
+          <div class="words__foot"><span id="wcount"></span><span id="wcode"></span></div>
+        </div>
+      </section>
+
+      <section id="start" aria-labelledby="start-title">
+        <span class="eyebrow">05 · Get started</span>
+        <h2 id="start-title">Drop it in. <span class="hl">Name things.</span></h2>
+        <p class="lede">One file, zero dependencies, Node 18+ and every modern browser. TypeScript types included.</p>
+        <div class="start">
+          <div class="card step">
+            <div><h3><span>1</span>Install</h3>
+            <p style="margin-top:.5rem">Straight from GitHub. Nothing else comes with it.</p></div>
+            <pre class="codeblock" data-copy>npm i github:ghanemja/readable-id</pre>
+          </div>
+          <div class="card step">
+            <h3><span>2</span>Generate</h3>
+            <p>Sensible defaults, every knob optional.</p>
+<pre class="codeblock" data-copy><span class="k">import</span> { readableId } <span class="k">from</span> <span class="s">'readable-id'</span>;
+
+readableId();                <span class="c">// 'brave-otter-42'</span>
+readableId({ words: <span class="n">3</span> });    <span class="c">// 'misty-gentle-heron-07'</span>
+readableId({ separator: <span class="s">'_'</span>, digits: <span class="n">4</span> });
+                             <span class="c">// 'lucky_comet_3810'</span></pre>
+          </div>
+          <div class="card step">
+            <h3><span>3</span>Know your odds</h3>
+            <p>Size the space before it bites.</p>
+<pre class="codeblock" data-copy><span class="k">import</span> { combinations, collisionProbability,
+         isReadableId } <span class="k">from</span> <span class="s">'readable-id'</span>;
+
+combinations();               <span class="c">// 6374400</span>
+collisionProbability(<span class="n">1000</span>);    <span class="c">// ≈ 0.075</span>
+isReadableId(<span class="s">'brave-otter-42'</span>); <span class="c">// true</span></pre>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p><b>readable-id</b> · MIT License · © 2026 ghanemja</p>
+      <p class="fid" id="footer-id" aria-hidden="true"></p>
+      <p><a href="https://github.com/ghanemja/readable-id">Source on GitHub</a> · <a href="https://github.com/ghanemja/readable-id/blob/main/LICENSE">License</a></p>
+    </div>
+  </footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script type="module">
+    import { readableId, isReadableId, combinations, collisionProbability, adjectives, nouns } from './index.js';
+
+    const $ = (s, r = document) => r.querySelector(s);
+    const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+    const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+    const fmt = new Intl.NumberFormat('en-US');
+    const compact = new Intl.NumberFormat('en-US', { notation: 'compact', maximumFractionDigits: 1 });
+    const big = (n) => n >= 1e15 ? n.toExponential(2).replace('e+', ' × 10^') : n >= 1e7 ? compact.format(n) : fmt.format(Math.round(n));
+    const pick = (a) => a[Math.floor(Math.random() * a.length)];
+
+    /* ---------- theme ---------- */
+    const root = document.documentElement;
+    const themeBtn = $('#theme');
+    const syncTheme = () => {
+      const dark = root.getAttribute('data-theme') === 'dark';
+      themeBtn.setAttribute('aria-pressed', String(dark));
+      $('meta[name="theme-color"]').setAttribute('content', dark ? '#160b1d' : '#fff3dc');
+      drawBoard();
+    };
+    themeBtn.addEventListener('click', () => {
+      const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('rid-theme', next); } catch (e) {}
+      syncTheme();
+    });
+
+    /* ---------- toast + copy ---------- */
+    const toast = $('#toast');
+    let tt;
+    function say(m) { toast.textContent = m; toast.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => toast.classList.remove('show'), 1500); }
+    async function copy(text, label) {
+      try { await navigator.clipboard.writeText(text); say(label || `Copied ${text}`); }
+      catch (e) { say('Copy failed: select and copy manually'); }
+    }
+    const COPY_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>';
+    $$('pre[data-copy]').forEach((pre) => {
+      const wrap = document.createElement('div'); wrap.className = 'code';
+      pre.replaceWith(wrap); wrap.appendChild(pre);
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'copy'; b.setAttribute('aria-label', 'Copy code'); b.innerHTML = COPY_ICON;
+      b.addEventListener('click', () => copy(pre.textContent.replace(/\s+$/, ''), 'Code copied'));
+      wrap.appendChild(b);
+    });
+
+    /* ---------- machine state ---------- */
+    const m = { words: 2, digits: 2, number: true, separator: '-', pinAdj: null, pinNoun: null };
+    const machineOpts = () => {
+      const o = { words: m.words, digits: m.digits, number: m.number, separator: m.separator };
+      if (m.pinAdj) o.adjectives = [m.pinAdj];
+      if (m.pinNoun) o.nouns = [m.pinNoun];
+      return o;
+    };
+    const longest = (a) => a.reduce((x, w) => Math.max(x, w.length), 0);
+    const ADJ_W = longest(adjectives), NOUN_W = longest(nouns);
+
+    const reelsEl = $('#reels');
+    let current = ['brave', 'otter', '42'];
+    function kinds() {
+      const k = [];
+      for (let i = 0; i < m.words - 1; i++) k.push('adj');
+      k.push('noun');
+      if (m.number) k.push('num');
+      return k;
+    }
+    function buildReels() {
+      const ks = kinds();
+      reelsEl.innerHTML = ks.map((k, i) => {
+        const w = k === 'adj' ? ADJ_W : k === 'noun' ? NOUN_W : m.digits;
+        return `<div class="reel" data-kind="${k}" style="flex-basis:${w + 1.4}ch"><div class="reel__label">${k === 'num' ? 'number' : k === 'adj' ? 'adjective' : 'noun'}</div><div class="reel__win"><div class="reel__strip"><span>${esc(current[i] ?? '')}</span></div></div></div>`;
+      }).join('');
+    }
+    function filler(kind) {
+      if (kind === 'adj') return pick(m.pinAdj ? adjectives : adjectives);
+      if (kind === 'noun') return pick(nouns);
+      let s = ''; for (let i = 0; i < m.digits; i++) s += Math.floor(Math.random() * 10); return s;
+    }
+
+    const resultEl = $('#result');
+    const machine = $('#machine');
+    const spinBtn = $('#spin');
+    const lever = $('#lever');
+    let spinning = false;
+    const history = [];
+
+    function show(id) {
+      resultEl.textContent = id;
+      resultEl.classList.remove('pop'); void resultEl.offsetWidth;
+      if (!reduced.matches) resultEl.classList.add('pop');
+      history.unshift(id); if (history.length > 8) history.pop();
+      $('#tape').innerHTML = history.map((h) => `<button type="button" class="ticket" title="Copy ${esc(h)}">${esc(h)}</button>`).join('');
+    }
+
+    async function spin() {
+      if (spinning) return;
+      spinning = true;
+      spinBtn.setAttribute('aria-busy', 'true');
+      lever.classList.add('pulled'); spinBtn.classList.add('down');
+      setTimeout(() => { lever.classList.remove('pulled'); spinBtn.classList.remove('down'); }, 260);
+      // One real call. A '|' separator lets us split it into reel faces; the shown ID is re-joined with the chosen separator.
+      const raw = readableId({ ...machineOpts(), separator: '|' });
+      const parts = raw.split('|');
+      const id = parts.join(m.separator);
+      current = parts;
+      if (reelsEl.children.length !== parts.length) buildReels();
+      const reels = $$('.reel', reelsEl);
+      if (reduced.matches) {
+        reels.forEach((r, i) => { $('.reel__strip', r).innerHTML = `<span>${esc(parts[i])}</span>`; });
+      } else {
+        const h = $('.reel__win', reels[0]).offsetHeight;
+        await Promise.all(reels.map((r, i) => {
+          const strip = $('.reel__strip', r);
+          const prev = strip.firstElementChild ? strip.firstElementChild.textContent : '';
+          const n = 14 + i * 6;
+          const faces = [prev];
+          for (let j = 0; j < n; j++) faces.push(filler(r.dataset.kind));
+          faces.push(parts[i]);
+          strip.innerHTML = faces.map((f) => `<span>${esc(f)}</span>`).join('');
+          strip.classList.add('blur');
+          const anim = strip.animate([{ transform: 'translateY(0)' }, { transform: `translateY(${-(faces.length - 1) * h}px)` }],
+            { duration: 900 + i * 380, easing: 'cubic-bezier(.12,.75,.25,1.04)', fill: 'forwards' });
+          return anim.finished.then(() => {
+            anim.cancel();
+            strip.classList.remove('blur');
+            strip.innerHTML = `<span>${esc(parts[i])}</span>`;
+          });
+        }));
+        machine.classList.add('win');
+        setTimeout(() => machine.classList.remove('win'), 900);
+      }
+      show(id);
+      spinning = false;
+      spinBtn.removeAttribute('aria-busy');
+    }
+    spinBtn.addEventListener('click', spin);
+    lever.addEventListener('click', spin);
+    $('#copy-id').addEventListener('click', () => copy(resultEl.textContent));
+    $('#tape').addEventListener('click', (e) => { const t = e.target.closest('.ticket'); if (t) copy(t.textContent); });
+    document.addEventListener('keydown', (e) => {
+      if (e.code !== 'Space' && e.key !== ' ') return;
+      if (e.target.closest('input, textarea, select, button, a, [contenteditable]')) return;
+      e.preventDefault();
+      spin();
+    });
+
+    function syncMachineUI() {
+      $('#words-val').textContent = m.words;
+      $('#digits-val').textContent = m.digits;
+      $('[data-step="words"][data-d="-1"]').disabled = m.words <= 1;
+      $('[data-step="words"][data-d="1"]').disabled = m.words >= 4;
+      $('[data-step="digits"][data-d="-1"]').disabled = m.digits <= 1 || !m.number;
+      $('[data-step="digits"][data-d="1"]').disabled = m.digits >= 6 || !m.number;
+      $$('#seps button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.sep === m.separator)));
+      const pins = [];
+      if (m.pinAdj) pins.push(`<button type="button" data-unpin="adj" aria-label="Unpin ${m.pinAdj}">${m.pinAdj} ✕</button>`);
+      if (m.pinNoun) pins.push(`<button type="button" data-unpin="noun" aria-label="Unpin ${m.pinNoun}">${m.pinNoun} ✕</button>`);
+      const pinned = $('#pinned');
+      pinned.classList.toggle('on', pins.length > 0);
+      pinned.innerHTML = '<span>Pinned:</span>' + pins.join('');
+      renderValidator();
+      renderWords();
+    }
+    $('.panel').addEventListener('click', (e) => {
+      const b = e.target.closest('[data-step]');
+      if (b) {
+        const k = b.dataset.step, d = +b.dataset.d;
+        m[k] = Math.max(1, Math.min(k === 'words' ? 4 : 6, m[k] + d));
+        current = current.slice();
+        reshape();
+      }
+      const s = e.target.closest('[data-sep]');
+      if (s) { m.separator = s.dataset.sep; resultEl.textContent = current.join(m.separator); syncMachineUI(); }
+    });
+    $('#number').addEventListener('change', (e) => { m.number = e.target.checked; reshape(); });
+    $('#pinned').addEventListener('click', (e) => {
+      const b = e.target.closest('[data-unpin]'); if (!b) return;
+      if (b.dataset.unpin === 'adj') m.pinAdj = null; else m.pinNoun = null;
+      syncMachineUI();
+    });
+    function reshape() {
+      // Re-roll silently so the reels match the new shape, then spin to show it off.
+      current = readableId({ ...machineOpts(), separator: '|' }).split('|');
+      buildReels();
+      resultEl.textContent = current.join(m.separator);
+      syncMachineUI();
+    }
+
+    /* ---------- odds ---------- */
+    const odds = { words: 2, digits: 2 };
+    const nRange = $('#n-range');
+    const nFromRange = (v) => Math.round(10 ** (1 + v / 100)); // 10 .. 10^9
+    const oOpts = () => odds.digits ? { words: odds.words, digits: odds.digits } : { words: odds.words, number: false };
+    function chipGroup(el, key) {
+      el.addEventListener('click', (e) => {
+        const b = e.target.closest('button'); if (!b) return;
+        odds[key] = +b.dataset.v;
+        $$('button', el).forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+        renderOdds();
+      });
+    }
+    chipGroup($('#o-words'), 'words');
+    chipGroup($('#o-digits'), 'digits');
+    nRange.addEventListener('input', renderOdds);
+    let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(renderOdds, 100); });
+    const nFor = (N, p) => Math.sqrt(2 * N * -Math.log(1 - p));
+    function renderOdds() {
+      const n = nFromRange(+nRange.value);
+      const o = oOpts();
+      const N = combinations(o);
+      const p = collisionProbability(n, o);
+      $('#n-big').innerHTML = `${big(n)}<small>IDs</small>`;
+      nRange.setAttribute('aria-valuetext', `${fmt.format(n)} IDs`);
+      $('#s-combos').textContent = big(N);
+      $('#s-odds').textContent = p >= 0.995 ? 'near certain' : p < 1e-12 ? '≈ 0' : p > 0.5 ? `${(p * 100).toFixed(1)}%` : `1 in ${big(1 / p)}`;
+      $('#s-safe').textContent = big(nFor(N, 0.01));
+      $('#s-half').textContent = big(nFor(N, 0.5));
+      const pct = p * 100;
+      $('#gauge').style.width = Math.max(pct, p > 0 ? 0.6 : 0) + '%';
+      $('#gauge').style.setProperty('--full', (100 / Math.max(pct, 0.6) * 100) + '%');
+      $('#gauge-txt').textContent = `${pct < 0.01 && p > 0 ? '< 0.01' : pct.toFixed(pct < 10 ? 2 : 1)}% chance of a duplicate`;
+      const shape = [...Array(odds.words - 1).fill('adj'), 'noun', ...(odds.digits ? ['0'.repeat(odds.digits)] : [])].join('-');
+      $('#verdict').innerHTML = p < 0.001 ? `With <code>${shape}</code>, ${big(n)} IDs is <b style="color:var(--good)">comfortably safe</b>.`
+        : p < 0.01 ? `With <code>${shape}</code>, ${big(n)} IDs is <b style="color:var(--gold-deep)">probably fine</b>, but check for duplicates.`
+        : p < 0.5 ? `With <code>${shape}</code>, ${big(n)} IDs carries a <b>real risk</b> of a duplicate. Check before you insert.`
+        : `With <code>${shape}</code>, ${big(n)} IDs <b>will likely collide</b>. Add a word or digits.`;
+      drawChart(N, n, o);
+    }
+    function drawChart(N, n, o) {
+      const W = Math.round(Math.min(640, Math.max(300, $('#chart').clientWidth || 640))), H = W < 500 ? 240 : 300, L = 42, R = 14, T = 16, B = 34;
+      $('#chart').setAttribute('viewBox', `0 0 ${W} ${H}`);
+      const x = (lg) => L + ((lg - 1) / 8) * (W - L - R);
+      const y = (p) => T + (1 - p) * (H - T - B);
+      let d = '';
+      for (let i = 0; i <= 160; i++) {
+        const lg = 1 + (i / 160) * 8;
+        const p = collisionProbability(Math.round(10 ** lg), o);
+        d += (i ? 'L' : 'M') + x(lg).toFixed(1) + ' ' + y(p).toFixed(1);
+      }
+      const lgn = Math.log10(n), pn = collisionProbability(n, o);
+      let grid = '', axis = '';
+      for (let k = 1; k <= 9; k++) {
+        grid += `<line x1="${x(k)}" x2="${x(k)}" y1="${T}" y2="${H - B}"/>`;
+        if (W < 500 && k % 2 === 0) continue;
+        axis += `<text x="${x(k)}" y="${H - B + 18}" text-anchor="middle">${k < 4 ? fmt.format(10 ** k) : '10' + String(k).replace(/\d/g, (c) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[c])}</text>`;
+      }
+      for (const p of [0, .25, .5, .75, 1]) {
+        grid += `<line x1="${L}" x2="${W - R}" y1="${y(p)}" y2="${y(p)}"/>`;
+        axis += `<text x="${L - 8}" y="${y(p) + 4}" text-anchor="end">${p * 100}%</text>`;
+      }
+      const mx = x(lgn), my = y(pn);
+      const lab = `${(pn * 100).toFixed(pn < .1 ? 2 : 1)}%`;
+      const anchor = mx > W - 90 ? 'end' : 'start';
+      $('#chart').innerHTML = `
+        <defs><linearGradient id="area" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="var(--red)" stop-opacity=".28"/><stop offset="1" stop-color="var(--red)" stop-opacity="0"/></linearGradient></defs>
+        <g class="grid">${grid}</g><g class="axis">${axis}</g>
+        <line class="half" x1="${L}" x2="${W - R}" y1="${y(.5)}" y2="${y(.5)}"/>
+        <path class="area" d="${d}L${x(9)} ${y(0)}L${x(1)} ${y(0)}Z"/>
+        <path class="curve" d="${d}"/>
+        <g class="marker"><line x1="${mx}" x2="${mx}" y1="${y(0)}" y2="${my}"/><circle cx="${mx}" cy="${my}" r="8"/>
+          <text x="${mx + (anchor === 'end' ? -14 : 14)}" y="${Math.max(my - 12, T + 12)}" text-anchor="${anchor}">${big(n)} IDs → ${lab}</text></g>`;
+    }
+
+    /* ---------- stream ---------- */
+    const SPACES = {
+      default: { words: 2, digits: 2 },
+      one: { words: 2, digits: 1 },
+      none: { words: 2, number: false },
+      three: { words: 3, digits: 2 }
+    };
+    let space = 'default';
+    const board = $('#board');
+    const ctx = board.getContext('2d');
+    const COLS = 40, ROWS = 25, CELL = 20;
+    let cells = []; // { hue, dup }
+    let runs = 0, runsWithDup = 0, running = false;
+    const css = (v) => getComputedStyle(root).getPropertyValue(v).trim();
+    function hash(s) { let h = 0; for (const c of s) h = (h * 31 + c.charCodeAt(0)) >>> 0; return h; }
+    function drawBoard() {
+      const dark = root.getAttribute('data-theme') === 'dark';
+      ctx.clearRect(0, 0, board.width, board.height);
+      for (let i = 0; i < COLS * ROWS; i++) {
+        const c = cells[i], cx = (i % COLS) * CELL, cy = Math.floor(i / COLS) * CELL;
+        if (!c) { ctx.fillStyle = dark ? 'rgba(255,255,255,.05)' : 'rgba(43,23,32,.06)'; ctx.fillRect(cx + 2, cy + 2, CELL - 4, CELL - 4); continue; }
+        if (c.dup) {
+          ctx.fillStyle = css('--bad'); ctx.fillRect(cx, cy, CELL, CELL);
+          ctx.fillStyle = '#fff'; ctx.fillRect(cx + 7, cy + 7, CELL - 14, CELL - 14);
+        } else if (c.twin) {
+          ctx.strokeStyle = css('--bad'); ctx.lineWidth = 3; ctx.strokeRect(cx + 2.5, cy + 2.5, CELL - 5, CELL - 5);
+          ctx.fillStyle = `hsl(${c.hue} 40% ${dark ? 45 : 70}%)`; ctx.fillRect(cx + 5, cy + 5, CELL - 10, CELL - 10);
+        } else {
+          ctx.fillStyle = `hsl(${c.hue} ${dark ? 35 : 45}% ${dark ? 38 + (c.hue % 3) * 5 : 70 + (c.hue % 3) * 5}%)`;
+          ctx.fillRect(cx + 2, cy + 2, CELL - 4, CELL - 4);
+        }
+      }
+    }
+    function renderPredict() {
+      const o = SPACES[space];
+      const p = collisionProbability(1000, o);
+      $('#predict').innerHTML = `Space: <b>${fmt.format(combinations(o))}</b> IDs. Predicted chance of at least one duplicate in 1000: <b>${(p * 100).toFixed(p < 0.1 || p > 0.99 ? 2 : 0)}%</b>.`;
+      $('#runs').innerHTML = `Runs so far: <b>${runs}</b>${runs ? `, with a duplicate: <b>${runsWithDup}</b> (${Math.round(runsWithDup / runs * 100)}%)` : ''}`;
+    }
+    $('#space').addEventListener('click', (e) => {
+      const b = e.target.closest('button'); if (!b || running) return;
+      space = b.dataset.space; runs = 0; runsWithDup = 0;
+      $$('#space button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      renderPredict();
+    });
+    function run() {
+      if (running) return;
+      running = true;
+      const btn = $('#run'); btn.disabled = true; btn.textContent = 'Generating…';
+      const o = SPACES[space];
+      const seen = new Map();
+      cells = []; let dups = 0, i = 0;
+      const ticker = $('#ticker'); ticker.innerHTML = '';
+      const step = (count) => {
+        let html = '';
+        for (let k = 0; k < count && i < 1000; k++, i++) {
+          const id = readableId(o);
+          const first = seen.get(id);
+          const dup = first !== undefined;
+          if (dup) { dups++; cells[first].twin = true; } else seen.set(id, i);
+          cells[i] = { hue: 150 + hash(id) % 60, dup };
+          html = `<li class="${dup ? 'dup' : ''}">${esc(id)}<span>${dup ? 'DUPLICATE' : '#' + (i + 1)}</span></li>` + html;
+        }
+        ticker.insertAdjacentHTML('afterbegin', html);
+        while (ticker.children.length > 14) ticker.lastElementChild.remove();
+        $('#c-gen').textContent = fmt.format(i);
+        $('#c-uniq').textContent = fmt.format(seen.size);
+        $('#c-dup').textContent = fmt.format(dups);
+        drawBoard();
+        if (i < 1000) requestAnimationFrame(() => step(8));
+        else {
+          runs++; if (dups) runsWithDup++;
+          renderPredict();
+          running = false; btn.disabled = false; btn.textContent = 'Generate 1000 more';
+          say(dups ? `${dups} duplicate${dups > 1 ? 's' : ''} in 1000` : 'No duplicates this time');
+        }
+      };
+      if (reduced.matches) step(1000); else step(8);
+    }
+    $('#run').addEventListener('click', run);
+    // Run once on its own the first time the board scrolls into view.
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); if (!runs && !running) run(); } }, { threshold: 0.4 });
+      io.observe(board);
+    }
+
+    /* ---------- validator ---------- */
+    const vin = $('#vin');
+    const ADJ = new Set(adjectives), NOUN = new Set(nouns);
+    function shapeText() {
+      const o = { words: m.words, digits: m.digits, number: m.number, separator: m.separator };
+      const parts = [...Array(o.words - 1).fill('adjective'), 'noun', ...(o.number ? [`${o.digits} digit${o.digits > 1 ? 's' : ''}`] : [])];
+      return { o, parts };
+    }
+    function renderValidator() {
+      const { o, parts: shape } = shapeText();
+      $('#shape').innerHTML = `Expecting <b>${shape.join(` <code>${esc(o.separator || '∅')}</code> `)}</b>`;
+      const id = vin.value;
+      const box = $('#vbox');
+      if (!o.separator) {
+        box.className = 'vinput no'; $('#vbadge').textContent = 'needs a separator';
+        $('#parts').innerHTML = '<div class="part miss"><b>isReadableId needs a non-empty separator</b><span>Pick -, _ or . on the machine</span></div>';
+        return;
+      }
+      const ok = isReadableId(id, o);
+      box.className = 'vinput ' + (id ? (ok ? 'ok' : 'no') : '');
+      $('#vbadge').textContent = !id ? 'type an ID' : ok ? '✓ valid' : '✕ invalid';
+      const got = id ? id.split(o.separator) : [];
+      const n = Math.max(got.length, shape.length);
+      let html = '';
+      for (let i = 0; i < n; i++) {
+        const want = shape[i], g = got[i];
+        if (g === undefined) { html += `<div class="part miss"><b>…</b><span>missing ${want}</span></div>`; continue; }
+        if (!want) { html += `<div class="part bad"><b>${esc(g)}</b><span>unexpected extra part</span></div>`; continue; }
+        let good, why;
+        if (want === 'adjective') { good = ADJ.has(g); why = good ? 'adjective ✓' : NOUN.has(g) ? 'that is a noun' : 'not in the adjective list'; }
+        else if (want === 'noun') { good = NOUN.has(g); why = good ? 'noun ✓' : ADJ.has(g) ? 'that is an adjective' : 'not in the noun list'; }
+        else { good = new RegExp(`^\\d{${o.digits}}$`).test(g); why = good ? 'number ✓' : /^\d+$/.test(g) ? `needs exactly ${o.digits} digit${o.digits > 1 ? 's' : ''}` : 'not a number'; }
+        html += `<div class="part ${good ? 'good' : 'bad'}"><b>${esc(g || '(empty)')}</b><span>${why}</span></div>`;
+      }
+      $('#parts').innerHTML = html;
+      // Samples follow the current shape.
+      const s = o.separator;
+      const valid = readableId(o);
+      const bits = valid.split(s);
+      const samples = [
+        valid,
+        bits.slice(0, -1).join(s) + (o.number ? '' : s + 'zz'),
+        ['angry', ...bits.slice(1)].join(s),
+        o.number ? [...bits.slice(0, -1), bits[bits.length - 1] + '7'].join(s) : bits.map((w) => w.toUpperCase()).join(s)
+      ];
+      if (!$('#vsamples').dataset.shape || $('#vsamples').dataset.shape !== JSON.stringify(o)) {
+        $('#vsamples').dataset.shape = JSON.stringify(o);
+        $('#vsamples').innerHTML = samples.map((x) => `<button type="button" aria-pressed="false">${esc(x)}</button>`).join('');
+      }
+    }
+    vin.addEventListener('input', renderValidator);
+    $('#vsamples').addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) { vin.value = b.textContent; renderValidator(); } });
+
+    /* ---------- word lists ---------- */
+    let list = 'adjectives';
+    $('#n-adj').textContent = adjectives.length;
+    $('#n-noun').textContent = nouns.length;
+    const tabs = $$('[role="tab"]');
+    function selectTab(t) {
+      list = t.dataset.list;
+      tabs.forEach((x) => { const on = x === t; x.setAttribute('aria-selected', String(on)); x.tabIndex = on ? 0 : -1; });
+      $('#wordgrid').setAttribute('aria-labelledby', t.id);
+      renderWords();
+    }
+    tabs.forEach((t) => {
+      t.addEventListener('click', () => selectTab(t));
+      t.addEventListener('keydown', (e) => {
+        if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+        const o = tabs[(tabs.indexOf(t) + 1) % 2]; o.focus(); selectTab(o);
+      });
+    });
+    $('#wq').addEventListener('input', renderWords);
+    function renderWords() {
+      const q = $('#wq').value.trim().toLowerCase();
+      const src = list === 'adjectives' ? adjectives : nouns;
+      const words = [...src].sort().filter((w) => w.includes(q));
+      const pin = list === 'adjectives' ? m.pinAdj : m.pinNoun;
+      $('#wordgrid').innerHTML = words.map((w) => `<button type="button" class="word" aria-pressed="${w === pin}">${q ? esc(w).replace(q, `<span class="letter">${esc(q)}</span>`) : esc(w)}</button>`).join('') || '<p class="note">No words match.</p>';
+      $('#wcount').textContent = `${words.length} of ${src.length} ${list}`;
+      const p = m.pinAdj || m.pinNoun;
+      $('#wcode').innerHTML = p ? `<code>readableId({ ${[m.pinAdj ? `adjectives: ['${m.pinAdj}']` : '', m.pinNoun ? `nouns: ['${m.pinNoun}']` : ''].filter(Boolean).join(', ')} })</code>` : 'Nothing pinned';
+    }
+    $('#wordgrid').addEventListener('click', (e) => {
+      const b = e.target.closest('.word'); if (!b) return;
+      const w = b.textContent;
+      if (list === 'adjectives') m.pinAdj = m.pinAdj === w ? null : w; else m.pinNoun = m.pinNoun === w ? null : w;
+      if (list === 'adjectives' && m.pinAdj && m.words < 2) m.words = 2;
+      const pinnedNow = list === 'adjectives' ? m.pinAdj : m.pinNoun;
+      syncMachineUI();
+      say(pinnedNow ? `Pinned "${w}". Pull the lever!` : `Unpinned "${w}"`);
+    });
+
+    /* ---------- init ---------- */
+    current = readableId({ separator: '|' }).split('|');
+    buildReels();
+    resultEl.textContent = current.join('-');
+    $('#footer-id').textContent = 'build ' + readableId({ words: 3, digits: 3 });
+    syncMachineUI();
+    syncTheme();
+    renderOdds();
+    renderPredict();
+    drawBoard();
+  </script>
+</body>
+</html>

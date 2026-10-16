@@ -1,5 +1,9 @@
 # readable-id
 
+**Live demo:** https://ghanemja.github.io/readable-id/
+
+[![readable-id demo site](docs/screenshot.png)](https://ghanemja.github.io/readable-id/)
+
 Friendly IDs like `brave-otter-42`. Good for room names, preview deployments, invite codes, temporary file names and anywhere a UUID is too unfriendly to read aloud.
 
 - Zero dependencies, one file, Node 18+ and browsers
