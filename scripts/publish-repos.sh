@@ -6,7 +6,8 @@
 # Usage:  ./scripts/publish-repos.sh [owner] [project ...]
 #   owner defaults to ghanemja; with no projects, every project folder is published.
 # Safe to re-run: existing repos are reused and pushes are fast-forward only.
-set -euo pipefail
+# A failure on one project is reported and the rest still run.
+set -uo pipefail
 cd "$(dirname "$0")/.."
 
 owner="${1:-ghanemja}"; shift || true
@@ -15,15 +16,28 @@ if [ ${#projects[@]} -eq 0 ]; then
   for d in */; do d="${d%/}"; [ -f "$d/LICENSE" ] && projects+=("$d"); done
 fi
 
-for name in "${projects[@]}"; do
-  echo "==> $name"
+publish_one() {
+  local name="$1" desc branch="split/$1"
   desc=$(sed -n 's/^  "description": "\(.*\)",$/\1/p' "$name/package.json" 2>/dev/null | head -1)
   if ! gh repo view "$owner/$name" >/dev/null 2>&1; then
-    gh repo create "$owner/$name" --public --description "${desc:-$name}"
+    gh repo create "$owner/$name" --public --description "${desc:-$name}" || return 1
+    sleep 2  # GitHub rate-limits rapid repo creation
   fi
-  branch="split/$name"
-  git subtree split --prefix="$name" -b "$branch" >/dev/null
-  git push "https://github.com/$owner/$name.git" "$branch:main"
+  git branch -D "$branch" >/dev/null 2>&1
+  git subtree split --prefix="$name" -b "$branch" >/dev/null || return 1
+  git push "https://github.com/$owner/$name.git" "$branch:main" || { git branch -D "$branch" >/dev/null; return 1; }
   git branch -D "$branch" >/dev/null
+}
+
+failed=()
+for name in "${projects[@]}"; do
+  echo "==> $name"
+  publish_one "$name" || { failed+=("$name"); echo "!! $name failed, continuing"; }
 done
+
+if [ ${#failed[@]} -gt 0 ]; then
+  echo "Failed (${#failed[@]}): ${failed[*]}"
+  echo "Retry just those:  ./scripts/publish-repos.sh $owner ${failed[*]}"
+  exit 1
+fi
 echo "Published ${#projects[@]} repositories under github.com/$owner"
