@@ -1,8 +1,12 @@
 # env-check
 
+**Live demo:** https://ghanemja.github.io/env-check/
+
+![env-check demo: editable .env and schema with live validation](docs/screenshot.png)
+
 Validate environment variables at startup. Describe what your app needs once, get a typed config object back, and when something is wrong see **every** problem at once in a readable table instead of crashing on the first one.
 
-- Zero dependencies, one file, Node 18+
+- Zero dependencies, Node 18+; the parser and validator also run in browsers and edge runtimes (`env-check/core`)
 - Types: `string`, `number`, `integer`, `boolean`, `url`, `email`, `port`, `enum`, `json`
 - Built-in `.env` parser (quotes, comments, `export`, multiline values, escapes), no `dotenv` needed
 - CLI for CI and deploy scripts, plus `.env.example` generation
@@ -137,6 +141,8 @@ An empty string counts as missing. Optional variables without a default come bac
 - `loadDotenv(path = '.env') → object` — read and parse a file, `{}` if missing.
 - `generateExample(schema) → string` — `.env.example` contents.
 - `EnvCheckError` — has `errors: { key, type, message, value?, description? }[]`.
+
+`env-check/core` (`core.js`) exports `parseDotenv`, `validateEnv`, `formatErrors`, `generateExample`, `EnvCheckError` and `types` with no `node:` imports, for browsers and edge runtimes. Pass `env` explicitly to `validateEnv` there.
 
 ### `.env` format
 

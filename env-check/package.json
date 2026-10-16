@@ -9,16 +9,34 @@
     ".": {
       "types": "./index.d.ts",
       "default": "./index.js"
+    },
+    "./core": {
+      "types": "./core.d.ts",
+      "default": "./core.js"
     }
   },
   "bin": {
     "env-check": "bin/env-check.js"
   },
-  "files": ["index.js", "index.d.ts", "bin/"],
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "core.js",
+    "core.d.ts",
+    "bin/"
+  ],
   "scripts": {
     "test": "node --test"
   },
-  "keywords": ["env", "dotenv", "environment", "config", "validation", "schema", "cli"],
+  "keywords": [
+    "env",
+    "dotenv",
+    "environment",
+    "config",
+    "validation",
+    "schema",
+    "cli"
+  ],
   "author": "ghanemja",
   "license": "MIT",
   "repository": {

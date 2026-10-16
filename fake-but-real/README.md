@@ -1,5 +1,9 @@
 # fake-but-real
 
+**Live demo:** https://ghanemja.github.io/fake-but-real/
+
+![fake-but-real demo: a CRM filled with seeded fake data](docs/screenshot.png)
+
 Believable, seedable placeholder data that isn't lorem ipsum. People with names from many cultures, companies, job titles, products with prices, fictional addresses, short bios and product reviews. Same seed, same data, every time.
 
 - Zero dependencies, one file, Node 18+ and browsers

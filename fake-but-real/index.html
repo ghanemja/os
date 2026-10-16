@@ -1,0 +1,1086 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>fake-but-real · placeholder data that passes for real</title>
+  <meta name="description" content="Believable, seedable placeholder data that isn't lorem ipsum: people, companies, products, addresses, bios and reviews. Same seed, same data. Zero dependencies.">
+  <meta name="theme-color" content="#f6f3ee">
+  <meta property="og:title" content="fake-but-real: placeholder data that passes for real">
+  <meta property="og:description" content="Seedable people, companies, products, addresses, bios and reviews. Same seed, same data, every time. Reserved 555-01xx numbers and example.com emails only.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ghanemja.github.io/fake-but-real/">
+  <meta property="og:image" content="https://ghanemja.github.io/fake-but-real/docs/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="fake-but-real: placeholder data that passes for real">
+  <meta name="twitter:description" content="Seedable, believable fake data with zero dependencies. Same seed, same data.">
+  <meta name="twitter:image" content="https://ghanemja.github.io/fake-but-real/docs/og.png">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='4' y='10' width='56' height='44' rx='9' fill='%23e8467c'/%3E%3Crect x='10' y='26' width='44' height='22' rx='4' fill='%23fff'/%3E%3Crect x='16' y='16' width='32' height='5' rx='2.5' fill='%23fff' opacity='.9'/%3E%3Cpath d='M17 37c4-5 7 4 11-1s6-4 9 0 6 1 10-2' stroke='%2317161a' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+  <script>
+    (function () {
+      var t;
+      try { t = localStorage.getItem('fbr-theme'); } catch (e) {}
+      if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+  <style>
+    :root {
+      --bg: #f6f3ee; --bg-dot: #d9d3c7; --surface: #ffffff; --surface-2: #faf8f4; --ink: #17161a; --muted: #6b6772;
+      --line: #e6e1d8; --line-2: #d6d0c4; --accent: #e0336f; --accent-ink: #ffffff; --accent-soft: #fde4ec;
+      --blue: #2f62ff; --blue-soft: #e5ebff; --green: #138a5c; --green-soft: #dcf3e8; --amber: #b86e00; --amber-soft: #fdefd6;
+      --grey-soft: #eeebe5; --code-bg: #1b1a21; --code-ink: #ece9f3; --shadow: 0 1px 0 rgb(23 22 26 / .04), 0 24px 48px -24px rgb(23 22 26 / .22);
+      --photo-l: .92; --photo-c: .06; --photo-ink: .42;
+      --display: 'Bricolage Grotesque', 'Inter', system-ui, sans-serif;
+      --body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+      --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      color-scheme: light;
+    }
+    [data-theme="dark"] {
+      --bg: #111014; --bg-dot: #2a2830; --surface: #1a191f; --surface-2: #151419; --ink: #f2eff7; --muted: #a29eab;
+      --line: #2b2932; --line-2: #3a3742; --accent: #ff5f95; --accent-ink: #16050b; --accent-soft: #3a1524;
+      --blue: #86a4ff; --blue-soft: #1d2442; --green: #4fd39a; --green-soft: #0f2c21; --amber: #f2b24c; --amber-soft: #33240c;
+      --grey-soft: #25232b; --code-bg: #0b0a0e; --code-ink: #ece9f3; --shadow: 0 1px 0 rgb(255 255 255 / .03), 0 24px 48px -24px rgb(0 0 0 / .7);
+      --photo-l: .34; --photo-c: .06; --photo-ink: .82;
+      color-scheme: dark;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 5rem; -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0; min-height: 100vh; overflow-x: clip; font: 400 1rem/1.55 var(--body); color: var(--ink);
+      background-color: var(--bg);
+      background-image: radial-gradient(var(--bg-dot) 1px, transparent 1.2px);
+      background-size: 22px 22px;
+      transition: background-color .25s, color .25s;
+    }
+    a { color: inherit; }
+    button, input, select, textarea { font: inherit; color: inherit; }
+    :focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; border-radius: 4px; }
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 0 16px; }
+    @media (min-width: 700px) { .wrap { padding: 0 28px; } }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+    code, pre, kbd { font-family: var(--mono); font-variant-ligatures: none; }
+    :not(pre) > code { font-size: .86em; padding: .12em .4em; border-radius: 5px; background: var(--grey-soft); }
+
+    /* ---------- buttons ---------- */
+    .btn { display: inline-flex; align-items: center; gap: .45rem; padding: .6rem 1rem; border-radius: 10px; border: 1px solid var(--line-2);
+           background: var(--surface); font-weight: 600; font-size: .9rem; cursor: pointer; text-decoration: none; white-space: nowrap;
+           transition: transform .12s, background-color .15s, border-color .15s; }
+    .btn:hover { border-color: var(--ink); }
+    .btn:active { transform: translateY(1px); }
+    .btn--primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+    .btn--primary:hover { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+    .btn--sm { padding: .4rem .7rem; font-size: .8rem; border-radius: 8px; }
+    .btn svg { width: 1.05em; height: 1.05em; flex: none; }
+    .icon-btn { display: inline-grid; place-items: center; width: 2.4rem; height: 2.4rem; border-radius: 10px; border: 1px solid var(--line-2); background: var(--surface); cursor: pointer; }
+    .icon-btn:hover { border-color: var(--ink); }
+    .icon-btn svg { width: 1.15rem; height: 1.15rem; }
+
+    /* ---------- top bar ---------- */
+    .topbar { position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+    .topbar__in { display: flex; align-items: center; gap: 1rem; height: 3.75rem; }
+    .brand { display: flex; align-items: center; gap: .55rem; font: 800 1.12rem/1 var(--display); text-decoration: none; letter-spacing: -.01em; white-space: nowrap; }
+    .brand svg { width: 1.7rem; height: 1.7rem; }
+    .nav { display: flex; gap: .2rem; margin: 0 0 0 auto; padding: 0; list-style: none; }
+    .nav a { display: block; padding: .4rem .65rem; border-radius: 8px; font-size: .88rem; font-weight: 500; color: var(--muted); text-decoration: none; }
+    .nav a:hover { color: var(--ink); background: var(--grey-soft); }
+    .topbar__tools { display: flex; gap: .45rem; align-items: center; }
+    @media (max-width: 900px) { .nav { display: none; } .topbar__tools { margin-left: auto; } }
+    @media (max-width: 400px) { .topbar__tools .btn span { display: none; } }
+    .theme-toggle .moon { display: none; }
+    [data-theme="dark"] .theme-toggle .moon { display: block; }
+    [data-theme="dark"] .theme-toggle .sun { display: none; }
+
+    /* ---------- hero ---------- */
+    .hero { padding: 2.6rem 0 2rem; }
+    .hero__head { text-align: center; max-width: 52rem; margin: 0 auto; }
+    .kicker { display: inline-flex; align-items: center; gap: .5rem; padding: .3rem .75rem .3rem .4rem; border-radius: 99px; background: var(--surface); border: 1px solid var(--line); font-size: .8rem; font-weight: 500; color: var(--muted); }
+    .kicker b { padding: .12rem .5rem; border-radius: 99px; background: var(--accent); color: var(--accent-ink); font-weight: 700; font-size: .72rem; letter-spacing: .02em; }
+    h1 { margin: 1rem 0 0; font: 800 clamp(2.3rem, 6.2vw, 4.1rem)/1 var(--display); letter-spacing: -.035em; }
+    h1 .strike { position: relative; color: var(--muted); font-weight: 500; white-space: nowrap; }
+    h1 .strike::after { content: ""; position: absolute; left: -2%; right: -2%; top: 55%; height: .09em; background: var(--accent); transform: rotate(-3deg); border-radius: 2px; }
+    h1 em { font-style: normal; color: var(--accent); }
+    .hero__lede { max-width: 40rem; margin: 1rem auto 0; font-size: clamp(1.02rem, 2.2vw, 1.18rem); color: var(--muted); }
+
+    .seedbar { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: .6rem; margin: 1.6rem auto 1.6rem; }
+    .seed { display: flex; align-items: stretch; border: 1.5px solid var(--ink); border-radius: 12px; background: var(--surface); overflow: hidden; box-shadow: 3px 3px 0 var(--ink); }
+    .seed label { display: grid; place-items: center; padding: 0 .8rem; font: 600 .78rem/1 var(--mono); background: var(--ink); color: var(--bg); letter-spacing: .04em; }
+    .seed input { width: 9.5rem; min-width: 0; padding: .65rem .8rem; border: 0; background: transparent; font: 600 1.05rem/1 var(--mono); outline: none; }
+    .seed button { border: 0; border-left: 1.5px solid var(--ink); background: transparent; padding: 0 .8rem; cursor: pointer; display: grid; place-items: center; }
+    .seed button:hover { background: var(--accent-soft); }
+    .seed button svg { width: 1.25rem; height: 1.25rem; }
+    .seed:focus-within { outline: 2px solid var(--blue); outline-offset: 3px; }
+    .seed-code { font: 500 .85rem/1.4 var(--mono); color: var(--muted); }
+    .seed-code b { color: var(--accent); font-weight: 600; }
+
+    /* the mock app window */
+    .stage { position: relative; }
+    .app { position: relative; border: 1px solid var(--line-2); border-radius: 16px; background: var(--surface); box-shadow: var(--shadow); overflow: hidden; }
+    .app__chrome { display: flex; align-items: center; gap: .75rem; padding: .6rem .9rem; border-bottom: 1px solid var(--line); background: var(--surface-2); }
+    .dots { display: flex; gap: .4rem; flex: none; }
+    .dots i { width: .7rem; height: .7rem; border-radius: 50%; background: var(--line-2); }
+    .dots i:nth-child(1) { background: #ff6159; } .dots i:nth-child(2) { background: #ffbd2e; } .dots i:nth-child(3) { background: #28c941; }
+    .url { flex: 1; min-width: 0; max-width: 28rem; margin: 0 auto; padding: .3rem .8rem; border-radius: 8px; background: var(--grey-soft); font: 400 .78rem/1.3 var(--mono); color: var(--muted); text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .app__body { display: grid; grid-template-columns: 200px minmax(0, 1fr); min-height: 520px; }
+    .side { border-right: 1px solid var(--line); padding: 1rem .75rem; display: flex; flex-direction: column; gap: 1.2rem; background: var(--surface-2); }
+    .ws { display: flex; align-items: center; gap: .6rem; padding: .2rem .35rem; }
+    .ws__logo { width: 2rem; height: 2rem; border-radius: 8px; display: grid; place-items: center; font: 800 .9rem/1 var(--display); color: #fff; flex: none; }
+    .ws__name { font-weight: 700; font-size: .88rem; line-height: 1.2; }
+    .ws__plan { font-size: .72rem; color: var(--muted); }
+    .side ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .1rem; }
+    .side li button { width: 100%; display: flex; align-items: center; gap: .6rem; padding: .45rem .55rem; border: 0; border-radius: 8px; background: none; font-size: .86rem; color: var(--muted); cursor: pointer; text-align: left; }
+    .side li button svg { width: 1rem; height: 1rem; }
+    .side li button:hover { background: var(--grey-soft); color: var(--ink); }
+    .side li button[aria-pressed="true"] { background: var(--surface); color: var(--ink); font-weight: 600; box-shadow: 0 0 0 1px var(--line); }
+    .side li .count { margin-left: auto; font-size: .72rem; color: var(--muted); font-weight: 500; }
+    .me { margin-top: auto; display: flex; align-items: center; gap: .55rem; padding: .55rem; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); }
+    .me__txt { min-width: 0; font-size: .78rem; line-height: 1.25; }
+    .me__txt b { display: block; font-size: .84rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .me__txt span { color: var(--muted); display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .main { min-width: 0; padding: 1.2rem 1.3rem; }
+    .main__head { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; margin-bottom: 1rem; }
+    .main__head h2 { margin: 0; font: 700 1.3rem/1.1 var(--display); letter-spacing: -.01em; }
+    .main__head .sub { color: var(--muted); font-size: .82rem; }
+    .main__head .grow { flex: 1; }
+    .search { display: flex; align-items: center; gap: .4rem; padding: .4rem .65rem; border: 1px solid var(--line); border-radius: 8px; color: var(--muted); font-size: .82rem; min-width: 11rem; }
+    .search svg { width: .95rem; height: .95rem; }
+    .fake-btn { padding: .42rem .75rem; border-radius: 8px; background: var(--blue); color: #fff; font-size: .82rem; font-weight: 600; border: 0; }
+    [data-theme="dark"] .fake-btn { color: #0b1030; }
+
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; }
+    table.crm { width: 100%; border-collapse: collapse; font-size: .84rem; }
+    .crm th { text-align: left; font-weight: 600; font-size: .74rem; color: var(--muted); padding: .55rem .75rem; border-bottom: 1px solid var(--line); background: var(--surface-2); white-space: nowrap; vertical-align: bottom; }
+    .crm td.c-company { white-space: normal; min-width: 10rem; max-width: 13rem; }
+    .crm td { padding: .6rem .75rem; border-bottom: 1px solid var(--line); vertical-align: middle; white-space: nowrap; }
+    .crm tr:last-child td { border-bottom: 0; }
+    .crm tbody tr:hover td { background: var(--surface-2); }
+    .crm .who { display: flex; align-items: center; gap: .6rem; }
+    .crm .who b { display: block; font-weight: 600; }
+    .crm .who span, .crm .muted { color: var(--muted); font-size: .78rem; }
+    .crm .mono { font-family: var(--mono); font-size: .74rem; }
+    .avatar { width: 2rem; height: 2rem; border-radius: 50%; display: grid; place-items: center; font: 700 .72rem/1 var(--body); color: #fff; flex: none; letter-spacing: .02em; }
+    .chip { display: inline-flex; align-items: center; gap: .3rem; padding: .16rem .55rem; border-radius: 99px; font-size: .74rem; font-weight: 600; }
+    .chip::before { content: ""; width: .4rem; height: .4rem; border-radius: 50%; background: currentColor; }
+    .chip--Customer { background: var(--green-soft); color: var(--green); }
+    .chip--Lead { background: var(--blue-soft); color: var(--blue); }
+    .chip--Trial { background: var(--amber-soft); color: var(--amber); }
+    .chip--Churned { background: var(--grey-soft); color: var(--muted); }
+
+    /* generator annotations ("redlines") */
+    .gen-tag { display: none; margin-top: .3rem; font: 600 .66rem/1 var(--mono); color: var(--accent); letter-spacing: 0; text-transform: none; }
+    .annotate .gen-tag { display: block; }
+    .annotate .crm td[data-gen], .annotate .card [data-gen] { outline: 1px dashed color-mix(in srgb, var(--accent) 38%, transparent); outline-offset: -3px; }
+    .annotate .card [data-gen] { outline-offset: 1px; border-radius: 3px; }
+    .anno-switch { position: absolute; top: -.85rem; right: 1rem; z-index: 2; display: inline-flex; align-items: center; gap: .5rem; padding: .35rem .7rem .35rem .45rem; border-radius: 99px; background: var(--accent); color: var(--accent-ink); font: 600 .74rem/1 var(--mono); border: 0; cursor: pointer; box-shadow: 0 6px 16px -6px var(--accent); }
+    .anno-switch .knob { width: 1.7rem; height: 1rem; border-radius: 99px; background: rgb(255 255 255 / .35); position: relative; }
+    .anno-switch .knob::after { content: ""; position: absolute; top: 2px; left: 2px; width: .75rem; height: .75rem; border-radius: 50%; background: currentColor; transition: transform .15s; }
+    .anno-switch[aria-checked="true"] .knob::after { transform: translateX(.7rem); }
+
+    .team { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); gap: .85rem; }
+    .card { border: 1px solid var(--line); border-radius: 14px; padding: 1rem; display: grid; gap: .55rem; align-content: start; background: var(--surface); }
+    .card__top { display: flex; align-items: center; gap: .65rem; }
+    .card .avatar { width: 2.6rem; height: 2.6rem; font-size: .85rem; }
+    .card h3 { margin: 0; font-size: .95rem; line-height: 1.2; }
+    .card .role { font-size: .78rem; color: var(--muted); line-height: 1.3; }
+    .card p { margin: 0; font-size: .8rem; line-height: 1.5; color: var(--muted); }
+    .card .meta { display: flex; flex-wrap: wrap; gap: .35rem .8rem; font-size: .74rem; color: var(--muted); font-family: var(--mono); }
+
+    .proof { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .6rem 1.4rem; margin-top: 1.4rem; font-size: .9rem; color: var(--muted); text-align: center; }
+    .proof .tick { display: inline-grid; place-items: center; width: 1.3rem; height: 1.3rem; border-radius: 50%; background: var(--green); color: var(--surface); margin-right: .35rem; vertical-align: -.3rem; }
+    .proof .tick svg { width: .8rem; height: .8rem; }
+    .proof b { color: var(--ink); }
+    .proof code { white-space: nowrap; }
+    .twice { font-family: var(--mono); font-size: .8rem; }
+    .twice[data-ok="true"] { color: var(--green); }
+
+    @media (max-width: 860px) {
+      .app__body { grid-template-columns: minmax(0, 1fr); min-height: 0; }
+      .side { display: none; }
+      .main { padding: 1rem .8rem; }
+      .search { display: none; }
+      .view-tabs { display: flex !important; }
+    }
+    @media (max-width: 620px) {
+      .crm .c-company, .crm .c-phone, .crm .c-loc, .crm .c-date { display: none; }
+      .crm .who div span { display: none; }
+      .crm td, .crm th { padding: .55rem .55rem; }
+      .crm .c-email { max-width: 9.5rem; overflow: hidden; text-overflow: ellipsis; }
+      .anno-switch { right: .5rem; }
+      .url { display: none; }
+    }
+    .view-tabs { display: none; gap: .3rem; margin-bottom: .8rem; }
+    .view-tabs button { flex: 1; padding: .45rem; border-radius: 8px; border: 1px solid var(--line); background: var(--surface-2); font-size: .82rem; font-weight: 600; cursor: pointer; color: var(--muted); }
+    .view-tabs button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+    .flash { animation: flash .6s ease-out; }
+    @keyframes flash { from { background-color: var(--accent-soft); } to { background-color: transparent; } }
+
+    /* ---------- sections ---------- */
+    section.block { padding: 5rem 0 1rem; }
+    .eyebrow { display: inline-block; margin-bottom: .7rem; font: 600 .75rem/1 var(--mono); color: var(--accent); letter-spacing: .06em; text-transform: uppercase; }
+    h2.title { margin: 0 0 .7rem; font: 800 clamp(1.9rem, 4.6vw, 3rem)/1.04 var(--display); letter-spacing: -.03em; max-width: 22ch; }
+    .lede { max-width: 40rem; margin: 0 0 2rem; font-size: 1.06rem; color: var(--muted); }
+    .panel { border: 1px solid var(--line-2); border-radius: 18px; background: var(--surface); box-shadow: var(--shadow); }
+
+    /* storefront */
+    .shop { padding: 1.2rem; }
+    .shop__head { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem 1.2rem; padding-bottom: 1rem; margin-bottom: 1.2rem; border-bottom: 1px solid var(--line); }
+    .shop__name { font: 800 1.35rem/1 var(--display); letter-spacing: -.02em; }
+    .shop__tag { font-size: .82rem; color: var(--muted); }
+    .shop__head .grow { flex: 1; }
+    .shop__head select { padding: .4rem .6rem; border-radius: 8px; border: 1px solid var(--line-2); background: var(--surface); font-size: .82rem; }
+    .products { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr)); gap: 1.1rem; }
+    @media (max-width: 560px) { .products { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .9rem .7rem; } .shop { padding: .9rem; } .product h3 { font-size: .84rem; } }
+    .product { display: grid; gap: .5rem; align-content: start; padding: 0; border: 0; background: none; text-align: left; cursor: pointer; border-radius: 14px; }
+    .product:hover .photo svg { transform: scale(1.06) rotate(-2deg); }
+    .photo { position: relative; aspect-ratio: 4 / 3.4; border-radius: 14px; display: grid; place-items: center; overflow: hidden;
+             background: radial-gradient(circle at 30% 25%, oklch(calc(var(--photo-l) + .04) var(--photo-c) var(--h)), oklch(calc(var(--photo-l) - .05) calc(var(--photo-c) + .03) var(--h))); color: oklch(var(--photo-ink) .12 var(--h)); }
+    .photo svg { width: 42%; height: auto; transition: transform .35s cubic-bezier(.2,.8,.2,1); filter: drop-shadow(0 8px 10px rgb(0 0 0 / .12)); }
+    .photo .badge { position: absolute; top: .6rem; left: .6rem; padding: .2rem .5rem; border-radius: 6px; background: var(--ink); color: var(--bg); font-size: .7rem; font-weight: 700; }
+    .product h3 { margin: .15rem 0 0; font-size: .92rem; font-weight: 600; line-height: 1.3; }
+    .price { display: flex; align-items: baseline; gap: .45rem; font-weight: 700; }
+    .price s { color: var(--muted); font-weight: 400; font-size: .82rem; }
+    .stars { display: inline-flex; align-items: center; gap: .35rem; font-size: .78rem; color: var(--muted); }
+    .stars i { font-style: normal; letter-spacing: .05em; color: #f2a516; font-size: .9rem; }
+    .stars i span { color: var(--line-2); }
+    .quote { font-size: .78rem; color: var(--muted); line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    dialog.reviews { width: min(36rem, calc(100vw - 32px)); max-height: min(86vh, 46rem); padding: 0; border: 1px solid var(--line-2); border-radius: 18px; background: var(--surface); color: var(--ink); box-shadow: var(--shadow); }
+    dialog.reviews::backdrop { background: rgb(10 8 14 / .5); backdrop-filter: blur(3px); }
+    .reviews__head { display: flex; gap: 1rem; align-items: center; padding: 1.1rem; border-bottom: 1px solid var(--line); position: sticky; top: 0; background: var(--surface); }
+    .reviews__head .photo { width: 5rem; flex: none; aspect-ratio: 1; }
+    .reviews__head h3 { margin: 0 0 .2rem; font-size: 1.05rem; }
+    .reviews__head .grow { flex: 1; min-width: 0; }
+    .reviews ol { list-style: none; margin: 0; padding: .4rem 1.1rem 1.1rem; }
+    .reviews li { padding: .9rem 0; border-bottom: 1px solid var(--line); }
+    .reviews li:last-child { border: 0; }
+    .reviews li b { display: block; margin: .2rem 0; }
+    .reviews li p { margin: 0 0 .3rem; font-size: .88rem; }
+    .reviews li small { color: var(--muted); }
+    .bars { display: grid; gap: .2rem; font-size: .72rem; color: var(--muted); }
+    .bars div { display: grid; grid-template-columns: 1.4rem 1fr 1.4rem; gap: .4rem; align-items: center; }
+    .bars span.bar { height: .4rem; border-radius: 99px; background: var(--grey-soft); overflow: hidden; }
+    .bars span.bar i { display: block; height: 100%; background: #f2a516; border-radius: inherit; }
+
+    /* before / after */
+    .compare { position: relative; display: grid; border-radius: 18px; overflow: hidden; border: 1px solid var(--line-2); background: var(--surface); box-shadow: var(--shadow); user-select: none; }
+    .compare > .layer { grid-area: 1 / 1; padding: 1.3rem; }
+    .layer--real { clip-path: inset(0 0 0 var(--pos, 50%)); background: var(--surface); }
+    .layer--lorem { background: var(--surface-2); }
+    .layer--lorem .card { background: var(--surface-2); }
+    .layer--lorem .avatar { background: var(--line-2) !important; color: var(--muted); }
+    .layer__label { display: inline-block; margin-bottom: 1rem; padding: .25rem .6rem; border-radius: 6px; font: 600 .72rem/1 var(--mono); }
+    .layer--lorem .layer__label { background: var(--grey-soft); color: var(--muted); }
+    .layer--real .layer__label { background: var(--accent); color: var(--accent-ink); float: right; }
+    .layer .team { clear: both; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
+    .divider { position: absolute; top: 0; bottom: 0; left: var(--pos, 50%); width: 2px; margin-left: -1px; background: var(--accent); pointer-events: none; }
+    .divider::after { content: ""; position: absolute; top: 50%; left: 50%; width: 2.6rem; height: 2.6rem; margin: -1.3rem 0 0 -1.3rem; border-radius: 50%; background: var(--accent);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 6l-5 6 5 6M15 6l5 6-5 6'/%3E%3C/svg%3E");
+      background-size: 60%; background-position: center; background-repeat: no-repeat; box-shadow: 0 6px 16px -4px rgb(0 0 0 / .35); }
+    .compare input[type=range] { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; }
+    .compare:has(input:focus-visible) .divider::after { outline: 3px solid var(--blue); outline-offset: 3px; }
+    .compare-notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 1rem; margin-top: 1.4rem; }
+    .compare-notes div { padding: .9rem 1rem; border-radius: 12px; border: 1px dashed var(--line-2); font-size: .88rem; color: var(--muted); }
+    .compare-notes b { color: var(--ink); display: block; margin-bottom: .2rem; }
+
+    /* explorer */
+    .explorer { display: grid; grid-template-columns: 300px 1fr; overflow: hidden; }
+    .controls { padding: 1.3rem; border-right: 1px solid var(--line); display: grid; gap: 1.1rem; align-content: start; background: var(--surface-2); }
+    .field { display: grid; gap: .4rem; }
+    .field > span { font-size: .78rem; font-weight: 600; color: var(--muted); }
+    .field select, .field input[type=text], .field input[type=number] { width: 100%; padding: .55rem .7rem; border-radius: 9px; border: 1px solid var(--line-2); background: var(--surface); font-size: .9rem; }
+    .field select { font-family: var(--mono); }
+    .range-row { display: flex; align-items: center; gap: .7rem; }
+    .range-row input[type=range] { flex: 1; accent-color: var(--accent); }
+    .range-row output { min-width: 2.2rem; text-align: right; font: 600 .9rem/1 var(--mono); }
+    .gen-list { display: flex; flex-wrap: wrap; gap: .35rem; }
+    .gen-list button { padding: .3rem .55rem; border-radius: 7px; border: 1px solid var(--line-2); background: var(--surface); font: 500 .76rem/1.2 var(--mono); cursor: pointer; }
+    .gen-list button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+    .out { display: grid; grid-template-rows: auto auto 1fr; min-width: 0; background: var(--code-bg); color: var(--code-ink); }
+    .out__bar { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; padding: .7rem .9rem; border-bottom: 1px solid rgb(255 255 255 / .08); }
+    .out__bar .grow { flex: 1; }
+    .seg { display: inline-flex; padding: 2px; border-radius: 8px; background: rgb(255 255 255 / .07); }
+    .seg button { padding: .3rem .7rem; border: 0; border-radius: 6px; background: none; font: 600 .75rem/1 var(--mono); color: #a8a4b3; cursor: pointer; }
+    .seg button[aria-pressed="true"] { background: rgb(255 255 255 / .14); color: #fff; }
+    .dark-btn { display: inline-flex; align-items: center; gap: .35rem; padding: .35rem .65rem; border-radius: 7px; border: 1px solid rgb(255 255 255 / .14); background: rgb(255 255 255 / .04); color: #ece9f3; font: 600 .75rem/1 var(--mono); cursor: pointer; }
+    .dark-btn:hover { background: rgb(255 255 255 / .12); }
+    .dark-btn svg { width: .9rem; height: .9rem; }
+    .call { padding: .8rem 1rem; font: 400 .8rem/1.6 var(--mono); color: #a8a4b3; border-bottom: 1px solid rgb(255 255 255 / .08); white-space: pre-wrap; overflow-wrap: anywhere; }
+    .call .k { color: #ff7eb0; } .call .f { color: #8fd3ff; } .call .s { color: #b7f29a; } .call .n { color: #ffc56b; }
+    pre.json { margin: 0; padding: 1rem; height: 26rem; overflow: auto; font: 400 .78rem/1.6 var(--mono); tab-size: 2; }
+    .json .k { color: #8fd3ff; } .json .s { color: #b7f29a; } .json .n { color: #ffc56b; } .json .b { color: #ff7eb0; } .json .p { color: #6e6a7a; }
+    .out__foot { padding: .5rem 1rem; font: 400 .72rem/1.4 var(--mono); color: #7c7889; border-top: 1px solid rgb(255 255 255 / .08); }
+    @media (max-width: 820px) { .explorer { grid-template-columns: 1fr; } .controls { border-right: 0; border-bottom: 1px solid var(--line); } pre.json { height: 20rem; } }
+
+    /* privacy */
+    .privacy { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 1.2rem; }
+    .privacy .panel { padding: 1.3rem; display: grid; gap: 1rem; align-content: start; }
+    .privacy h3 { margin: 0; font: 700 1.2rem/1.2 var(--display); }
+    .privacy p { margin: 0; color: var(--muted); font-size: .9rem; }
+    .dial { display: grid; grid-template-columns: repeat(10, 1fr); gap: 3px; width: 100%; max-width: 21rem; justify-self: center; }
+    .dial-legend { width: 100%; max-width: 21rem; justify-self: center; }
+    .dial span { aspect-ratio: 1; border-radius: 4px; display: grid; place-items: center; font: 500 clamp(.5rem, 1.6vw, .62rem)/1 var(--mono);
+                 background: color-mix(in srgb, var(--accent) calc(var(--v, 0) * 100%), var(--grey-soft)); color: color-mix(in srgb, var(--ink) 70%, transparent); }
+    .dial span.hot { color: var(--accent-ink); }
+    .dial-legend { display: flex; justify-content: space-between; font: 400 .72rem/1 var(--mono); color: var(--muted); }
+    .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; }
+    .stat { padding: .7rem; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--line); }
+    .stat b { display: block; font: 800 1.35rem/1.1 var(--display); letter-spacing: -.02em; }
+    .stat span { font-size: .72rem; color: var(--muted); }
+    .stat--good b { color: var(--green); }
+    .samples { list-style: none; margin: 0; padding: 0; display: grid; gap: .3rem; font: 400 .8rem/1.5 var(--mono); }
+    .samples li { display: flex; justify-content: space-between; gap: 1rem; padding: .35rem .6rem; border-radius: 8px; background: var(--surface-2); overflow: hidden; }
+    .samples li span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+    .samples mark { background: var(--accent-soft); color: var(--accent); border-radius: 4px; padding: 0 .15rem; font-weight: 600; }
+    .domain-bar { display: flex; height: 2rem; border-radius: 9px; overflow: hidden; font: 600 .72rem/2rem var(--mono); }
+    .domain-bar div { text-align: center; color: #fff; white-space: nowrap; overflow: hidden; min-width: 0; }
+    [data-theme="dark"] .domain-bar div { color: #111; }
+
+    /* get started */
+    .start { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr)); gap: 1.2rem; }
+    .start .panel { padding: 1.2rem; display: grid; grid-template-columns: minmax(0, 1fr); gap: .75rem; align-content: start; min-width: 0; }
+    .step { font: 600 .72rem/1 var(--mono); color: var(--accent); letter-spacing: .06em; text-transform: uppercase; }
+    .start h3 { margin: 0; font: 700 1.15rem/1.2 var(--display); }
+    .codebox { position: relative; }
+    .codebox pre { margin: 0; padding: .9rem 1rem; padding-right: 3.2rem; border-radius: 12px; background: var(--code-bg); color: var(--code-ink); font: 400 .78rem/1.65 var(--mono); overflow-x: auto; }
+    .codebox .copy { position: absolute; top: .5rem; right: .5rem; }
+    .codebox pre .c { color: #7c7889; } .codebox pre .s { color: #b7f29a; } .codebox pre .k { color: #ff7eb0; }
+
+    footer { padding: 4rem 0 3rem; margin-top: 4rem; border-top: 1px solid var(--line); }
+    .foot { display: flex; flex-wrap: wrap; gap: 1rem 2rem; align-items: center; justify-content: space-between; font-size: .88rem; color: var(--muted); }
+    .foot a { color: var(--ink); }
+
+    .toast { position: fixed; left: 50%; bottom: 1.5rem; z-index: 50; visibility: hidden; transform: translate(-50%, calc(100% + 2rem)); padding: .6rem 1rem; border-radius: 10px; background: var(--ink); color: var(--bg); font-size: .85rem; font-weight: 600; transition: transform .25s; pointer-events: none; }
+    .toast.show { visibility: visible; transform: translate(-50%, 0); }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="sr-only" href="#main">Skip to content</a>
+  <header class="topbar">
+    <div class="wrap topbar__in">
+      <a class="brand" href="#top" aria-label="fake-but-real home">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><rect x="4" y="10" width="56" height="44" rx="9" fill="var(--accent)"/><rect x="10" y="26" width="44" height="22" rx="4" fill="var(--surface)"/><rect x="16" y="16" width="32" height="5" rx="2.5" fill="var(--surface)" opacity=".9"/><path d="M17 37c4-5 7 4 11-1s6-4 9 0 6 1 10-2" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+        fake-but-real
+      </a>
+      <ul class="nav">
+        <li><a href="#shop">Storefront</a></li>
+        <li><a href="#compare">vs lorem</a></li>
+        <li><a href="#explorer">Explorer</a></li>
+        <li><a href="#privacy">Privacy</a></li>
+        <li><a href="#start">Get started</a></li>
+      </ul>
+      <div class="topbar__tools">
+        <button class="icon-btn theme-toggle" id="theme-toggle" type="button" aria-label="Dark mode" aria-pressed="false">
+          <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
+        <a class="btn btn--sm" href="https://github.com/ghanemja/fake-but-real">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0C17.3 4.7 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5z"/></svg>
+          <span>GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ================= HERO ================= -->
+    <section class="hero" id="top">
+      <div class="wrap">
+        <div class="hero__head">
+          <span class="kicker"><b>v1.0</b> zero dependencies · one file · seeded</span>
+          <h1>Not <span class="strike">lorem ipsum.</span><br>Data that <em>passes&nbsp;for&nbsp;real.</em></h1>
+          <p class="hero__lede">People with names from many cultures, companies, job titles, products with prices, addresses, bios and reviews. Everything in the app below was made by <code>fake-but-real</code> in your browser, just now.</p>
+        </div>
+
+        <div class="seedbar">
+          <div class="seed">
+            <label for="seed">seed</label>
+            <input id="seed" type="text" value="acme" spellcheck="false" autocomplete="off" aria-describedby="seed-code">
+            <button type="button" id="dice" aria-label="Random seed" title="Random seed">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1.3" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1.3" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1.3" fill="currentColor"/><circle cx="8.5" cy="15.5" r="1.3" fill="currentColor"/><circle cx="12" cy="12" r="1.3" fill="currentColor"/></svg>
+            </button>
+          </div>
+          <span class="seed-code" id="seed-code">createFaker(<b id="seed-echo">'acme'</b>)</span>
+        </div>
+
+        <div class="stage annotate" id="stage">
+          <button class="anno-switch" id="anno" type="button" role="switch" aria-checked="true"><span class="knob" aria-hidden="true"></span>show generators</button>
+          <div class="app" aria-label="Demo CRM generated by fake-but-real" role="region">
+            <div class="app__chrome">
+              <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+              <div class="url" id="url">app.example.com/contacts</div>
+            </div>
+            <div class="app__body">
+              <aside class="side">
+                <div class="ws">
+                  <div class="ws__logo" id="ws-logo">N</div>
+                  <div><div class="ws__name" id="ws-name">Workspace</div><div class="ws__plan">Team plan · <span id="ws-seats">12</span> seats</div></div>
+                </div>
+                <ul>
+                  <li><button type="button" data-view="contacts" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14.8c1.7.8 2.7 2.5 3 5.2"/></svg>Contacts<span class="count" id="count-contacts">0</span></button></li>
+                  <li><button type="button" data-view="team" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="11" r="2.5"/><path d="M5.5 17c.6-2 1.9-3 3.5-3s2.9 1 3.5 3M15 10h3M15 14h3"/></svg>Team<span class="count" id="count-team">6</span></button></li>
+                  <li><button type="button" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg>Pipeline</button></li>
+                  <li><button type="button" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H8l-4 4z"/></svg>Inbox<span class="count" id="count-inbox">3</span></button></li>
+                </ul>
+                <div class="me">
+                  <div class="avatar" id="me-avatar">AA</div>
+                  <div class="me__txt"><b id="me-name">Name</b><span id="me-email">email</span></div>
+                </div>
+              </aside>
+              <div class="main">
+                <div class="view-tabs" role="group" aria-label="View">
+                  <button type="button" data-view="contacts" aria-pressed="true">Contacts</button>
+                  <button type="button" data-view="team" aria-pressed="false">Team</button>
+                </div>
+                <div class="main__head">
+                  <h2 id="view-title">Contacts</h2>
+                  <span class="sub" id="view-sub"></span>
+                  <span class="grow"></span>
+                  <span class="search" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>Search contacts</span>
+                  <span class="fake-btn" aria-hidden="true">+ New</span>
+                </div>
+                <div id="view-contacts">
+                  <div class="table-wrap">
+                    <table class="crm">
+                      <thead>
+                        <tr>
+                          <th>Name<span class="gen-tag">.person()</span></th>
+                          <th class="c-company">Company<span class="gen-tag">.company() .jobTitle()</span></th>
+                          <th class="c-email">Contact<span class="gen-tag">.email() .phone()</span></th>
+                          <th class="c-loc">Location<span class="gen-tag">.address()</span></th>
+                          <th>Status<span class="gen-tag">.pick() .date()</span></th>
+                        </tr>
+                      </thead>
+                      <tbody id="rows"></tbody>
+                    </table>
+                  </div>
+                </div>
+                <div id="view-team" hidden>
+                  <div class="team" id="team"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="proof" aria-live="polite">
+          <span><span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span>Same seed, same data. Reload the page: <b id="first-name">someone</b> is still at the top.</span>
+          <span>fingerprint <code id="fingerprint">00000000</code></span>
+          <button class="btn btn--sm" type="button" id="twice-btn">Run it twice</button>
+          <span class="twice" id="twice"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= STOREFRONT ================= -->
+    <section class="block" id="shop">
+      <div class="wrap">
+        <span class="eyebrow">fake.product() + fake.review()</span>
+        <h2 class="title">A storefront that never opened.</h2>
+        <p class="lede">Product names, prices that fit the item (a notebook is not $180), and reviews that lean positive like real stores do. Click a product to read every review.</p>
+        <div class="panel shop">
+          <div class="shop__head">
+            <span class="shop__name" id="shop-name">Shop</span>
+            <span class="shop__tag" id="shop-tag"></span>
+            <span class="grow"></span>
+            <label class="sr-only" for="shop-sort">Sort products</label>
+            <select id="shop-sort">
+              <option value="featured">Featured</option>
+              <option value="price-asc">Price: low to high</option>
+              <option value="price-desc">Price: high to low</option>
+              <option value="rating">Top rated</option>
+            </select>
+            <button class="btn btn--sm" type="button" id="restock">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.6-6.4M21 4v5h-5"/></svg>Restock
+            </button>
+          </div>
+          <div class="products" id="products"></div>
+        </div>
+      </div>
+      <dialog class="reviews" id="reviews" aria-labelledby="rv-title"></dialog>
+    </section>
+
+    <!-- ================= COMPARE ================= -->
+    <section class="block" id="compare">
+      <div class="wrap">
+        <span class="eyebrow">Before / after</span>
+        <h2 class="title">Same layout. Very different design review.</h2>
+        <p class="lede">Lorem ipsum hides the real problems: long names, short bios, the email that doesn't fit. Drag the handle (or focus it and use the arrow keys) to see the same team page filled with <code>fake-but-real</code>.</p>
+        <div class="compare" id="compare-box" style="--pos: 50%">
+          <div class="layer layer--lorem" aria-hidden="true">
+            <span class="layer__label">lorem ipsum</span>
+            <div class="team" id="lorem-team"></div>
+          </div>
+          <div class="layer layer--real">
+            <span class="layer__label">fake-but-real</span>
+            <div class="team" id="real-team"></div>
+          </div>
+          <div class="divider" aria-hidden="true"></div>
+          <input type="range" min="0" max="100" value="50" id="compare-range" aria-label="Compare lorem ipsum with fake-but-real">
+        </div>
+        <div class="compare-notes">
+          <div><b>Names from many cultures</b>Accents and hyphens included: <span id="note-names">…</span>. First and last names come from the same region.</div>
+          <div><b>Bios that read like people</b>Two or three sentences built from templates, with the job and city woven in.</div>
+          <div><b>Consistent across fields</b>The email and username are derived from the name: <span id="note-email">…</span>.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= EXPLORER ================= -->
+    <section class="block" id="explorer">
+      <div class="wrap">
+        <span class="eyebrow">Generator explorer</span>
+        <h2 class="title">Every generator, live.</h2>
+        <p class="lede">Pick a generator, a count and a seed. Copy the JSON into a fixture, or download it as <code>.json</code> or <code>.csv</code> for a spreadsheet or a seed script.</p>
+        <div class="panel explorer">
+          <div class="controls">
+            <div class="field">
+              <span id="gen-label">Generator</span>
+              <div class="gen-list" id="gen-list" role="group" aria-labelledby="gen-label"></div>
+            </div>
+            <label class="field">
+              <span>Count</span>
+              <span class="range-row"><input type="range" id="ex-count" min="1" max="50" value="5" aria-label="Count"><output id="ex-count-out" for="ex-count">5</output></span>
+            </label>
+            <label class="field">
+              <span>Seed</span>
+              <input type="text" id="ex-seed" value="fixtures" spellcheck="false" autocomplete="off">
+            </label>
+            <p style="margin:0;font-size:.8rem;color:var(--muted)">Change nothing and run it again tomorrow: you get the same rows, so snapshot tests stay green.</p>
+          </div>
+          <div class="out">
+            <div class="out__bar">
+              <div class="seg" role="group" aria-label="Output format">
+                <button type="button" data-fmt="json" aria-pressed="true">JSON</button>
+                <button type="button" data-fmt="csv" aria-pressed="false">CSV</button>
+              </div>
+              <span class="grow"></span>
+              <button class="dark-btn" type="button" id="ex-copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>Copy</button>
+              <button class="dark-btn" type="button" id="ex-json"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>.json</button>
+              <button class="dark-btn" type="button" id="ex-csv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>.csv</button>
+            </div>
+            <div class="call" id="ex-call"></div>
+            <pre class="json" id="ex-out" tabindex="0" aria-label="Generated output"></pre>
+            <div class="out__foot" id="ex-foot"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PRIVACY ================= -->
+    <section class="block" id="privacy">
+      <div class="wrap">
+        <span class="eyebrow">Privacy-safe by design</span>
+        <h2 class="title">Nobody gets a call. Nobody gets an email.</h2>
+        <p class="lede">Demo data leaks: into screenshots, staging databases, test emails that actually send. <code>fake-but-real</code> only uses phone numbers and domains that are reserved for fiction and documentation, so a stray "Send" goes nowhere.</p>
+        <div class="privacy">
+          <div class="panel">
+            <h3>Phones: only 555-0100 to 555-0199</h3>
+            <p>The North American Numbering Plan sets aside these 100 lines for films, TV and books. Each square is one of them; the color shows how often it came up in <b id="phone-n">0</b> generated numbers.</p>
+            <div class="dial" id="dial" role="img" aria-label="Distribution of generated phone numbers across 555-0100 to 555-0199"></div>
+            <div class="dial-legend"><span>555-0100</span><span>555-0199</span></div>
+            <div class="stat-row">
+              <div class="stat stat--good"><b id="phone-in">100%</b><span>in reserved range</span></div>
+              <div class="stat"><b id="phone-area">16</b><span>area codes</span></div>
+              <div class="stat stat--good"><b id="phone-real">0</b><span>dialable numbers</span></div>
+            </div>
+            <ul class="samples" id="phone-samples"></ul>
+          </div>
+          <div class="panel">
+            <h3>Emails: only example.com, .org, .net</h3>
+            <p>RFC 2606 reserves these domains for documentation. They have no real mailboxes, so a test that "accidentally" emails all users emails nobody.</p>
+            <div class="domain-bar" id="domain-bar" role="img" aria-label="Share of generated emails per reserved domain"></div>
+            <div class="stat-row">
+              <div class="stat stat--good"><b id="mail-in">100%</b><span>reserved domains</span></div>
+              <div class="stat"><b id="mail-uniq">0</b><span>unique addresses</span></div>
+              <div class="stat stat--good"><b id="mail-real">0</b><span>real inboxes</span></div>
+            </div>
+            <ul class="samples" id="mail-samples"></ul>
+            <h3 style="margin-top:.6rem">Places: invented, but plausible</h3>
+            <p>City names are composed (<i>Port Ashford</i>, <i>Glenridge Falls</i>), so an address never points at someone's real front door.</p>
+            <ul class="samples" id="addr-samples"></ul>
+            <button class="btn" type="button" id="stress"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>Generate 10,000 more and re-check</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= GET STARTED ================= -->
+    <section class="block" id="start">
+      <div class="wrap">
+        <span class="eyebrow">Get started</span>
+        <h2 class="title">One import. No dependencies.</h2>
+        <p class="lede">Works in Node 18+ and every modern browser. TypeScript types are included.</p>
+        <div class="start">
+          <article class="panel">
+            <span class="step">1 · Install</span>
+            <h3>From GitHub</h3>
+            <div class="codebox"><pre><code>npm i github:ghanemja/fake-but-real</code></pre></div>
+            <p style="margin:0;color:var(--muted);font-size:.9rem">Or copy <code>index.js</code> into your project. It is one file.</p>
+          </article>
+          <article class="panel">
+            <span class="step">2 · Generate</span>
+            <h3>Seed it, call it</h3>
+            <div class="codebox"><pre><code><span class="k">import</span> { createFaker } <span class="k">from</span> <span class="s">'fake-but-real'</span>;
+
+<span class="k">const</span> fake = createFaker(<span class="s">'team-page'</span>);
+fake.person();   <span class="c">// { fullName, email, phone, ... }</span>
+fake.product();  <span class="c">// { name, price, currency }</span>
+fake.review();   <span class="c">// { rating, title, text, author }</span></code></pre></div>
+          </article>
+          <article class="panel">
+            <span class="step">3 · Fill a mockup</span>
+            <h3>A whole team page</h3>
+            <div class="codebox"><pre><code><span class="k">const</span> team = Array.from({ length: 12 }, () =&gt; {
+  <span class="k">const</span> p = fake.person();
+  <span class="k">return</span> { ...p, title: fake.jobTitle(),
+    bio: fake.bio({ firstName: p.firstName }) };
+});</code></pre></div>
+          </article>
+          <article class="panel">
+            <span class="step">4 · Stable tests</span>
+            <h3>Snapshot-safe fixtures</h3>
+            <div class="codebox"><pre><code><span class="k">import</span> { test } <span class="k">from</span> <span class="s">'node:test'</span>;
+<span class="k">import</span> assert <span class="k">from</span> <span class="s">'node:assert/strict'</span>;
+<span class="k">import</span> { createFaker } <span class="k">from</span> <span class="s">'fake-but-real'</span>;
+
+test(<span class="s">'renders a user card'</span>, () =&gt; {
+  <span class="k">const</span> user = createFaker(<span class="s">42</span>).person();
+  <span class="c">// same user on every run and every machine</span>
+  assert.match(user.email, <span class="s">/@example\.(com|org|net)$/</span>);
+});</code></pre></div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot">
+      <span>Every name, email, number and review on this page came from <code>fake-but-real</code> with seed <code id="foot-seed">acme</code>. None of these people exist.</span>
+      <span><a href="https://github.com/ghanemja/fake-but-real">GitHub</a> · <a href="https://github.com/ghanemja/fake-but-real/blob/main/LICENSE">MIT license</a> · © 2026 ghanemja</span>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script type="module">
+    import { createFaker } from './index.js';
+
+    const $ = (s, r = document) => r.querySelector(s);
+    const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+    const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+    const root = document.documentElement;
+
+    // ---------- theme ----------
+    const themeBtn = $('#theme-toggle');
+    const syncTheme = () => {
+      const dark = root.dataset.theme === 'dark';
+      themeBtn.setAttribute('aria-pressed', String(dark));
+      themeBtn.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+      $('meta[name=theme-color]').setAttribute('content', dark ? '#111014' : '#f6f3ee');
+    };
+    themeBtn.addEventListener('click', () => {
+      root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+      try { localStorage.setItem('fbr-theme', root.dataset.theme); } catch (e) {}
+      syncTheme();
+    });
+    syncTheme();
+
+    // ---------- helpers ----------
+    const toast = (msg) => {
+      const t = $('#toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(toast.t);
+      toast.t = setTimeout(() => t.classList.remove('show'), 1800);
+    };
+    const copy = async (text, label = 'Copied') => {
+      try { await navigator.clipboard.writeText(text); toast(label); }
+      catch (e) { toast('Copy failed: select the text instead'); }
+    };
+    const download = (name, text, type) => {
+      const url = URL.createObjectURL(new Blob([text], { type }));
+      const a = Object.assign(document.createElement('a'), { href: url, download: name });
+      document.body.append(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    };
+    const fnv = (str) => {
+      let h = 0x811c9dc5;
+      for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 0x01000193); }
+      return (h >>> 0).toString(16).padStart(8, '0');
+    };
+    const hue = (s) => parseInt(fnv(s).slice(0, 4), 16) % 360;
+    const initials = (p) => (p.firstName[0] + p.lastName[0]).toUpperCase();
+    const avatar = (p, cls = 'avatar') => `<span class="${cls}" style="background:oklch(.62 .14 ${hue(p.fullName)})" aria-hidden="true">${esc(initials(p))}</span>`;
+    const fmtDate = (d) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+    const money = (n) => '$' + n.toFixed(2);
+    const flash = (el) => { if (reduce.matches) return; el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash'); };
+
+    // ---------- seed (kept in the URL so a reload is the same) ----------
+    const seedInput = $('#seed');
+    const params = new URLSearchParams(location.search);
+    let seed = params.get('seed') || 'acme';
+    seedInput.value = seed;
+    const WORDS = ['acme', 'orbit', 'harbor', 'nimbus', 'juniper', 'pixel', 'saffron', 'quartz', 'tundra', 'velvet', 'ember', 'lagoon'];
+
+    // ---------- hero: the CRM ----------
+    const STATUS = ['Customer', 'Customer', 'Lead', 'Lead', 'Trial', 'Churned'];
+    function buildHero(s) {
+      const f = createFaker(s);
+      const workspace = f.company();
+      const me = f.person();
+      const seats = f.int(6, 40);
+      const total = f.int(120, 980);
+      const inbox = f.int(1, 9);
+      const contacts = Array.from({ length: 8 }, () => {
+        const person = f.person();
+        return { person, company: f.company(), title: f.jobTitle(), address: f.address(), last: f.date(), status: f.pick(STATUS) };
+      });
+      const team = Array.from({ length: 6 }, () => {
+        const person = f.person();
+        const title = f.jobTitle();
+        const city = f.city();
+        return { person, title, city, bio: f.bio({ firstName: person.firstName, jobTitle: title, company: workspace, city }) };
+      });
+      return { workspace, me, seats, total, inbox, contacts, team };
+    }
+
+    const teamCard = (m, company) => `
+      <article class="card">
+        <div class="card__top">${avatar(m.person)}<div><h3 data-gen>${esc(m.person.fullName)}</h3><div class="role" data-gen>${esc(m.title)}${company ? ` · ${esc(company)}` : ''}</div></div></div>
+        <p data-gen>${esc(m.bio)}</p>
+        <div class="meta"><span data-gen>${esc(m.person.email)}</span><span data-gen>${esc(m.city)}</span></div>
+      </article>`;
+
+    let view = 'contacts';
+    function setView(v) {
+      view = v;
+      $$('[data-view]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.view === v)));
+      $('#view-contacts').hidden = v !== 'contacts';
+      $('#view-team').hidden = v !== 'team';
+      $('#view-title').textContent = v === 'contacts' ? 'Contacts' : 'Team';
+      $('#view-sub').textContent = v === 'contacts' ? `${hero.total} people · showing 8` : `${hero.team.length} members`;
+    }
+    $$('[data-view]').forEach((b) => b.addEventListener('click', () => setView(b.dataset.view)));
+
+    let hero;
+    function renderHero() {
+      hero = buildHero(seed);
+      const h = hero;
+      const slug = h.workspace.toLowerCase().replace(/[^a-z0-9]+/g, '');
+      $('#url').textContent = `app.${slug}.example.com/${view}`;
+      $('#ws-name').textContent = h.workspace;
+      $('#ws-logo').textContent = h.workspace[0];
+      $('#ws-logo').style.background = `oklch(.55 .17 ${hue(h.workspace)})`;
+      $('#ws-seats').textContent = h.seats;
+      $('#count-contacts').textContent = h.total;
+      $('#count-inbox').textContent = h.inbox;
+      $('#me-avatar').outerHTML = avatar(h.me).replace('class="avatar"', 'class="avatar" id="me-avatar"');
+      $('#me-name').textContent = h.me.fullName;
+      $('#me-email').textContent = h.me.email;
+      $('#rows').innerHTML = h.contacts.map((c) => `
+        <tr>
+          <td data-gen><div class="who">${avatar(c.person)}<div><b>${esc(c.person.fullName)}</b><span>@${esc(c.person.username)}</span></div></div></td>
+          <td class="c-company" data-gen><b style="font-weight:600">${esc(c.company)}</b><div class="muted">${esc(c.title)}</div></td>
+          <td class="c-email mono" data-gen>${esc(c.person.email)}<div class="muted c-phone">${esc(c.person.phone)}</div></td>
+          <td class="c-loc" data-gen>${esc(c.address.city)}<div class="muted">${esc(c.address.regionCode)} ${esc(c.address.postalCode)}</div></td>
+          <td data-gen><span class="chip chip--${c.status}">${c.status}</span><div class="muted c-date" style="margin-top:.2rem">${fmtDate(c.last)}</div></td>
+        </tr>`).join('');
+      $('#team').innerHTML = h.team.map((m) => teamCard(m)).join('');
+      $('#count-team').textContent = h.team.length;
+      setView(view);
+      $('#first-name').textContent = h.contacts[0].person.fullName;
+      $('#fingerprint').textContent = fnv(JSON.stringify(h));
+      $('#twice').textContent = '';
+      flash($('.app'));
+    }
+
+    $('#twice-btn').addEventListener('click', () => {
+      const t0 = performance.now();
+      const a = JSON.stringify(buildHero(seed));
+      const b = JSON.stringify(buildHero(seed));
+      const ms = (performance.now() - t0).toFixed(1);
+      const ok = a === b;
+      const el = $('#twice');
+      el.dataset.ok = String(ok);
+      el.textContent = ok ? `2 fresh runs, ${fnv(a)} === ${fnv(b)} (${ms} ms)` : 'runs differ!';
+    });
+
+    // annotation switch
+    const anno = $('#anno');
+    anno.addEventListener('click', () => {
+      const on = anno.getAttribute('aria-checked') !== 'true';
+      anno.setAttribute('aria-checked', String(on));
+      $('#stage').classList.toggle('annotate', on);
+    });
+
+    // ---------- storefront ----------
+    const ICONS = {
+      'Tote Bag': '<path d="M10 18h28l-2.5 22h-23z"/><path d="M18 18v-4a6 6 0 0 1 12 0v4"/>',
+      'Desk Lamp': '<path d="M12 40h18M20 40l-5-13 11-10"/><path d="M25 9l11 7-4 6-11-7z"/><path d="M33 22l-2 4"/>',
+      'Water Bottle': '<rect x="17" y="15" width="14" height="26" rx="5"/><rect x="20" y="7" width="8" height="8" rx="1.5"/><path d="M17 24h14"/>',
+      'Throw Blanket': '<rect x="9" y="12" width="30" height="22" rx="3"/><path d="M9 20h30M9 26h30M13 34v5M19 34v5M25 34v5M31 34v5M37 34v5"/>',
+      'Pour-Over Kettle': '<path d="M13 38h22l-3-16H16z"/><path d="M15 27L6 18"/><path d="M33 24c6 0 6 10 0 10"/><path d="M19 22v-4h10v4"/>',
+      'Notebook': '<rect x="13" y="7" width="23" height="34" rx="2.5"/><path d="M18 7v34M22 16h10M22 21h10M22 26h7"/>',
+      'Backpack': '<rect x="11" y="14" width="26" height="27" rx="7"/><path d="M18 14v-3a6 6 0 0 1 12 0v3"/><rect x="16" y="27" width="16" height="9" rx="2"/>',
+      'Coffee Mug': '<path d="M10 17h22v15a7 7 0 0 1-7 7h-8a7 7 0 0 1-7-7z"/><path d="M32 21h3a5 5 0 0 1 0 10h-3"/><path d="M16 11c0-2 2-2 2-4M23 11c0-2 2-2 2-4"/>',
+      'Cutting Board': '<path d="M12 15h24a4 4 0 0 1 4 4v18a4 4 0 0 1-4 4H12a4 4 0 0 1-4-4V19a4 4 0 0 1 4-4z"/><path d="M20 15v-4a4 4 0 0 1 8 0v4M14 25h16M14 31h10"/>',
+      'Wireless Speaker': '<rect x="13" y="7" width="22" height="34" rx="5"/><circle cx="24" cy="28" r="6.5"/><circle cx="24" cy="15" r="2.2"/>',
+      'Plant Pot': '<path d="M13 28h22l-3.5 12h-15z"/><path d="M24 28V17"/><path d="M24 21c-6 0-9-4-9-9 6 0 9 4 9 9z"/><path d="M24 19c4.5 0 8-3 8-7.5-4.5 0-8 3-8 7.5z"/>',
+      'Running Jacket': '<path d="M17 8l-9 5 3 10 4-2v20h18V21l4 2 3-10-9-5c-1 3-3.5 4.5-7 4.5S18 11 17 8z"/><path d="M24 12.5V41M27 22h4"/>',
+      'Wall Clock': '<circle cx="24" cy="24" r="16"/><path d="M24 14v10l7 4"/>',
+      'Phone Stand': '<rect x="17" y="6" width="14" height="25" rx="2.5"/><path d="M11 41h26M17 41l7-10 7 10"/>',
+      'Chef Knife': '<path d="M6 33L30 13c5 4 4 11-3 15z"/><path d="M30 13l4-3a2.5 2.5 0 0 1 4 3l-4 3"/>',
+      'Bed Sheets': '<rect x="8" y="28" width="32" height="9" rx="2"/><rect x="10" y="19" width="28" height="9" rx="2"/><rect x="12" y="10" width="24" height="9" rx="2"/>',
+    };
+    const iconFor = (name) => {
+      const key = Object.keys(ICONS).find((k) => name.endsWith(k)) || 'Tote Bag';
+      return `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[key]}</svg>`;
+    };
+    const starStr = (r) => {
+      const full = Math.round(r);
+      return '★'.repeat(full) + `<span>${'★'.repeat(5 - full)}</span>`;
+    };
+
+    let restock = 0;
+    let products = [];
+    function buildShop() {
+      const f = createFaker(`${seed}:shop:${restock}`);
+      const name = f.company();
+      const since = 2010 + f.int(0, 14);
+      products = Array.from({ length: 8 }, (_, i) => {
+        const p = f.product();
+        const reviews = Array.from({ length: f.int(3, 9) }, () => ({ ...f.review(), date: f.date() }));
+        const avg = reviews.reduce((s, r) => s + r.rating, 0) / reviews.length;
+        const sale = f.bool(0.25);
+        const was = sale ? Math.round((p.price * f.float(1.15, 1.4)) * 100) / 100 : null;
+        return { i, ...p, reviews, avg, was, h: f.int(0, 359), isNew: !sale && f.bool(0.2) };
+      });
+      $('#shop-name').textContent = name;
+      $('#shop-tag').textContent = `Independent goods since ${since} · free shipping over $50`;
+      renderProducts();
+    }
+    function renderProducts() {
+      const sort = $('#shop-sort').value;
+      const list = [...products].sort((a, b) =>
+        sort === 'price-asc' ? a.price - b.price : sort === 'price-desc' ? b.price - a.price : sort === 'rating' ? b.avg - a.avg : a.i - b.i);
+      $('#products').innerHTML = list.map((p) => {
+        const top = [...p.reviews].sort((a, b) => b.rating - a.rating)[0];
+        return `
+        <button class="product" type="button" data-i="${p.i}" aria-label="${esc(p.name)}, ${money(p.price)}, rated ${p.avg.toFixed(1)} of 5. Read reviews">
+          <span class="photo" style="--h:${p.h}">${iconFor(p.name)}${p.was ? '<span class="badge">Sale</span>' : p.isNew ? '<span class="badge">New</span>' : ''}</span>
+          <h3>${esc(p.name)}</h3>
+          <span class="price">${money(p.price)}${p.was ? `<s>${money(p.was)}</s>` : ''}</span>
+          <span class="stars"><i aria-hidden="true">${starStr(p.avg)}</i>${p.avg.toFixed(1)} (${p.reviews.length})</span>
+          <span class="quote">“${esc(top.title)}.” ${esc(top.text)}</span>
+        </button>`;
+      }).join('');
+    }
+    $('#shop-sort').addEventListener('change', renderProducts);
+    $('#restock').addEventListener('click', () => { restock++; buildShop(); flash($('#products')); });
+    const dlg = $('#reviews');
+    $('#products').addEventListener('click', (e) => {
+      const btn = e.target.closest('.product');
+      if (!btn) return;
+      const p = products[+btn.dataset.i];
+      const counts = [5, 4, 3, 2, 1].map((r) => p.reviews.filter((x) => x.rating === r).length);
+      dlg.innerHTML = `
+        <div class="reviews__head">
+          <span class="photo" style="--h:${p.h}">${iconFor(p.name)}</span>
+          <div class="grow">
+            <h3 id="rv-title">${esc(p.name)}</h3>
+            <span class="stars"><i aria-hidden="true">${starStr(p.avg)}</i>${p.avg.toFixed(1)} out of 5 · ${p.reviews.length} reviews</span>
+            <div class="bars" style="margin-top:.4rem">${counts.map((c, i) => `<div><span>${5 - i}★</span><span class="bar"><i style="width:${(c / p.reviews.length) * 100}%"></i></span><span>${c}</span></div>`).join('')}</div>
+          </div>
+          <form method="dialog"><button class="icon-btn" aria-label="Close reviews"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></form>
+        </div>
+        <ol>${p.reviews.map((r) => `<li><span class="stars"><i aria-hidden="true">${starStr(r.rating)}</i><span class="sr-only">${r.rating} of 5</span></span><b>${esc(r.title)}</b><p>${esc(r.text)}</p><small>${esc(r.author)} · ${fmtDate(r.date)} · Verified purchase</small></li>`).join('')}</ol>`;
+      dlg.showModal();
+    });
+    dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+
+    // ---------- compare ----------
+    const LOREM = [
+      ['Lorem Ipsum', 'Dolor Sit Amet', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.', 'lorem@ipsum.com', 'Lorem City'],
+      ['Ipsum Dolor', 'Consectetur Adipiscing', 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.', 'ipsum@lorem.com', 'Dolor'],
+      ['Sit Amet', 'Eiusmod Tempor', 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla.', 'sit@amet.com', 'Ipsum Town'],
+    ];
+    function renderCompare() {
+      const f = createFaker(`${seed}:compare`);
+      const company = f.company();
+      const people = Array.from({ length: 3 }, () => {
+        const person = f.person();
+        const title = f.jobTitle();
+        const city = f.city();
+        return { person, title, city, bio: f.bio({ firstName: person.firstName, jobTitle: title, company, city }) };
+      });
+      $('#real-team').innerHTML = people.map((m) => teamCard(m, company)).join('');
+      $('#lorem-team').innerHTML = LOREM.map(([n, t, b, e, c]) => teamCard({ person: { fullName: n, firstName: n, lastName: n.split(' ')[1], email: e }, title: t, bio: b, city: c }, 'Lorem Inc.')).join('');
+      $('#note-names').textContent = people.map((m) => m.person.fullName).join(', ');
+      $('#note-email').innerHTML = `${esc(people[0].person.fullName)} gets <code>${esc(people[0].person.email)}</code> and <code>@${esc(people[0].person.username)}</code>`;
+    }
+    const range = $('#compare-range');
+    const setPos = () => $('#compare-box').style.setProperty('--pos', range.value + '%');
+    range.addEventListener('input', setPos);
+
+    // ---------- explorer ----------
+    const GENS = ['person', 'fullName', 'email', 'phone', 'company', 'jobTitle', 'product', 'city', 'address', 'bio', 'review', 'date', 'dateRange'];
+    let gen = 'person';
+    let fmt = 'json';
+    $('#gen-list').innerHTML = GENS.map((g) => `<button type="button" data-gen-name="${g}" aria-pressed="${g === gen}">.${g}()</button>`).join('');
+    $('#gen-list').addEventListener('click', (e) => {
+      const b = e.target.closest('button');
+      if (!b) return;
+      gen = b.dataset.genName;
+      $$('#gen-list button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      renderExplorer();
+    });
+    $$('.seg button').forEach((b) => b.addEventListener('click', () => {
+      fmt = b.dataset.fmt;
+      $$('.seg button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      renderExplorer();
+    }));
+    const exSeedRaw = () => $('#ex-seed').value;
+    const exSeed = () => { const v = exSeedRaw(); return /^-?\d+$/.test(v.trim()) && v.trim().length < 16 ? Number(v) : v; };
+    const exData = () => {
+      const f = createFaker(exSeed());
+      return Array.from({ length: +$('#ex-count').value }, () => f[gen]());
+    };
+    const toJSON = (d) => JSON.stringify(d, null, 2);
+    const flat = (row) => {
+      if (row === null || typeof row !== 'object' || row instanceof Date) return { value: row instanceof Date ? row.toISOString() : row };
+      return Object.fromEntries(Object.entries(row).map(([k, v]) => [k, v instanceof Date ? v.toISOString() : v]));
+    };
+    const csvCell = (v) => { const s = v == null ? '' : String(v); return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; };
+    const toCSV = (d) => {
+      const rows = d.map(flat);
+      const cols = [...new Set(rows.flatMap(Object.keys))];
+      return [cols.join(','), ...rows.map((r) => cols.map((c) => csvCell(r[c])).join(','))].join('\n') + '\n';
+    };
+    const hlJSON = (s) => esc(s).replace(/(&quot;(?:[^&]|&(?!quot;))*?&quot;)(\s*:)?|\b(true|false|null)\b|(-?\d+(?:\.\d+)?(?:e[+-]?\d+)?)|([{}\[\],])/g,
+      (m, str, colon, bool, num, p) => str ? `<span class="${colon ? 'k' : 's'}">${str}</span>${colon || ''}` : bool ? `<span class="b">${bool}</span>` : num ? `<span class="n">${num}</span>` : `<span class="p">${p}</span>`);
+    function renderExplorer() {
+      const n = +$('#ex-count').value;
+      $('#ex-count-out').textContent = n;
+      const sd = exSeed();
+      const t0 = performance.now();
+      const data = exData();
+      const ms = performance.now() - t0;
+      const lit = typeof sd === 'number' ? `<span class="n">${sd}</span>` : `<span class="s">'${esc(sd)}'</span>`;
+      $('#ex-call').innerHTML = `<span class="k">const</span> fake = <span class="f">createFaker</span>(${lit});\n<span class="k">const</span> rows = Array.<span class="f">from</span>({ length: <span class="n">${n}</span> }, () =&gt; fake.<span class="f">${gen}</span>());`;
+      const text = fmt === 'json' ? toJSON(data) : toCSV(data);
+      $('#ex-out').innerHTML = fmt === 'json' ? hlJSON(text) : esc(text);
+      $('#ex-foot').textContent = `${n} × .${gen}() · ${text.length.toLocaleString()} chars · ${ms.toFixed(2)} ms · sha-ish ${fnv(text)}`;
+    }
+    $('#ex-count').addEventListener('input', renderExplorer);
+    $('#ex-seed').addEventListener('input', renderExplorer);
+    $('#ex-copy').addEventListener('click', () => { const d = exData(); copy(fmt === 'json' ? toJSON(d) : toCSV(d), `Copied ${d.length} rows as ${fmt.toUpperCase()}`); });
+    $('#ex-json').addEventListener('click', () => download(`${gen}.json`, toJSON(exData()) + '\n', 'application/json'));
+    $('#ex-csv').addEventListener('click', () => download(`${gen}.csv`, toCSV(exData()), 'text/csv'));
+
+    // ---------- privacy ----------
+    let stressRuns = 0;
+    let phoneCounts = new Array(100).fill(0), phoneTotal = 0, phoneIn = 0, areas = new Set();
+    let mailTotal = 0, mailIn = 0, mailSet = new Set(), domains = { 'example.com': 0, 'example.org': 0, 'example.net': 0 };
+    function sampleBatch(n, key) {
+      const f = createFaker(`${seed}:privacy:${key}`);
+      for (let i = 0; i < n; i++) {
+        const p = f.person();
+        const m = /^\((\d{3})\) 555-01(\d\d)$/.exec(p.phone);
+        phoneTotal++;
+        if (m) { phoneIn++; phoneCounts[+m[2]]++; areas.add(m[1]); }
+        mailTotal++;
+        const d = p.email.split('@')[1];
+        if (d in domains) { mailIn++; domains[d]++; }
+        mailSet.add(p.email);
+      }
+    }
+    function resetPrivacy() {
+      phoneCounts = new Array(100).fill(0); phoneTotal = 0; phoneIn = 0; areas = new Set();
+      mailTotal = 0; mailIn = 0; mailSet = new Set(); domains = { 'example.com': 0, 'example.org': 0, 'example.net': 0 };
+      stressRuns = 0;
+      sampleBatch(2000, 0);
+    }
+    function renderPrivacy() {
+      const max = Math.max(...phoneCounts), min = Math.min(...phoneCounts);
+      $('#dial').innerHTML = phoneCounts.map((c, i) => {
+        const v = max === min ? .5 : .12 + .88 * (c - min) / (max - min);
+        return `<span style="--v:${v.toFixed(3)}" class="${v > .55 ? 'hot' : ''}" title="555-01${String(i).padStart(2, '0')}: ${c}">${String(i).padStart(2, '0')}</span>`;
+      }).join('');
+      $('#phone-n').textContent = phoneTotal.toLocaleString();
+      $('#phone-in').textContent = `${((phoneIn / phoneTotal) * 100).toFixed(0)}%`;
+      $('#phone-area').textContent = areas.size;
+      $('#phone-real').textContent = phoneTotal - phoneIn;
+      $('#mail-in').textContent = `${((mailIn / mailTotal) * 100).toFixed(0)}%`;
+      $('#mail-uniq').textContent = mailSet.size.toLocaleString();
+      $('#mail-real').textContent = mailTotal - mailIn;
+      const cols = { 'example.com': 'var(--accent)', 'example.org': 'var(--blue)', 'example.net': 'var(--green)' };
+      $('#domain-bar').innerHTML = Object.entries(domains).map(([d, c]) => `<div style="flex:${c};background:${cols[d]}" title="${d}: ${c}">${d} ${Math.round((c / mailTotal) * 100)}%</div>`).join('');
+      const f = createFaker(`${seed}:privacy:samples`);
+      const ps = Array.from({ length: 4 }, () => f.person());
+      $('#phone-samples').innerHTML = ps.map((p) => `<li><span>${esc(p.fullName)}</span><span>${esc(p.phone.slice(0, 6))}<mark>${esc(p.phone.slice(6))}</mark></span></li>`).join('');
+      $('#addr-samples').innerHTML = Array.from({ length: 3 }, () => f.address()).map((a) => `<li><span>${esc(a.street)}, <mark>${esc(a.city)}</mark>, ${esc(a.regionCode)} ${esc(a.postalCode)}</span></li>`).join('');
+      $('#mail-samples').innerHTML = ps.map((p) => { const [l, d] = p.email.split('@'); return `<li><span>${esc(l)}@<mark>${esc(d)}</mark></span></li>`; }).join('');
+    }
+    $('#stress').addEventListener('click', () => {
+      stressRuns++;
+      sampleBatch(10000, stressRuns);
+      renderPrivacy();
+      toast(`${phoneTotal.toLocaleString()} people checked: ${phoneTotal - phoneIn + mailTotal - mailIn} leaks`);
+    });
+
+    // ---------- copy buttons on code ----------
+    for (const pre of $$('.codebox pre')) {
+      const b = document.createElement('button');
+      b.className = 'dark-btn copy';
+      b.type = 'button';
+      b.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg><span class="sr-only">Copy code</span>';
+      b.addEventListener('click', () => copy(pre.textContent));
+      pre.parentElement.append(b);
+    }
+
+    // ---------- one seed drives everything ----------
+    function renderAll() {
+      $('#seed-echo').textContent = `'${seed}'`;
+      $('#foot-seed').textContent = seed;
+      renderHero();
+      restock = 0;
+      buildShop();
+      renderCompare();
+      resetPrivacy();
+      renderPrivacy();
+    }
+    let timer;
+    seedInput.addEventListener('input', () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        seed = seedInput.value || 'acme';
+        const u = new URL(location.href);
+        if (seed === 'acme') u.searchParams.delete('seed'); else u.searchParams.set('seed', seed);
+        history.replaceState(null, '', u);
+        renderAll();
+      }, 120);
+    });
+    $('#dice').addEventListener('click', () => {
+      seedInput.value = `${WORDS[Math.floor(Math.random() * WORDS.length)]}-${Math.floor(Math.random() * 900 + 100)}`;
+      seedInput.dispatchEvent(new Event('input'));
+    });
+
+    renderAll();
+    renderExplorer();
+  </script>
+</body>
+</html>
