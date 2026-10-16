@@ -15,14 +15,14 @@ See [docs/IDEAS.md](docs/IDEAS.md) for the full catalog and [docs/CONVENTIONS.md
 - [device-frames](device-frames) — device and browser mockup frames
 
 ### Libraries (MIT)
-- [relative-time](relative-time) — "3 minutes ago" in any language
-- [slugify-anything](slugify-anything) — Unicode-aware slugs
-- [color-name](color-name) — hex → human color name
-- [fake-but-real](fake-but-real) — believable placeholder data
-- [readable-id](readable-id) — `brave-otter-42` style IDs
-- [tiny-toast](tiny-toast) — one-file toast notifications
-- [tiny-confetti](tiny-confetti) — one-file confetti
-- [env-check](env-check) — validate environment variables
+- [relative-time](relative-time) — "3 minutes ago" in any language · [live demo](https://ghanemja.github.io/relative-time/)
+- [slugify-anything](slugify-anything) — Unicode-aware slugs · [live demo](https://ghanemja.github.io/slugify-anything/)
+- [color-name](color-name) — hex → human color name · [live demo](https://ghanemja.github.io/color-name/)
+- [fake-but-real](fake-but-real) — believable placeholder data · [live demo](https://ghanemja.github.io/fake-but-real/)
+- [readable-id](readable-id) — `brave-otter-42` style IDs · [live demo](https://ghanemja.github.io/readable-id/)
+- [tiny-toast](tiny-toast) — one-file toast notifications · [live demo](https://ghanemja.github.io/tiny-toast/)
+- [tiny-confetti](tiny-confetti) — one-file confetti · [live demo](https://ghanemja.github.io/tiny-confetti/)
+- [env-check](env-check) — validate environment variables · [live demo](https://ghanemja.github.io/env-check/)
 
 ### CLI tools (MIT)
 - [og-image](og-image) — social preview images
