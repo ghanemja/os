@@ -1,5 +1,9 @@
 # tiny-confetti
 
+**Live demo:** https://ghanemja.github.io/tiny-confetti/
+
+[![tiny-confetti demo site](docs/screenshot.png)](https://ghanemja.github.io/tiny-confetti/)
+
 A canvas confetti burst in one file. It is a single ES module with no dependencies. It creates a full-screen canvas when a burst starts and removes it when the burst ends.
 
 - `confetti()` returns a Promise that resolves when the burst is done
@@ -37,7 +41,7 @@ confetti({ x: innerWidth, y: innerHeight, angle: 120, spread: 40, velocity: 1400
 confetti.reset(); // stop everything now
 ```
 
-Open `demo.html` through a local server (for example `npx serve` or `python3 -m http.server`).
+The demo site is `index.html` (it imports the library by relative path); `demo.html` is a bare-bones test page. Open either through a local server (for example `npx serve` or `python3 -m http.server`).
 
 ## Options
 

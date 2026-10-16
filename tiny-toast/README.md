@@ -1,5 +1,9 @@
 # tiny-toast
 
+**Live demo:** https://ghanemja.github.io/tiny-toast/
+
+[![tiny-toast demo site](docs/screenshot.png)](https://ghanemja.github.io/tiny-toast/)
+
 One-file toast notifications, zero setup. A single ES module with no dependencies that injects its own CSS the first time you call it.
 
 - `toast("Saved!")` works with no setup or stylesheet
@@ -51,7 +55,7 @@ In the browser without a bundler:
 </script>
 ```
 
-Open `demo.html` through a local server (for example `npx serve` or `python3 -m http.server`) to try every option.
+The demo site is `index.html` (it imports the library by relative path); `demo.html` is a bare-bones test page. Open either through a local server (for example `npx serve` or `python3 -m http.server`).
 
 ## API
 

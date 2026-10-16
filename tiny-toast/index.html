@@ -1,0 +1,1134 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>tiny-toast: toast notifications in one file</title>
+  <meta name="description" content="One-file, zero-dependency toast notifications. Four types, six positions, a queue, action buttons, pause on hover and real accessibility. Try every option live.">
+  <meta name="theme-color" content="#fbf6ee">
+  <meta property="og:title" content="tiny-toast: toasts, served warm">
+  <meta property="og:description" content="One-file, zero-dependency toast notifications with a queue, actions, theming and real accessibility. Try every option live.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="tiny-toast">
+  <meta property="og:url" content="https://ghanemja.github.io/tiny-toast/">
+  <meta property="og:image" content="https://ghanemja.github.io/tiny-toast/docs/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="tiny-toast: toast notifications in one file">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="tiny-toast: toasts, served warm">
+  <meta name="twitter:description" content="One-file, zero-dependency toast notifications. Try every option live.">
+  <meta name="twitter:image" content="https://ghanemja.github.io/tiny-toast/docs/og.png">
+  <link rel="canonical" href="https://ghanemja.github.io/tiny-toast/">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M10 28c-5-5-3-18 10-19 6-6 18-6 24 0 13 1 15 14 10 19v24a4 4 0 0 1-4 4H14a4 4 0 0 1-4-4z' fill='%23b85a24'/%3E%3Cpath d='M16 31c-3-3-2-12 7-13 4-5 14-5 18 0 9 1 10 10 7 13v19H16z' fill='%23f6d9a6'/%3E%3Crect x='23' y='29' width='18' height='12' rx='3' fill='%23f5c451'/%3E%3C/svg%3E">
+  <script>
+    (function () {
+      var t;
+      try { t = localStorage.getItem('tt-site-theme'); } catch (e) {}
+      if (t !== 'light' && t !== 'dark') t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=JetBrains+Mono:wght@400;600&display=swap">
+  <style>
+    :root {
+      --bg: #fbf6ee; --bg-2: #f4eadb; --surface: #ffffff; --surface-2: #faf4ea;
+      --ink: #2b2118; --muted: #6e5f50; --line: rgba(43, 33, 24, .12); --line-strong: rgba(43, 33, 24, .22);
+      --accent: #c95a23; --accent-ink: #ffffff; --accent-soft: #fbe3d2; --butter: #f5c451; --crust: #8a4b22;
+      --code-bg: #2b2118; --code-fg: #f6eadb; --code-muted: #b39c86; --code-str: #f5c451; --code-key: #ff9e6b; --code-num: #9fd3a6;
+      --shadow: 0 1px 2px rgba(60, 35, 10, .06), 0 12px 32px -8px rgba(60, 35, 10, .18);
+      --shadow-lg: 0 2px 4px rgba(60, 35, 10, .06), 0 30px 60px -20px rgba(60, 35, 10, .35);
+      --radius: 16px;
+      --font: "Bricolage Grotesque", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      color-scheme: light;
+      /* tiny-toast follows the site toggle, not only the OS setting */
+      --tt-bg: #ffffff; --tt-fg: #1f2328; --tt-border: rgba(0,0,0,.08); --tt-shadow: 0 6px 24px rgba(0,0,0,.14);
+      --tt-info: #2563eb; --tt-success: #16a34a; --tt-warning: #d97706; --tt-error: #dc2626;
+    }
+    :root[data-theme="dark"] {
+      --bg: #17110c; --bg-2: #201811; --surface: #241b14; --surface-2: #2b2119;
+      --ink: #f4e9dc; --muted: #b5a492; --line: rgba(244, 233, 220, .1); --line-strong: rgba(244, 233, 220, .2);
+      --accent: #f08a4b; --accent-ink: #1b120b; --accent-soft: #3a2416; --butter: #f5c451; --crust: #e0a067;
+      --code-bg: #0f0a07; --code-fg: #f4e9dc;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 12px 32px -8px rgba(0, 0, 0, .6);
+      --shadow-lg: 0 2px 4px rgba(0, 0, 0, .4), 0 30px 60px -20px rgba(0, 0, 0, .8);
+      color-scheme: dark;
+      --tt-bg: #1f2329; --tt-fg: #e6e8eb; --tt-border: rgba(255,255,255,.1); --tt-shadow: 0 6px 24px rgba(0,0,0,.5);
+      --tt-info: #60a5fa; --tt-success: #4ade80; --tt-warning: #fbbf24; --tt-error: #f87171;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 5rem; -webkit-text-size-adjust: 100%; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 400 1rem/1.6 var(--font); overflow-x: clip; transition: background-color .25s, color .25s; }
+    a { color: inherit; }
+    img, svg { display: block; }
+    button, input, select, textarea { font: inherit; color: inherit; }
+    :focus-visible { outline: 2.5px solid var(--accent); outline-offset: 2px; }
+    code, pre, kbd { font-family: var(--mono); font-variant-ligatures: none; }
+    :not(pre) > code { font-size: .86em; padding: .12em .4em; border-radius: 6px; background: color-mix(in srgb, var(--ink) 8%, transparent); }
+    kbd { font-size: .8em; padding: .1em .45em; border: 1px solid var(--line-strong); border-bottom-width: 2px; border-radius: 6px; background: var(--surface); }
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 0 16px; }
+    @media (min-width: 640px) { .wrap { padding: 0 24px; } }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+    .skip { position: absolute; left: 16px; top: -100px; z-index: 100; padding: .5rem 1rem; background: var(--ink); color: var(--bg); border-radius: 8px; }
+    .skip:focus { top: 12px; }
+
+    /* Buttons */
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: .5em; min-height: 44px; padding: .6em 1.15em; border-radius: 999px; border: 1.5px solid var(--line-strong); background: var(--surface); color: var(--ink); font-weight: 600; text-decoration: none; cursor: pointer; transition: transform .15s, background-color .15s, border-color .15s, box-shadow .15s; white-space: nowrap; }
+    .btn:hover { border-color: var(--ink); }
+    .btn:active { transform: translateY(1px); }
+    .btn--primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); box-shadow: 0 6px 18px -6px color-mix(in srgb, var(--accent) 70%, transparent); }
+    .btn--primary:hover { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 88%, var(--ink)); }
+    .btn--ghost { background: transparent; }
+    .btn--sm { min-height: 36px; padding: .35em .9em; font-size: .9rem; }
+    .btn svg { width: 1.1em; height: 1.1em; flex: none; }
+
+    /* Top bar */
+    .topbar { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: saturate(1.4) blur(12px); -webkit-backdrop-filter: saturate(1.4) blur(12px); border-bottom: 1px solid var(--line); }
+    .topbar .wrap { display: flex; align-items: center; gap: 1rem; height: 64px; }
+    .brand { display: flex; align-items: center; gap: .55rem; font-weight: 800; font-size: 1.15rem; letter-spacing: -.02em; text-decoration: none; }
+    .brand svg { width: 30px; height: 30px; }
+    .topbar nav { margin-left: auto; }
+    .nav { display: flex; gap: .25rem; margin: 0; padding: 0; list-style: none; }
+    .nav a { display: block; padding: .4rem .7rem; border-radius: 999px; text-decoration: none; font-weight: 500; color: var(--muted); }
+    .nav a:hover { color: var(--ink); background: color-mix(in srgb, var(--ink) 6%, transparent); }
+    .tools { display: flex; gap: .5rem; align-items: center; }
+    .icon-btn { display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 999px; border: 1.5px solid var(--line-strong); background: var(--surface); cursor: pointer; text-decoration: none; }
+    .icon-btn:hover { border-color: var(--ink); }
+    .icon-btn svg { width: 18px; height: 18px; }
+    .theme-icon-dark { display: none; }
+    [data-theme="dark"] .theme-icon-dark { display: block; }
+    [data-theme="dark"] .theme-icon-light { display: none; }
+    @media (max-width: 900px) { .nav { display: none; } .tools { margin-left: auto; } }
+
+    /* Hero */
+    .hero { position: relative; padding: 3.5rem 0 4.5rem; isolation: isolate; }
+    .hero::before { content: ""; position: absolute; inset: -64px 0 0; z-index: -1; background:
+      radial-gradient(40rem 26rem at 85% 30%, color-mix(in srgb, var(--butter) 30%, transparent), transparent 70%),
+      radial-gradient(30rem 22rem at 5% 10%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 70%); pointer-events: none; }
+    .hero .wrap { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.75rem; align-items: center; }
+    @media (min-width: 980px) { .hero .wrap { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 3.5rem; } .hero { padding: 5rem 0 6rem; } }
+    .badge { display: inline-flex; align-items: center; gap: .5rem; padding: .3rem .8rem .3rem .4rem; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); font-size: .85rem; font-weight: 600; color: var(--muted); box-shadow: var(--shadow); }
+    .badge b { background: var(--accent); color: var(--accent-ink); padding: .1rem .55rem; border-radius: 999px; font-size: .75rem; letter-spacing: .04em; }
+    .hero h1 { margin: 1.25rem 0 0; font-size: clamp(2.8rem, 8.5vw, 5.4rem); line-height: .95; font-weight: 800; letter-spacing: -.045em; }
+    .hero h1 em { font-style: normal; color: var(--accent); position: relative; white-space: nowrap; }
+    .hero h1 em::after { content: ""; position: absolute; left: -.05em; right: -.05em; bottom: .06em; height: .22em; background: var(--butter); border-radius: 4px; z-index: -1; opacity: .75; }
+    .hero .lede { margin: 1.4rem 0 1.8rem; max-width: 34rem; font-size: clamp(1.05rem, 2.1vw, 1.2rem); color: var(--muted); }
+    .hero .lede code { color: var(--ink); }
+    .row { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; }
+    .facts { display: flex; flex-wrap: wrap; gap: .4rem 1.4rem; margin: 2rem 0 0; padding: 0; list-style: none; color: var(--muted); font-size: .92rem; }
+    .facts li { display: flex; align-items: center; gap: .45rem; }
+    .facts li::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+
+    /* Mock app */
+    .app { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow-lg); overflow: hidden; min-width: 0; }
+    .app__bar { display: flex; align-items: center; gap: .75rem; padding: .7rem .9rem; border-bottom: 1px solid var(--line); background: var(--surface-2); }
+    .dots { display: flex; gap: 6px; }
+    .dots i { width: 11px; height: 11px; border-radius: 50%; background: #ef6a5e; }
+    .dots i:nth-child(2) { background: #f4bf50; } .dots i:nth-child(3) { background: #61c454; }
+    .app__title { font-weight: 700; font-size: .92rem; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .status { display: inline-flex; align-items: center; gap: .4rem; font-size: .78rem; font-weight: 600; padding: .2rem .6rem; border-radius: 999px; background: color-mix(in srgb, #16a34a 14%, transparent); color: color-mix(in srgb, #16a34a 80%, var(--ink)); }
+    .status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+    .app[data-offline] .status { background: color-mix(in srgb, #dc2626 14%, transparent); color: color-mix(in srgb, #dc2626 85%, var(--ink)); }
+    .app__body { display: grid; grid-template-columns: 190px minmax(0, 1fr); min-height: 360px; }
+    .side { border-right: 1px solid var(--line); padding: .75rem .6rem; background: color-mix(in srgb, var(--surface-2) 60%, var(--surface)); display: flex; flex-direction: column; gap: .5rem; min-width: 0; }
+    .side__head { display: flex; align-items: center; justify-content: space-between; padding: 0 .35rem; font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+    .side__head button { width: 28px; height: 28px; border-radius: 8px; border: 1px solid var(--line-strong); background: var(--surface); cursor: pointer; font-size: 1.1rem; line-height: 1; }
+    .notes { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+    .notes button { width: 100%; text-align: left; padding: .5rem .6rem; border-radius: 10px; border: 0; background: none; cursor: pointer; display: grid; gap: .05rem; }
+    .notes button:hover { background: color-mix(in srgb, var(--ink) 5%, transparent); }
+    .notes button[aria-current="true"] { background: var(--accent-soft); }
+    .notes b { font-size: .88rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .notes span { font-size: .75rem; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .notes .fresh { animation: slide-in .35s ease-out; }
+    @keyframes slide-in { from { opacity: 0; transform: translateX(-8px); } }
+    .empty-notes { font-size: .85rem; color: var(--muted); padding: .5rem; }
+    .editor { display: flex; flex-direction: column; min-width: 0; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: .35rem; padding: .6rem .75rem; border-bottom: 1px solid var(--line); align-items: center; }
+    .tb { display: inline-flex; align-items: center; gap: .4rem; height: 34px; padding: 0 .7rem; border-radius: 9px; border: 1px solid var(--line-strong); background: var(--surface); font-size: .85rem; font-weight: 600; cursor: pointer; transition: background-color .15s, border-color .15s; }
+    .tb:hover { border-color: var(--ink); }
+    .tb svg { width: 16px; height: 16px; }
+    .tb--save { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+    .tb--danger:hover { border-color: #dc2626; color: #dc2626; }
+    .tb[disabled] { opacity: .5; cursor: not-allowed; }
+    .switch { display: inline-flex; align-items: center; gap: .5rem; font-size: .82rem; font-weight: 600; cursor: pointer; user-select: none; }
+    .switch input[type="checkbox"] { appearance: none; -webkit-appearance: none; width: 38px; height: 22px; border-radius: 999px; background: color-mix(in srgb, var(--ink) 28%, var(--surface)); position: relative; cursor: pointer; margin: 0; flex: none; transition: background-color .2s; }
+    .switch input::after { content: ""; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.3); transition: transform .2s; }
+    .switch input:checked { background: #dc2626; }
+    .switch input:checked::after { transform: translateX(16px); }
+    .doc { padding: 1rem 1.1rem 1.1rem; display: flex; flex-direction: column; gap: .4rem; flex: 1; min-width: 0; }
+    .doc input { border: 0; background: none; font-size: 1.35rem; font-weight: 800; letter-spacing: -.02em; padding: .2rem .25rem; border-radius: 8px; width: 100%; }
+    .doc textarea { flex: 1; min-height: 150px; border: 0; background: none; resize: none; font-size: .95rem; line-height: 1.7; padding: .25rem; border-radius: 8px; width: 100%; color: var(--ink); }
+    .doc input:focus-visible, .doc textarea:focus-visible { outline: 2px solid color-mix(in srgb, var(--accent) 60%, transparent); outline-offset: 0; }
+    .doc__meta { display: flex; justify-content: space-between; gap: .5rem; flex-wrap: wrap; font-size: .78rem; color: var(--muted); padding: 0 .25rem; }
+    .attach { display: none; align-items: center; gap: .6rem; padding: .5rem .7rem; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; }
+    .attach[data-show] { display: flex; }
+    .attach progress { flex: 1; height: 6px; accent-color: var(--accent); min-width: 40px; }
+    .hint { margin: 1rem 0 0; font-size: .88rem; color: var(--muted); display: flex; gap: .5rem; align-items: baseline; }
+    @media (max-width: 620px) {
+      .app__body { grid-template-columns: minmax(0, 1fr); }
+      .side { border-right: 0; border-bottom: 1px solid var(--line); }
+      .notes { grid-auto-flow: column; grid-auto-columns: minmax(130px, 1fr); overflow-x: auto; padding-bottom: 2px; }
+      .tb span.lbl { display: none; }
+    }
+
+    /* Sections */
+    section.block { padding: 5rem 0 1rem; }
+    .eyebrow { display: inline-flex; align-items: center; gap: .6rem; font-family: var(--mono); font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
+    .eyebrow::before { content: ""; width: 22px; height: 2px; background: currentColor; border-radius: 2px; }
+    h2 { margin: .6rem 0 .5rem; font-size: clamp(2rem, 5vw, 3.1rem); line-height: 1.02; letter-spacing: -.035em; font-weight: 800; }
+    .sub { margin: 0 0 2.25rem; max-width: 42rem; color: var(--muted); font-size: 1.08rem; }
+    .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.4rem; min-width: 0; }
+    .card h3 { margin: 0 0 .35rem; font-size: 1.15rem; letter-spacing: -.01em; }
+    .card p { margin: 0 0 1rem; color: var(--muted); font-size: .95rem; }
+
+    .split { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
+    @media (min-width: 900px) { .split { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 1.5rem; } }
+    .field { display: grid; gap: .45rem; margin: 0 0 1.25rem; border: 0; padding: 0; min-width: 0; }
+    .field > legend, .field > .label { padding: 0; margin-bottom: .45rem; font-size: .78rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); display: flex; justify-content: space-between; width: 100%; }
+    .field output { font-family: var(--mono); font-weight: 600; color: var(--ink); text-transform: none; letter-spacing: 0; }
+    .text { width: 100%; min-height: 44px; padding: .55rem .8rem; border-radius: 10px; border: 1.5px solid var(--line-strong); background: var(--surface-2); }
+    .text:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent); }
+    input[type="range"] { width: 100%; accent-color: var(--accent); margin: 0; height: 28px; }
+    input[type="checkbox"] { accent-color: var(--accent); width: 18px; height: 18px; margin: 0; }
+    .check { display: inline-flex; gap: .55rem; align-items: center; font-weight: 600; cursor: pointer; }
+
+    .seg { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; padding: 4px; border-radius: 12px; background: var(--surface-2); border: 1px solid var(--line); }
+    .seg label { position: relative; }
+    .seg input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+    .seg span { display: flex; align-items: center; justify-content: center; gap: .4rem; min-height: 38px; border-radius: 9px; font-size: .88rem; font-weight: 600; color: var(--muted); }
+    .seg span::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--c, var(--accent)); }
+    .seg input:checked + span { background: var(--surface); color: var(--ink); box-shadow: var(--shadow); }
+    .seg input:focus-visible + span { outline: 2.5px solid var(--accent); outline-offset: 1px; }
+    @media (max-width: 400px) { .seg span { font-size: .78rem; gap: .25rem; } }
+
+    /* Position picker: a miniature screen */
+    .screen { position: relative; aspect-ratio: 16 / 8; max-height: 230px; width: 100%; border-radius: 14px; border: 1.5px solid var(--line-strong); background: var(--surface-2); overflow: hidden; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: 1fr 1fr; gap: 6px; padding: 26px 8px 8px; }
+    .screen::before { content: ""; position: absolute; top: 9px; left: 10px; width: 34px; height: 8px; border-radius: 4px; background: radial-gradient(circle at 4px 4px, #ef6a5e 3px, transparent 3.5px), radial-gradient(circle at 15px 4px, #f4bf50 3px, transparent 3.5px), radial-gradient(circle at 26px 4px, #61c454 3px, transparent 3.5px); }
+    .screen::after { content: ""; position: absolute; left: 22%; right: 22%; top: 46%; height: 18%; border-radius: 6px; background: repeating-linear-gradient(var(--line) 0 5px, transparent 5px 11px); pointer-events: none; }
+    .zone { position: relative; display: flex; padding: 6px; border-radius: 8px; cursor: pointer; transition: background-color .15s; }
+    .zone:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+    .zone input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+    .zone[data-pos^="top"] { align-items: flex-start; } .zone[data-pos^="bottom"] { align-items: flex-end; }
+    .zone[data-pos$="left"] { justify-content: flex-start; } .zone[data-pos$="center"] { justify-content: center; } .zone[data-pos$="right"] { justify-content: flex-end; }
+    .zone i { display: block; width: min(64px, 80%); height: 14px; border-radius: 4px; border: 1.5px dashed var(--line-strong); }
+    .zone input:checked ~ i { border: 0; background: var(--surface); box-shadow: inset 3px 0 0 var(--accent), 0 3px 8px rgba(0,0,0,.15); }
+    .zone input:focus-visible ~ i { outline: 2.5px solid var(--accent); outline-offset: 2px; }
+    .zone small { position: absolute; font-family: var(--mono); font-size: .62rem; color: var(--muted); opacity: 0; transition: opacity .15s; white-space: nowrap; }
+    .zone[data-pos^="top"] small { top: 26px; } .zone[data-pos^="bottom"] small { bottom: 26px; }
+    .zone input:checked ~ small, .zone:hover small { opacity: 1; }
+
+    /* Code */
+    .code { position: relative; background: var(--code-bg); color: var(--code-fg); border-radius: 14px; overflow: hidden; min-width: 0; }
+    .code__head { display: flex; align-items: center; justify-content: space-between; gap: .5rem; padding: .55rem .6rem .55rem 1rem; border-bottom: 1px solid rgba(255,255,255,.08); font-family: var(--mono); font-size: .75rem; color: var(--code-muted); }
+    .code pre { margin: 0; padding: 1rem 1.1rem 1.15rem; overflow-x: auto; font-size: .84rem; line-height: 1.65; tab-size: 2; }
+    .copy { display: inline-flex; align-items: center; gap: .35rem; height: 30px; padding: 0 .7rem; border-radius: 8px; border: 1px solid rgba(255,255,255,.18); background: rgba(255,255,255,.06); color: var(--code-fg); font-family: var(--font); font-size: .8rem; font-weight: 600; cursor: pointer; }
+    .copy:hover { background: rgba(255,255,255,.14); }
+    .copy svg { width: 14px; height: 14px; }
+    .tk-c { color: var(--code-muted); font-style: italic; } .tk-s { color: var(--code-str); } .tk-k { color: var(--code-key); } .tk-n { color: var(--code-num); } .tk-v { color: #9ecbff; }
+
+    .preview { display: grid; gap: 1rem; align-content: start; min-width: 0; }
+    .fire-row { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; }
+
+    /* Theming */
+    .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: .6rem; }
+    .swatch { display: flex; align-items: center; gap: .55rem; padding: .4rem .55rem; border-radius: 10px; border: 1px solid var(--line); background: var(--surface-2); font-size: .82rem; font-weight: 600; cursor: pointer; min-width: 0; }
+    .swatch input { width: 30px; height: 30px; padding: 0; border: 0; border-radius: 8px; background: none; cursor: pointer; flex: none; }
+    .swatch input::-webkit-color-swatch-wrapper { padding: 0; } .swatch input::-webkit-color-swatch { border: 1px solid var(--line-strong); border-radius: 8px; }
+    .swatch input::-moz-color-swatch { border: 1px solid var(--line-strong); border-radius: 8px; }
+    .presets { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .chip { display: inline-flex; align-items: center; gap: .45rem; min-height: 36px; padding: .3rem .8rem; border-radius: 999px; border: 1.5px solid var(--line-strong); background: var(--surface); font-size: .86rem; font-weight: 600; cursor: pointer; }
+    .chip[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: var(--bg); }
+    .chip i { width: 12px; height: 12px; border-radius: 50%; background: var(--c); box-shadow: 0 0 0 1.5px rgba(0,0,0,.12); }
+    .ranges { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 0 1.25rem; }
+    .stage { position: relative; display: grid; gap: var(--tt-gap); padding: 1.5rem; border-radius: var(--radius); min-height: 300px; align-content: center; justify-items: center;
+      background: radial-gradient(circle at 1px 1px, var(--line-strong) 1px, transparent 1.5px) 0 0 / 16px 16px, var(--surface-2); border: 1px solid var(--line); overflow: hidden; }
+    .stage .tt-toast { width: min(var(--tt-width), 100%); animation: none; }
+    .stage .tt-close { pointer-events: none; }
+    .stage__label { position: absolute; top: .6rem; left: .8rem; font-family: var(--mono); font-size: .7rem; color: var(--muted); }
+
+    /* Accessibility */
+    .grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1.25rem; }
+    .roles { display: grid; gap: .6rem; }
+    .roles button { justify-content: flex-start; width: 100%; white-space: normal; text-align: left; }
+    .roles code { font-size: .78rem; }
+    .meter { height: 10px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--line); overflow: hidden; margin: .75rem 0 .5rem; }
+    .meter span { display: block; height: 100%; width: 100%; background: var(--accent); border-radius: inherit; transform-origin: left; }
+    .meter[data-paused] span { background: var(--butter); }
+    .meter-label { font-family: var(--mono); font-size: .8rem; color: var(--muted); min-height: 1.4em; }
+    .log { list-style: none; margin: 0; padding: .75rem; background: var(--code-bg); color: var(--code-fg); border-radius: 12px; font-family: var(--mono); font-size: .76rem; line-height: 1.55; min-height: 200px; max-height: 260px; overflow: auto; display: grid; align-content: start; gap: .3rem; }
+    .log li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: .6rem; overflow-wrap: anywhere; }
+    .log time { color: var(--code-muted); }
+    .log .ev-add { color: #9fd3a6; } .log .ev-pause { color: var(--code-str); } .log .ev-gone { color: #ff9e6b; } .log .ev-alert { color: #ff8a8a; }
+    .log .empty { color: var(--code-muted); display: block; }
+    .keys { margin: 0; padding: 0; list-style: none; display: grid; gap: .55rem; font-size: .92rem; }
+    .keys li { display: flex; gap: .6rem; align-items: baseline; }
+    .keys kbd { flex: none; }
+
+    /* Stress */
+    .stress { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
+    @media (min-width: 900px) { .stress { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); } }
+    .counters { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .5rem; margin-bottom: 1rem; }
+    .counter { background: var(--surface-2); border: 1px solid var(--line); border-radius: 12px; padding: .6rem .7rem; }
+    .counter b { display: block; font-size: 1.7rem; line-height: 1; font-weight: 800; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+    .counter span { font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+    @media (max-width: 400px) { .counter b { font-size: 1.3rem; } .counter span { font-size: .62rem; } }
+    .lane { display: flex; flex-wrap: wrap; gap: 6px; min-height: 92px; padding: .75rem; border-radius: 12px; background: var(--surface-2); border: 1px dashed var(--line-strong); align-content: flex-start; }
+    .lane:empty::before { content: "Fire a batch to watch the queue drain."; color: var(--muted); font-size: .9rem; }
+    .slot { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 10px; font-family: var(--mono); font-size: .78rem; font-weight: 600; border: 1.5px dashed var(--line-strong); color: var(--muted); transition: background-color .2s, color .2s, border-color .2s, transform .2s, opacity .3s; }
+    .slot[data-s="showing"] { background: var(--accent); border: 1.5px solid var(--accent); color: var(--accent-ink); transform: translateY(-3px); }
+    .slot[data-s="done"] { border-style: solid; border-color: var(--line); opacity: .45; }
+    .legend { display: flex; flex-wrap: wrap; gap: .4rem 1rem; margin-top: .75rem; font-size: .82rem; color: var(--muted); }
+    .legend span { display: inline-flex; align-items: center; gap: .4rem; }
+    .legend i { width: 14px; height: 14px; border-radius: 4px; border: 1.5px dashed var(--line-strong); }
+    .legend i.s { background: var(--accent); border: 0; } .legend i.d { border-style: solid; opacity: .45; }
+
+    /* Get started */
+    .start { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
+    @media (min-width: 900px) { .start { grid-template-columns: minmax(0, .75fr) minmax(0, 1.25fr); } }
+    .steps { margin: 0; padding: 0; list-style: none; display: grid; gap: 1rem; counter-reset: s; }
+    .steps li { counter-increment: s; display: grid; grid-template-columns: 2.2rem minmax(0, 1fr); gap: .75rem; }
+    .steps li::before { content: counter(s); display: grid; place-items: center; width: 2.2rem; height: 2.2rem; border-radius: 50%; background: var(--butter); color: #2b2118; font-weight: 800; }
+    .steps h3 { margin: .2rem 0 .3rem; font-size: 1.05rem; }
+    .steps p { margin: 0 0 .6rem; color: var(--muted); font-size: .95rem; }
+    .tabs { display: flex; gap: 2px; overflow-x: auto; padding: .45rem .5rem 0; border-bottom: 1px solid rgba(255,255,255,.08); }
+    .tab { flex: none; padding: .45rem .8rem; border: 0; border-radius: 8px 8px 0 0; background: none; color: var(--code-muted); font-family: var(--mono); font-size: .78rem; font-weight: 600; cursor: pointer; }
+    .tab[aria-selected="true"] { background: rgba(255,255,255,.08); color: var(--code-fg); }
+    .tabpanel[hidden] { display: none; }
+    .code .copy--float { position: absolute; top: .55rem; right: .6rem; }
+    .install { display: flex; align-items: center; gap: .5rem; justify-content: space-between; background: var(--code-bg); color: var(--code-fg); border-radius: 12px; padding: .45rem .5rem .45rem 1rem; font-family: var(--mono); font-size: .86rem; min-width: 0; }
+    .install code { overflow-x: auto; white-space: nowrap; background: none; padding: 0; font-size: inherit; }
+    .install code::before { content: "$ "; color: var(--code-muted); }
+
+    footer { margin-top: 5rem; padding: 2.5rem 0 3rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .92rem; }
+    footer .wrap { display: flex; flex-wrap: wrap; gap: 1rem 2rem; justify-content: space-between; align-items: center; }
+    footer p { margin: 0; }
+    footer a { font-weight: 600; color: var(--ink); }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="#top" aria-label="tiny-toast home">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M10 28c-5-5-3-18 10-19 6-6 18-6 24 0 13 1 15 14 10 19v24a4 4 0 0 1-4 4H14a4 4 0 0 1-4-4z" fill="#b85a24"/><path d="M16 31c-3-3-2-12 7-13 4-5 14-5 18 0 9 1 10 10 7 13v19H16z" fill="#f6d9a6"/><rect x="23" y="29" width="18" height="12" rx="3" fill="#f5c451"/></svg>
+        tiny-toast
+      </a>
+      <nav aria-label="Sections">
+        <ul class="nav">
+          <li><a href="#playground">Playground</a></li>
+          <li><a href="#theming">Theming</a></li>
+          <li><a href="#a11y">Accessibility</a></li>
+          <li><a href="#queue">Queue</a></li>
+          <li><a href="#start">Get started</a></li>
+        </ul>
+      </nav>
+      <div class="tools">
+        <button class="icon-btn" id="theme" type="button" aria-label="Switch to dark theme">
+          <svg class="theme-icon-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+          <svg class="theme-icon-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+        <a class="icon-btn" href="https://github.com/ghanemja/tiny-toast" aria-label="tiny-toast on GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.26 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- HERO: a tiny notes app that uses the real library -->
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="wrap">
+        <div>
+          <span class="badge"><b>v0.1</b> MIT · one file · zero dependencies</span>
+          <h1 id="hero-title">Toasts, served <em>warm.</em></h1>
+          <p class="lede">tiny-toast is one ES module. Call <code>toast('Saved!')</code> and it brings its own styles, queue, timers and screen-reader support. The notes app on this page is real: every notification you see is the library at work.</p>
+          <div class="row">
+            <a class="btn btn--primary" href="#playground">Open the playground
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <a class="btn" href="#start">Get started</a>
+          </div>
+          <ul class="facts">
+            <li>~4 KB gzipped</li><li>4 types · 6 positions</li><li>Queue, actions, pause on hover</li>
+          </ul>
+        </div>
+
+        <div class="app" id="app" role="region" aria-label="Demo notes app">
+          <div class="app__bar">
+            <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+            <div class="app__title">Jot · Notes</div>
+            <label class="switch"><input type="checkbox" id="offline" role="switch"> Offline</label>
+            <span class="status" id="net-status">Online</span>
+          </div>
+          <div class="app__body">
+            <div class="side">
+              <div class="side__head"><span>Notes</span><button type="button" id="new-note" aria-label="New note">+</button></div>
+              <ul class="notes" id="notes" aria-label="Notes"></ul>
+            </div>
+            <div class="editor">
+              <div class="toolbar" role="toolbar" aria-label="Note actions">
+                <button class="tb tb--save" type="button" id="act-save" title="Save (Ctrl/Cmd + S)">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h11l3 3v15H5z"/><path d="M8 3v5h7V3M8 21v-7h8v7"/></svg><span class="lbl">Save</span></button>
+                <button class="tb" type="button" id="act-attach">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5 12.5 20a5 5 0 0 1-7-7l9-9a3.5 3.5 0 0 1 5 5l-9 9a2 2 0 0 1-3-3l8-8"/></svg><span class="lbl">Attach</span></button>
+                <button class="tb" type="button" id="act-share">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg><span class="lbl">Share</span></button>
+                <button class="tb tb--danger" type="button" id="act-delete">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg><span class="lbl">Delete</span></button>
+              </div>
+              <div class="doc">
+                <label class="sr-only" for="note-title">Note title</label>
+                <input id="note-title" autocomplete="off">
+                <label class="sr-only" for="note-body">Note text</label>
+                <textarea id="note-body" spellcheck="false"></textarea>
+                <div class="attach" id="attach-row"><span id="attach-name">sketch.png</span><progress id="attach-progress" max="100" value="0"></progress></div>
+                <div class="doc__meta"><span id="note-saved">Not saved yet</span><span><kbd>Ctrl</kbd> + <kbd>S</kbd> saves</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PLAYGROUND -->
+    <section class="block" id="playground" aria-labelledby="pg-title">
+      <div class="wrap">
+        <span class="eyebrow">01 · Playground</span>
+        <h2 id="pg-title">Every option, one click away.</h2>
+        <p class="sub">Pick a type, click a spot on the little screen, set the timing. The snippet on the right is exactly the call that runs when you press <b>Fire toast</b>.</p>
+        <div class="split">
+          <form class="card" id="pg-form" autocomplete="off">
+            <div class="field">
+              <label class="label" for="pg-msg">Message</label>
+              <input class="text" id="pg-msg" value="Changes saved" maxlength="120">
+            </div>
+            <fieldset class="field">
+              <legend>Type</legend>
+              <div class="seg">
+                <label style="--c: var(--tt-info)"><input type="radio" name="type" value="info"><span>info</span></label>
+                <label style="--c: var(--tt-success)"><input type="radio" name="type" value="success" checked><span>success</span></label>
+                <label style="--c: var(--tt-warning)"><input type="radio" name="type" value="warning"><span>warning</span></label>
+                <label style="--c: var(--tt-error)"><input type="radio" name="type" value="error"><span>error</span></label>
+              </div>
+            </fieldset>
+            <fieldset class="field">
+              <legend>Position <output id="pg-pos-out">bottom-right</output></legend>
+              <div class="screen" id="pg-screen">
+                <label class="zone" data-pos="top-left"><input type="radio" name="pos" value="top-left" aria-label="top-left"><i></i><small>top-left</small></label>
+                <label class="zone" data-pos="top-center"><input type="radio" name="pos" value="top-center" aria-label="top-center"><i></i><small>top-center</small></label>
+                <label class="zone" data-pos="top-right"><input type="radio" name="pos" value="top-right" aria-label="top-right"><i></i><small>top-right</small></label>
+                <label class="zone" data-pos="bottom-left"><input type="radio" name="pos" value="bottom-left" aria-label="bottom-left"><i></i><small>bottom-left</small></label>
+                <label class="zone" data-pos="bottom-center"><input type="radio" name="pos" value="bottom-center" aria-label="bottom-center"><i></i><small>bottom-center</small></label>
+                <label class="zone" data-pos="bottom-right"><input type="radio" name="pos" value="bottom-right" aria-label="bottom-right" checked><i></i><small>bottom-right</small></label>
+              </div>
+            </fieldset>
+            <div class="field">
+              <label class="label" for="pg-dur">Duration <output id="pg-dur-out" for="pg-dur">4.0 s</output></label>
+              <input type="range" id="pg-dur" min="0" max="10000" step="500" value="4000" aria-describedby="pg-dur-help">
+              <small id="pg-dur-help" style="color:var(--muted)">Slide to 0 for a sticky toast that waits to be dismissed.</small>
+            </div>
+            <div class="field">
+              <label class="label" for="pg-action">Action button label <span style="text-transform:none;letter-spacing:0;font-weight:500">(empty = none)</span></label>
+              <input class="text" id="pg-action" value="Undo" maxlength="20">
+            </div>
+            <div class="field" style="margin-bottom:0">
+              <label class="check"><input type="checkbox" id="pg-dismiss" checked> Dismissible (close button + <kbd>Esc</kbd>)</label>
+            </div>
+          </form>
+          <div class="preview">
+            <div class="code">
+              <div class="code__head"><span>app.js</span><button class="copy" type="button" data-copy="pg-code"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>Copy</button></div>
+              <pre><code id="pg-code"></code></pre>
+            </div>
+            <div class="fire-row">
+              <button class="btn btn--primary" type="submit" form="pg-form" id="pg-fire">Fire toast</button>
+              <button class="btn" type="button" id="pg-all">One of each type</button>
+              <button class="btn btn--ghost" type="button" data-dismiss-all>Dismiss all</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- THEMING -->
+    <section class="block" id="theming" aria-labelledby="th-title">
+      <div class="wrap">
+        <span class="eyebrow">02 · Theming</span>
+        <h2 id="th-title">Make it taste like your app.</h2>
+        <p class="sub">Every color, radius and spacing is a CSS custom property. Tweak them below: the specimens restyle live, and so does every real toast on this page. Then copy the CSS.</p>
+        <div class="split">
+          <div class="card">
+            <div class="field">
+              <span class="label">Presets</span>
+              <div class="presets" id="th-presets"></div>
+            </div>
+            <div class="field">
+              <span class="label">Colors</span>
+              <div class="swatches" id="th-colors"></div>
+            </div>
+            <div class="ranges">
+              <div class="field"><label class="label" for="th-radius">Radius <output id="th-radius-out">10px</output></label><input type="range" id="th-radius" data-var="--tt-radius" min="0" max="24" value="10"></div>
+              <div class="field"><label class="label" for="th-width">Width <output id="th-width-out">360px</output></label><input type="range" id="th-width" data-var="--tt-width" min="260" max="440" step="10" value="360"></div>
+              <div class="field"><label class="label" for="th-offset">Edge offset <output id="th-offset-out">16px</output></label><input type="range" id="th-offset" data-var="--tt-offset" min="0" max="48" value="16"></div>
+              <div class="field"><label class="label" for="th-gap">Gap <output id="th-gap-out">8px</output></label><input type="range" id="th-gap" data-var="--tt-gap" min="0" max="24" value="8"></div>
+            </div>
+            <div class="field" style="margin-bottom:0">
+              <label class="label" for="th-font">Font</label>
+              <select class="text" id="th-font">
+                <option value="">system-ui (default)</option>
+                <option value='"Bricolage Grotesque", system-ui, sans-serif'>Bricolage Grotesque</option>
+                <option value='Georgia, "Times New Roman", serif'>Georgia (serif)</option>
+                <option value='"JetBrains Mono", ui-monospace, monospace'>JetBrains Mono</option>
+              </select>
+            </div>
+          </div>
+          <div class="preview">
+            <div class="stage" id="th-stage" aria-label="Specimen toasts">
+              <span class="stage__label">live specimens</span>
+              <div class="tt-toast tt-info"><div class="tt-msg">A new version is available.</div><span class="tt-action">Reload</span><span class="tt-close" aria-hidden="true">×</span></div>
+              <div class="tt-toast tt-success"><div class="tt-msg">Profile updated.</div><span class="tt-close" aria-hidden="true">×</span></div>
+              <div class="tt-toast tt-warning"><div class="tt-msg">Your session expires in 2 minutes.</div><span class="tt-action">Stay</span><span class="tt-close" aria-hidden="true">×</span></div>
+              <div class="tt-toast tt-error"><div class="tt-msg">Upload failed. Check your connection.</div><span class="tt-action">Retry</span><span class="tt-close" aria-hidden="true">×</span></div>
+            </div>
+            <div class="code">
+              <div class="code__head"><span>theme.css</span><button class="copy" type="button" data-copy="th-code"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>Copy</button></div>
+              <pre><code id="th-code"></code></pre>
+            </div>
+            <div class="fire-row">
+              <button class="btn btn--primary" type="button" id="th-fire">Fire real toasts</button>
+              <button class="btn" type="button" id="th-reset">Reset to defaults</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACCESSIBILITY -->
+    <section class="block" id="a11y" aria-labelledby="a11y-title">
+      <div class="wrap">
+        <span class="eyebrow">03 · Accessibility</span>
+        <h2 id="a11y-title">Polite by default. Loud when it matters.</h2>
+        <p class="sub">Screen readers hear toasts through live regions, timers wait while you read, and every control is a real button. The inspector logs what each toast is doing, straight from the DOM.</p>
+        <div class="grid3">
+          <div class="card">
+            <h3>Status vs alert</h3>
+            <p>Info, success and warning use <code>role="status"</code> and wait for a pause. Errors use <code>role="alert"</code> and interrupt.</p>
+            <div class="roles">
+              <button class="btn" type="button" id="a11y-status">toast.success(…)<code>role="status"</code></button>
+              <button class="btn" type="button" id="a11y-alert">toast.error(…)<code>role="alert"</code></button>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Pause on hover &amp; focus</h3>
+            <p>Fire a 6-second toast, then hover it or tab into it. The timer below mirrors the toast and freezes when it does.</p>
+            <button class="btn btn--primary" type="button" id="a11y-pause">Fire a 6 s toast</button>
+            <div class="meter" id="a11y-meter" aria-hidden="true"><span id="a11y-bar"></span></div>
+            <div class="meter-label" id="a11y-meter-label">Waiting for a toast…</div>
+          </div>
+          <div class="card">
+            <h3>Keyboard</h3>
+            <p>Focus never jumps to a toast on its own. Use this button to move focus into the newest one, then:</p>
+            <ul class="keys">
+              <li><kbd>Tab</kbd> moves between the action and close buttons</li>
+              <li><kbd>Esc</kbd> dismisses a focused, dismissible toast</li>
+              <li><kbd>Enter</kbd> runs the action, then closes</li>
+            </ul>
+            <div class="row" style="margin-top:1rem">
+              <button class="btn" type="button" id="a11y-focus">Focus newest toast</button>
+            </div>
+          </div>
+        </div>
+        <div class="card" style="margin-top:1.25rem">
+          <div class="row" style="justify-content:space-between;margin-bottom:.75rem">
+            <h3 style="margin:0">Live inspector</h3>
+            <button class="btn btn--sm btn--ghost" type="button" id="log-clear">Clear</button>
+          </div>
+          <ol class="log" id="log" aria-label="Toast event log"><li class="empty">Every toast on the page is logged here: its role, aria-live value, pauses and removal.</li></ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUEUE -->
+    <section class="block" id="queue" aria-labelledby="q-title">
+      <div class="wrap">
+        <span class="eyebrow">04 · Stress test</span>
+        <h2 id="q-title">Throw twenty at it.</h2>
+        <p class="sub">Each position shows at most <code>max</code> toasts. The rest wait in a first-in, first-out queue and slide in as space frees up. Nothing is dropped, nothing overlaps.</p>
+        <div class="stress">
+          <div class="card">
+            <div class="field"><label class="label" for="q-count">Toasts in the batch <output id="q-count-out">20</output></label><input type="range" id="q-count" min="5" max="40" value="20"></div>
+            <div class="field"><label class="label" for="q-max">Visible at once (max) <output id="q-max-out">3</output></label><input type="range" id="q-max" min="1" max="6" value="3"></div>
+            <div class="field"><label class="label" for="q-dur">Each lasts <output id="q-dur-out">1.5 s</output></label><input type="range" id="q-dur" min="500" max="4000" step="250" value="1500"></div>
+            <div class="row">
+              <button class="btn btn--primary" type="button" id="q-fire">Fire the batch</button>
+              <button class="btn" type="button" data-dismiss-all>Dismiss all</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="counters">
+              <div class="counter"><b id="c-fired">0</b><span>Fired</span></div>
+              <div class="counter"><b id="c-vis">0</b><span>Visible</span></div>
+              <div class="counter"><b id="c-queued">0</b><span>Queued</span></div>
+              <div class="counter"><b id="c-done">0</b><span>Done</span></div>
+            </div>
+            <div class="lane" id="lane" aria-label="Queue state of each toast"></div>
+            <div class="legend" aria-hidden="true"><span><i></i>waiting</span><span><i class="s"></i>on screen</span><span><i class="d"></i>done</span></div>
+            <div class="code" style="margin-top:1rem">
+              <pre><code id="q-code"></code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GET STARTED -->
+    <section class="block" id="start" aria-labelledby="start-title">
+      <div class="wrap">
+        <span class="eyebrow">05 · Get started</span>
+        <h2 id="start-title">Two lines to your first toast.</h2>
+        <p class="sub">No stylesheet to import, no provider to wrap, no container to mount. Install it from GitHub, or copy the single file into your project.</p>
+        <div class="start">
+          <ol class="steps">
+            <li><div><h3>Install</h3><p>Straight from the repository.</p>
+              <div class="install"><code id="install-cmd">npm i github:ghanemja/tiny-toast</code><button class="copy" type="button" data-copy="install-cmd" aria-label="Copy install command"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>Copy</button></div></div></li>
+            <li><div><h3>Import and call</h3><p>The first call injects the CSS and creates a labelled live region.</p></div></li>
+            <li><div><h3>Theme it (optional)</h3><p>Override the <code>--tt-*</code> custom properties on <code>:root</code>. Dark mode follows <code>prefers-color-scheme</code> out of the box.</p></div></li>
+          </ol>
+          <div class="code" id="tabs-code">
+            <div class="tabs" role="tablist" aria-label="Code examples">
+              <button class="tab" role="tab" type="button" id="tab-basic" aria-controls="panel-basic" aria-selected="true">basics.js</button>
+              <button class="tab" role="tab" type="button" id="tab-actions" aria-controls="panel-actions" aria-selected="false" tabindex="-1">actions.js</button>
+              <button class="tab" role="tab" type="button" id="tab-html" aria-controls="panel-html" aria-selected="false" tabindex="-1">no-bundler.html</button>
+              <button class="tab" role="tab" type="button" id="tab-css" aria-controls="panel-css" aria-selected="false" tabindex="-1">theme.css</button>
+            </div>
+            <div class="tabpanel" role="tabpanel" id="panel-basic" aria-labelledby="tab-basic"><pre><code data-hl="js">import toast from 'tiny-toast';
+
+toast('Saved!');
+toast.success('Profile updated');
+toast.warning('Battery low');
+toast.error('Upload failed', { duration: 0 }); // sticky</code></pre></div>
+            <div class="tabpanel" role="tabpanel" id="panel-actions" aria-labelledby="tab-actions" hidden><pre><code data-hl="js">import toast from 'tiny-toast';
+
+// A progress toast you close yourself
+const t = toast('Uploading…', { duration: 0, dismissible: false });
+await upload(file);
+t.dismiss();
+toast.success('Upload complete');
+
+// An action button (the toast closes after onClick)
+toast('Message deleted', {
+  action: { label: 'Undo', onClick: () => restore() },
+});
+
+// Defaults for every later toast
+toast.configure({ position: 'top-center', duration: 5000, max: 5 });
+toast.dismissAll();</code></pre></div>
+            <div class="tabpanel" role="tabpanel" id="panel-html" aria-labelledby="tab-html" hidden><pre><code data-hl="js">&lt;script type="module"&gt;
+  import toast from './tiny-toast.js';
+
+  document.querySelector('form').addEventListener('submit', () => {
+    toast.success('Thanks! We got your message.');
+  });
+&lt;/script&gt;</code></pre></div>
+            <div class="tabpanel" role="tabpanel" id="panel-css" aria-labelledby="tab-css" hidden><pre><code data-hl="css">:root {
+  --tt-bg: #fff;
+  --tt-fg: #1f2328;
+  --tt-radius: 10px;
+  --tt-width: 360px;
+  --tt-offset: 16px;
+  --tt-info: #2563eb;
+  --tt-success: #16a34a;
+  --tt-warning: #d97706;
+  --tt-error: #dc2626;
+}</code></pre></div>
+            <button class="copy copy--float" type="button" id="tabs-copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>Copy</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p>Every notification on this page is the real <code>tiny-toast.js</code>, imported by relative path.</p>
+      <p><a href="https://github.com/ghanemja/tiny-toast">GitHub</a> · <a href="https://github.com/ghanemja/tiny-toast/blob/main/LICENSE">MIT license</a> · © 2026 ghanemja</p>
+    </div>
+  </footer>
+
+  <script type="module">
+    import toast, { CSS } from './tiny-toast.js';
+
+    const $ = (id) => document.getElementById(id);
+    const root = document.documentElement;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    // Inject the library's own stylesheet up front (it skips injecting twice),
+    // so the theming specimens are styled before the first toast.
+    if (!document.getElementById('tiny-toast-styles')) {
+      const s = document.createElement('style');
+      s.id = 'tiny-toast-styles';
+      s.textContent = CSS;
+      document.head.prepend(s);
+    }
+
+    /* ---------------- tiny syntax highlighter ---------------- */
+    const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const TOKENS = /(\/\/[^\n]*|\/\*[\s\S]*?\*\/)|('(?:[^'\\\n]|\\.)*'|"(?:[^"\\\n]|\\.)*"|`[^`]*`)|(--[\w-]+)|\b(import|from|export|const|let|await|async|function|return|new|true|false|null|script|type)\b|(#[0-9a-fA-F]{3,8}\b|\b\d+(?:\.\d+)?(?:px|ms|s)?\b)/g;
+    function hl(code) {
+      let out = '', last = 0;
+      code.replace(TOKENS, (m, c, s, v, k, n, i) => {
+        out += esc(code.slice(last, i));
+        const cls = c ? 'c' : s ? 's' : v ? 'v' : k ? 'k' : 'n';
+        out += `<span class="tk-${cls}">${esc(m)}</span>`;
+        last = i + m.length;
+        return m;
+      });
+      return out + esc(code.slice(last));
+    }
+    document.querySelectorAll('code[data-hl]').forEach((el) => { el.innerHTML = hl(el.textContent); });
+
+    /* ---------------- copy helpers ---------------- */
+    async function copyText(text) {
+      try { await navigator.clipboard.writeText(text); return true; } catch (e) {
+        const ta = document.createElement('textarea');
+        ta.value = text; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;opacity:0;left:-9999px';
+        document.body.appendChild(ta); ta.select();
+        let ok = false; try { ok = document.execCommand('copy'); } catch (e2) {}
+        ta.remove(); return ok;
+      }
+    }
+    async function copyAndToast(text) {
+      if (await copyText(text)) toast.success('Copied to clipboard', { duration: 2000, position: 'bottom-center' });
+      else toast.error('Could not copy. Select the text and copy it manually.', { position: 'bottom-center' });
+    }
+    document.querySelectorAll('[data-copy]').forEach((btn) => btn.addEventListener('click', () => copyAndToast($(btn.dataset.copy).textContent)));
+
+    /* ---------------- theme toggle ---------------- */
+    const themeBtn = $('theme');
+    const syncThemeBtn = () => {
+      const dark = root.dataset.theme === 'dark';
+      themeBtn.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+      document.querySelector('meta[name="theme-color"]').content = dark ? '#17110c' : '#fbf6ee';
+    };
+    syncThemeBtn();
+    themeBtn.addEventListener('click', () => {
+      root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+      try { localStorage.setItem('tt-site-theme', root.dataset.theme); } catch (e) {}
+      syncThemeBtn();
+      syncThemeControls();
+    });
+
+    document.querySelectorAll('[data-dismiss-all]').forEach((b) => b.addEventListener('click', () => toast.dismissAll()));
+
+    /* ================= HERO: Jot notes app ================= */
+    let notes = [
+      { id: 1, title: 'Grocery run', body: 'Sourdough loaf\nSalted butter (the good one)\nApricot jam\nOat milk\nCoffee beans', saved: '9:41 AM' },
+      { id: 2, title: 'Launch checklist', body: '☐ Write the changelog\n☐ Record a 30 s demo\n☐ Ship it on Friday\n☐ Celebrate', saved: 'Yesterday' },
+      { id: 3, title: 'Weekend ideas', body: 'Farmers market at 9\nBike to the lake\nTry the new bakery on 5th', saved: 'Mon' },
+    ];
+    let current = 1, nextId = 4, offline = false, offlineToast = null, uploading = false;
+    const app = $('app'), list = $('notes'), titleIn = $('note-title'), bodyIn = $('note-body');
+    const now = () => new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+    const cur = () => notes.find((n) => n.id === current);
+
+    function renderList(freshId) {
+      list.innerHTML = '';
+      if (!notes.length) { list.innerHTML = '<li class="empty-notes">No notes. Press + to start one.</li>'; }
+      for (const n of notes) {
+        const li = document.createElement('li');
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.setAttribute('aria-current', String(n.id === current));
+        if (n.id === freshId) b.classList.add('fresh');
+        const t = document.createElement('b'); t.textContent = n.title || 'Untitled';
+        const s = document.createElement('span'); s.textContent = (n.body.split('\n')[0] || 'Empty note');
+        b.append(t, s);
+        b.addEventListener('click', () => { current = n.id; renderList(); renderNote(); });
+        li.appendChild(b); list.appendChild(li);
+      }
+    }
+    function renderNote() {
+      const n = cur();
+      const has = Boolean(n);
+      titleIn.disabled = bodyIn.disabled = !has;
+      ['act-save', 'act-attach', 'act-share', 'act-delete'].forEach((id) => { $(id).disabled = !has; });
+      titleIn.value = has ? n.title : '';
+      bodyIn.value = has ? n.body : '';
+      $('note-saved').textContent = has ? (n.saved ? `Saved ${n.saved}` : 'Not saved yet') : 'Nothing selected';
+    }
+    titleIn.addEventListener('input', () => { const n = cur(); if (n) { n.title = titleIn.value; n.saved = ''; $('note-saved').textContent = 'Edited · not saved'; renderList(); } });
+    bodyIn.addEventListener('input', () => { const n = cur(); if (n) { n.body = bodyIn.value; n.saved = ''; $('note-saved').textContent = 'Edited · not saved'; } });
+
+    function save() {
+      const n = cur(); if (!n) return;
+      if (offline) {
+        toast.error('Couldn’t save: you’re offline.', { action: { label: 'Retry', onClick: () => setTimeout(save, 50) } });
+        return;
+      }
+      n.saved = now();
+      $('note-saved').textContent = `Saved ${n.saved}`;
+      toast.success(`Saved “${n.title || 'Untitled'}”`);
+    }
+    $('act-save').addEventListener('click', save);
+    $('app').addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') { e.preventDefault(); save(); }
+    });
+
+    $('act-delete').addEventListener('click', () => {
+      const n = cur(); if (!n) return;
+      const index = notes.indexOf(n);
+      notes = notes.filter((x) => x !== n);
+      current = notes[Math.min(index, notes.length - 1)]?.id ?? null;
+      renderList(); renderNote();
+      toast(`Deleted “${n.title || 'Untitled'}”`, {
+        duration: 6000,
+        action: { label: 'Undo', onClick: () => {
+          notes.splice(Math.min(index, notes.length), 0, n);
+          current = n.id; renderList(n.id); renderNote();
+          toast.success('Note restored');
+        } },
+      });
+    });
+
+    $('new-note').addEventListener('click', () => {
+      const n = { id: nextId++, title: 'Untitled', body: '', saved: '' };
+      notes.unshift(n); current = n.id; renderList(n.id); renderNote();
+      titleIn.focus(); titleIn.select();
+    });
+
+    $('offline').addEventListener('change', (e) => {
+      offline = e.target.checked;
+      app.toggleAttribute('data-offline', offline);
+      $('net-status').textContent = offline ? 'Offline' : 'Online';
+      if (offline) {
+        offlineToast = toast.error('You’re offline. Changes stay on this device until you reconnect.', { duration: 0 });
+      } else {
+        if (offlineToast) offlineToast.dismiss();
+        offlineToast = null;
+        toast.success('Back online. Everything is synced.');
+      }
+    });
+
+    $('act-share').addEventListener('click', async () => {
+      const n = cur(); if (!n) return;
+      if (offline) { toast.warning('Sharing needs a connection. Try again when you’re online.'); return; }
+      const link = `https://jot.example/n/${n.id}${Math.random().toString(36).slice(2, 7)}`;
+      await copyText(link).catch(() => {});
+      toast.info('Share link copied to clipboard', { action: { label: 'Undo share', onClick: () => toast('Link revoked') } });
+    });
+
+    $('act-attach').addEventListener('click', () => {
+      if (uploading || !cur()) return;
+      const name = ['sketch.png', 'receipt.pdf', 'voice-memo.m4a', 'map.jpg'][Math.floor(Math.random() * 4)];
+      if (offline) { toast.warning(`${name} will upload when you’re back online.`); return; }
+      uploading = true;
+      const row = $('attach-row'), bar = $('attach-progress');
+      $('attach-name').textContent = name; bar.value = 0; row.setAttribute('data-show', '');
+      const t1 = toast(`Uploading ${name}…`, { duration: 0, dismissible: false });
+      let p = 0;
+      const step = () => {
+        p = Math.min(100, p + 4 + Math.random() * 9);
+        bar.value = p;
+        if (p < 100) { setTimeout(step, 90); return; }
+        t1.dismiss();
+        const t2 = toast('Generating preview…', { duration: 0, dismissible: false });
+        setTimeout(() => {
+          t2.dismiss();
+          row.removeAttribute('data-show');
+          toast.success(`${name} attached`, { action: { label: 'View', onClick: () => toast.info(`Opening ${name}… (it’s a demo, there’s nothing there)`) } });
+          uploading = false;
+        }, 1100);
+      };
+      setTimeout(step, 200);
+    });
+
+    renderList(); renderNote();
+
+    /* ================= PLAYGROUND ================= */
+    const pgForm = $('pg-form');
+    const q = (s) => s.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+    function pgState() {
+      const f = new FormData(pgForm);
+      return {
+        msg: $('pg-msg').value || 'Hello',
+        type: f.get('type'),
+        position: f.get('pos'),
+        duration: Number($('pg-dur').value),
+        dismissible: $('pg-dismiss').checked,
+        action: $('pg-action').value.trim(),
+      };
+    }
+    function pgCode(s) {
+      const fn = s.type === 'info' ? 'toast' : `toast.${s.type}`;
+      const lines = [];
+      if (s.position !== 'bottom-right') lines.push(`position: '${s.position}',`);
+      if (s.duration === 0) lines.push('duration: 0, // sticky until dismissed');
+      else if (s.duration !== 4000) lines.push(`duration: ${s.duration},`);
+      if (!s.dismissible) lines.push('dismissible: false,');
+      if (s.action) lines.push(`action: { label: '${q(s.action)}', onClick: () => { /* … */ } },`);
+      let call = `${fn}('${q(s.msg)}'`;
+      call += lines.length ? `, {\n  ${lines.join('\n  ')}\n});` : ');';
+      return `import toast from 'tiny-toast';\n\n${call}`;
+    }
+    function pgSync() {
+      const s = pgState();
+      $('pg-code').innerHTML = hl(pgCode(s));
+      $('pg-pos-out').textContent = s.position;
+      $('pg-dur-out').textContent = s.duration === 0 ? 'sticky' : `${(s.duration / 1000).toFixed(1)} s`;
+    }
+    pgForm.addEventListener('input', pgSync);
+    pgForm.addEventListener('change', pgSync);
+    pgForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const s = pgState();
+      toast(s.msg, {
+        type: s.type, position: s.position, duration: s.duration, dismissible: s.dismissible,
+        action: s.action ? { label: s.action, onClick: () => toast.info(`“${s.action}” clicked`, { position: s.position, duration: 2000 }) } : null,
+      });
+    });
+    $('pg-all').addEventListener('click', () => {
+      const { position } = pgState();
+      const m = { info: 'A new version is available.', success: 'Changes saved.', warning: 'Your session expires in 2 minutes.', error: 'Upload failed. Check your connection.' };
+      ['info', 'success', 'warning', 'error'].forEach((t, i) => setTimeout(() => toast[t](m[t], { position }), i * 140));
+    });
+    pgSync();
+
+    /* ================= THEMING ================= */
+    const COLOR_VARS = [['--tt-bg', 'Background'], ['--tt-fg', 'Text'], ['--tt-info', 'Info'], ['--tt-success', 'Success'], ['--tt-warning', 'Warning'], ['--tt-error', 'Error']];
+    const RANGE_IDS = ['th-radius', 'th-width', 'th-offset', 'th-gap'];
+    const PRESETS = {
+      Default: null,
+      Butter: { '--tt-bg': '#fff4d6', '--tt-fg': '#3a2716', '--tt-info': '#b8621b', '--tt-success': '#4d8b31', '--tt-warning': '#c98a06', '--tt-error': '#c2410c', '--tt-radius': '18px', '--tt-font': '"Bricolage Grotesque", system-ui, sans-serif' },
+      Midnight: { '--tt-bg': '#0f172a', '--tt-fg': '#e2e8f0', '--tt-info': '#38bdf8', '--tt-success': '#34d399', '--tt-warning': '#fbbf24', '--tt-error': '#fb7185', '--tt-radius': '14px' },
+      Terminal: { '--tt-bg': '#0b120b', '--tt-fg': '#b8f5b0', '--tt-info': '#7dd3fc', '--tt-success': '#4ade80', '--tt-warning': '#facc15', '--tt-error': '#f87171', '--tt-radius': '2px', '--tt-font': '"JetBrains Mono", ui-monospace, monospace' },
+      Bubblegum: { '--tt-bg': '#ffe4f1', '--tt-fg': '#4a1236', '--tt-info': '#8b5cf6', '--tt-success': '#0f9f74', '--tt-warning': '#d97706', '--tt-error': '#e11d48', '--tt-radius': '24px', '--tt-width': '320px' },
+    };
+    const presetDot = { Default: 'var(--tt-info)', Butter: '#f5c451', Midnight: '#0f172a', Terminal: '#4ade80', Bubblegum: '#ff8fc6' };
+    let overrides = {};
+    const presetBox = $('th-presets');
+    for (const name of Object.keys(PRESETS)) {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'chip'; b.dataset.preset = name;
+      b.setAttribute('aria-pressed', String(name === 'Default'));
+      b.innerHTML = `<i style="--c:${presetDot[name]}"></i>${name}`;
+      b.addEventListener('click', () => applyPreset(name));
+      presetBox.appendChild(b);
+    }
+    const colorBox = $('th-colors');
+    for (const [v, label] of COLOR_VARS) {
+      const l = document.createElement('label');
+      l.className = 'swatch';
+      l.innerHTML = `<input type="color" data-var="${v}" aria-label="${label} color (${v})"><span>${label}</span>`;
+      colorBox.appendChild(l);
+    }
+    const toHex = (c) => {
+      c = c.trim();
+      if (/^#[0-9a-f]{6}$/i.test(c)) return c.toLowerCase();
+      if (/^#[0-9a-f]{3}$/i.test(c)) return '#' + [...c.slice(1)].map((x) => x + x).join('').toLowerCase();
+      return '#000000';
+    };
+    function computed(v) { return getComputedStyle(root).getPropertyValue(v).trim(); }
+    function syncThemeControls() {
+      colorBox.querySelectorAll('input').forEach((i) => { i.value = toHex(overrides[i.dataset.var] || computed(i.dataset.var)); });
+      for (const id of RANGE_IDS) {
+        const el = $(id);
+        const val = parseInt(overrides[el.dataset.var] || computed(el.dataset.var), 10);
+        if (!Number.isNaN(val)) el.value = val;
+        $(`${id}-out`).textContent = `${el.value}px`;
+      }
+      $('th-font').value = overrides['--tt-font'] || '';
+      const names = Object.keys(overrides);
+      $('th-code').innerHTML = hl(names.length
+        ? `:root {\n${names.map((k) => `  ${k}: ${overrides[k]};`).join('\n')}\n}`
+        : '/* Using the defaults (light + dark built in).\n   Change something on the left to get CSS. */');
+    }
+    function applyOverrides() {
+      for (const [v] of [...COLOR_VARS, ['--tt-radius'], ['--tt-width'], ['--tt-offset'], ['--tt-gap'], ['--tt-font']]) {
+        if (overrides[v]) root.style.setProperty(v, overrides[v]); else root.style.removeProperty(v);
+      }
+      syncThemeControls();
+    }
+    function markPreset(name) { presetBox.querySelectorAll('.chip').forEach((c) => c.setAttribute('aria-pressed', String(c.dataset.preset === name))); }
+    function applyPreset(name) { overrides = { ...(PRESETS[name] || {}) }; markPreset(name); applyOverrides(); }
+    colorBox.addEventListener('input', (e) => { if (e.target.dataset.var) { overrides[e.target.dataset.var] = e.target.value; markPreset(''); applyOverrides(); } });
+    RANGE_IDS.forEach((id) => $(id).addEventListener('input', (e) => { overrides[e.target.dataset.var] = `${e.target.value}px`; markPreset(''); applyOverrides(); }));
+    $('th-font').addEventListener('change', (e) => { if (e.target.value) overrides['--tt-font'] = e.target.value; else delete overrides['--tt-font']; markPreset(''); applyOverrides(); });
+    $('th-reset').addEventListener('click', () => applyPreset('Default'));
+    $('th-fire').addEventListener('click', () => {
+      toast.info('A new version is available.', { action: { label: 'Reload', onClick: () => {} } });
+      setTimeout(() => toast.success('Profile updated.'), 150);
+      setTimeout(() => toast.error('Upload failed. Check your connection.', { action: { label: 'Retry', onClick: () => {} } }), 300);
+    });
+    syncThemeControls();
+
+    /* ================= ACCESSIBILITY: inspector ================= */
+    const log = $('log');
+    const t0 = performance.now();
+    function logEvent(cls, text) {
+      const empty = log.querySelector('.empty'); if (empty) empty.remove();
+      const li = document.createElement('li');
+      const s = ((performance.now() - t0) / 1000);
+      const time = document.createElement('time'); time.textContent = `${String(Math.floor(s / 60)).padStart(2, '0')}:${(s % 60).toFixed(1).padStart(4, '0')}`;
+      const span = document.createElement('span'); span.className = cls; span.textContent = text;
+      li.append(time, span); log.appendChild(li);
+      while (log.children.length > 60) log.firstChild.remove();
+      log.scrollTop = log.scrollHeight;
+    }
+    $('log-clear').addEventListener('click', () => { log.innerHTML = '<li class="empty">Cleared. Fire a toast anywhere on the page.</li>'; });
+
+    const addHooks = []; // fns called with each new toast element
+    const removeHooks = [];
+    const tracked = new WeakSet();
+    function track(el) {
+      if (tracked.has(el)) return; tracked.add(el);
+      const msg = el.querySelector('.tt-msg')?.textContent || '';
+      const short = msg.length > 42 ? msg.slice(0, 40) + '…' : msg;
+      const role = el.getAttribute('role');
+      const pos = el.parentNode?.getAttribute('data-position');
+      logEvent(role === 'alert' ? 'ev-alert' : 'ev-add', `+ role="${role}" aria-live="${el.getAttribute('aria-live')}" @${pos} “${short}”`);
+      let hovered = false, focused = false;
+      const state = () => (hovered || focused);
+      el.addEventListener('mouseenter', () => { const was = state(); hovered = true; if (!was) logEvent('ev-pause', `⏸ paused (pointer) “${short}”`); });
+      el.addEventListener('mouseleave', () => { hovered = false; if (!state()) logEvent('ev-pause', `▶ resumed “${short}”`); });
+      el.addEventListener('focusin', () => { const was = state(); focused = true; if (!was) logEvent('ev-pause', `⏸ paused (focus) “${short}”`); });
+      el.addEventListener('focusout', () => { focused = false; if (!state()) logEvent('ev-pause', `▶ resumed “${short}”`); });
+      el.addEventListener('keydown', (e) => { if (e.key === 'Escape') logEvent('ev-gone', `⎋ Escape pressed “${short}”`); });
+      addHooks.forEach((fn) => fn(el, msg));
+    }
+    new MutationObserver((muts) => {
+      for (const m of muts) {
+        m.addedNodes.forEach((n) => { if (n.nodeType === 1 && n.classList.contains('tt-toast') && n.parentNode?.classList?.contains('tt-container')) track(n); });
+        m.removedNodes.forEach((n) => {
+          if (n.nodeType === 1 && n.classList.contains('tt-toast')) {
+            const msg = n.querySelector('.tt-msg')?.textContent || '';
+            logEvent('ev-gone', `− removed “${msg.length > 42 ? msg.slice(0, 40) + '…' : msg}”`);
+            removeHooks.forEach((fn) => fn(n, msg));
+          }
+        });
+      }
+    }).observe(document.body, { childList: true, subtree: true });
+
+    $('a11y-status').addEventListener('click', () => toast.success('Draft saved. (Read out when the screen reader is idle.)'));
+    $('a11y-alert').addEventListener('click', () => toast.error('Payment failed. (Read out immediately.)'));
+
+    // Mirror of a 6 s toast's timer, driven by the same hover/focus events the library listens to.
+    const PAUSE_MSG = 'Hover or focus me: my 6 s timer waits for you.';
+    let mirror = null;
+    $('a11y-pause').addEventListener('click', () => {
+      if (mirror && !mirror.gone) mirror.handle.dismiss();
+      mirror = { remaining: 6000, last: performance.now(), paused: false, gone: false, el: null };
+      mirror.handle = toast(PAUSE_MSG, { duration: 6000 });
+    });
+    addHooks.push((el, msg) => {
+      if (msg !== PAUSE_MSG || !mirror || mirror.el) return;
+      mirror.el = el;
+      let h = false, f = false;
+      const upd = () => { mirror.paused = h || f; };
+      el.addEventListener('mouseenter', () => { h = true; upd(); });
+      el.addEventListener('mouseleave', () => { h = false; upd(); });
+      el.addEventListener('focusin', () => { f = true; upd(); });
+      el.addEventListener('focusout', () => { f = false; upd(); });
+      const m = mirror;
+      const tick = (t) => {
+        if (m.gone) return;
+        const dt = t - m.last; m.last = t;
+        if (!m.paused) m.remaining = Math.max(0, m.remaining - dt);
+        $('a11y-bar').style.transform = `scaleX(${m.remaining / 6000})`;
+        $('a11y-meter').toggleAttribute('data-paused', m.paused);
+        $('a11y-meter-label').textContent = m.paused ? `Paused · ${(m.remaining / 1000).toFixed(1)} s left` : `${(m.remaining / 1000).toFixed(1)} s left`;
+        requestAnimationFrame(tick);
+      };
+      m.last = performance.now();
+      requestAnimationFrame(tick);
+    });
+    removeHooks.push((el) => {
+      if (mirror && el === mirror.el) {
+        mirror.gone = true;
+        $('a11y-bar').style.transform = 'scaleX(0)';
+        $('a11y-meter').removeAttribute('data-paused');
+        $('a11y-meter-label').textContent = 'Dismissed. Fire another one?';
+      }
+    });
+
+    $('a11y-focus').addEventListener('click', () => {
+      const all = [...document.querySelectorAll('.tt-container .tt-toast:not(.tt-out)')];
+      const el = all[all.length - 1];
+      const target = el && el.querySelector('button');
+      if (target) target.focus();
+      else toast.info('No toast with buttons is on screen. Fire one first, then try again.', { duration: 0 });
+    });
+
+    /* ================= QUEUE ================= */
+    let batch = 0, slots = [];
+    const lane = $('lane');
+    const QPOS = 'top-right';
+    function qSync() {
+      $('q-count-out').textContent = $('q-count').value;
+      $('q-max-out').textContent = $('q-max').value;
+      $('q-dur-out').textContent = `${(Number($('q-dur').value) / 1000).toFixed(2).replace(/0$/, '')} s`;
+      toast.configure({ max: Number($('q-max').value) });
+      $('q-code').innerHTML = hl(`toast.configure({ max: ${$('q-max').value} });\n\nfor (let i = 1; i <= ${$('q-count').value}; i++) {\n  toast(\`Toast #\${i}\`, { position: '${QPOS}', duration: ${$('q-dur').value} });\n}`);
+    }
+    function counters() {
+      const c = { queued: 0, showing: 0, done: 0 };
+      slots.forEach((s) => { c[s.dataset.s]++; });
+      $('c-fired').textContent = slots.length; $('c-vis').textContent = c.showing; $('c-queued').textContent = c.queued; $('c-done').textContent = c.done;
+    }
+    ['q-count', 'q-max', 'q-dur'].forEach((id) => $(id).addEventListener('input', qSync));
+    qSync();
+    const qMatch = (msg) => { const m = /^Batch (\d+) · toast #(\d+)$/.exec(msg); return m && Number(m[1]) === batch ? slots[Number(m[2]) - 1] : null; };
+    addHooks.push((el, msg) => { const s = qMatch(msg); if (s) { s.dataset.s = 'showing'; counters(); } });
+    removeHooks.push((el, msg) => { const s = qMatch(msg); if (s) { s.dataset.s = 'done'; counters(); } });
+    $('q-fire').addEventListener('click', () => {
+      batch++;
+      const n = Number($('q-count').value), d = Number($('q-dur').value);
+      lane.innerHTML = ''; slots = [];
+      for (let i = 1; i <= n; i++) {
+        const s = document.createElement('div'); s.className = 'slot'; s.dataset.s = 'queued'; s.textContent = i;
+        lane.appendChild(s); slots.push(s);
+      }
+      counters();
+      for (let i = 1; i <= n; i++) toast(`Batch ${batch} · toast #${i}`, { position: QPOS, duration: d, type: ['info', 'success', 'warning', 'info'][i % 4] });
+    });
+    // dismissAll drops queued toasts without them ever appearing
+    document.querySelectorAll('[data-dismiss-all]').forEach((b) => b.addEventListener('click', () => {
+      slots.forEach((s) => { if (s.dataset.s === 'queued') s.dataset.s = 'done'; }); counters();
+    }));
+
+    /* ================= GET STARTED tabs ================= */
+    const tabs = [...document.querySelectorAll('[role="tab"]')];
+    function selectTab(tab, focus) {
+      tabs.forEach((t) => {
+        const on = t === tab;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        $(t.getAttribute('aria-controls')).hidden = !on;
+      });
+      if (focus) tab.focus();
+    }
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => selectTab(t));
+      t.addEventListener('keydown', (e) => {
+        const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (d) { e.preventDefault(); selectTab(tabs[(i + d + tabs.length) % tabs.length], true); }
+        if (e.key === 'Home') { e.preventDefault(); selectTab(tabs[0], true); }
+        if (e.key === 'End') { e.preventDefault(); selectTab(tabs[tabs.length - 1], true); }
+      });
+    });
+    $('tabs-copy').addEventListener('click', () => {
+      const panel = document.querySelector('.tabpanel:not([hidden]) code');
+      copyAndToast(panel.textContent);
+    });
+
+    /* A warm welcome: creates the live region early, as the README recommends. */
+    setTimeout(() => toast('Welcome! Try the notes app: save, delete, go offline.', { duration: 5000 }), reduceMotion.matches ? 0 : 700);
+  </script>
+</body>
+</html>
