@@ -7,6 +7,7 @@
 #   owner defaults to ghanemja; with no projects, every project folder is published.
 # Safe to re-run: existing repos are reused and pushes are fast-forward only.
 # A failure on one project is reported and the rest still run.
+# Projects with .github/workflows/pages.yml also get GitHub Pages turned on.
 set -uo pipefail
 cd "$(dirname "$0")/.."
 
@@ -27,6 +28,16 @@ publish_one() {
   git subtree split --prefix="$name" -b "$branch" >/dev/null || return 1
   git push "https://github.com/$owner/$name.git" "$branch:main" || { git branch -D "$branch" >/dev/null; return 1; }
   git branch -D "$branch" >/dev/null
+  if [ -f "$name/.github/workflows/pages.yml" ]; then
+    # Serve the site from the Pages workflow. POST enables Pages; PUT updates it if already on.
+    gh api -X POST "repos/$owner/$name/pages" -f build_type=workflow >/dev/null 2>&1 ||
+      gh api -X PUT "repos/$owner/$name/pages" -f build_type=workflow >/dev/null 2>&1 ||
+      echo "   (could not enable Pages; turn it on under Settings → Pages → Source: GitHub Actions)"
+    # The push may have triggered a deploy before Pages was on; run it again now that it is.
+    sleep 3
+    gh workflow run pages.yml -R "$owner/$name" >/dev/null 2>&1 || true
+    echo "   site: https://$owner.github.io/$name/ (live in a minute or two)"
+  fi
 }
 
 failed=()
